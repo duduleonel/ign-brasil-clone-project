@@ -52,9 +52,12 @@ const Header = () => {
             <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">REVIEWS</a></li>
             <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">NOTÍCIAS</a></li>
             <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">JOGOS</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">ENTRETENIMENTO</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">TECH</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">VÍDEOS</a></li>
+            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">REPORTAGENS</a></li>
+            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">ENTREVISTAS</a></li>
+            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">TUTORIAIS</a></li>
+            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">MUGEN</a></li>
+            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">IKEMEN GO</a></li>
+            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">OPENBOR</a></li>
           </ul>
         </nav>
       </div>
