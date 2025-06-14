@@ -1,11 +1,10 @@
-
 import React from 'react';
 import Header from '../components/Header';
 import ArticleCard from '../components/ArticleCard';
 import ReviewCard from '../components/ReviewCard';
 import Sidebar from '../components/Sidebar';
 import Footer from '../components/Footer';
-import { Play, Star, Fire } from 'lucide-react';
+import { Play, Star, Flame } from 'lucide-react';
 
 const Index = () => {
   const featuredArticles = [
@@ -112,7 +111,7 @@ const Index = () => {
             {/* Featured articles */}
             <section className="mb-12">
               <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
-                <Fire className="mr-3 text-red-500" size={32} />
+                <Flame className="mr-3 text-red-500" size={32} />
                 Destaques
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
