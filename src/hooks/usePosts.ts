@@ -32,7 +32,12 @@ export const usePosts = (limit?: number, categorySlug?: string) => {
         throw error;
       }
 
-      return data as Post[];
+      const formattedData = data.map(post => ({
+        ...post,
+        tags: post.tags ? post.tags.map((t: any) => t.tag) : []
+      }));
+
+      return formattedData as Post[];
     },
   });
 };
@@ -57,7 +62,16 @@ export const usePost = (slug: string) => {
         throw error;
       }
 
-      return data as Post;
+      if (!data) {
+        return null;
+      }
+      
+      const formattedData = {
+        ...data,
+        tags: data.tags ? data.tags.map((t: any) => t.tag) : []
+      };
+
+      return formattedData as Post;
     },
   });
 };

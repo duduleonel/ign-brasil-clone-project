@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Clock, Eye } from 'lucide-react';
-import type { Post } from '@/types/database';
+import type { Post, Tag } from '@/types/database';
 
 interface ArticleCardProps {
   post: Post;
@@ -65,12 +64,12 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ post, isLarge = false }) => {
         
         {post.tags && post.tags.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-2">
-            {post.tags.slice(0, 3).map((tagRelation: any) => (
+            {post.tags.slice(0, 3).map((tag: Tag) => (
               <span 
-                key={tagRelation.tag.slug}
+                key={tag.slug}
                 className="px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-xs rounded-full"
               >
-                {tagRelation.tag.name}
+                {tag.name}
               </span>
             ))}
           </div>
