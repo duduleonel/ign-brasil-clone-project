@@ -21,15 +21,15 @@ const Sidebar = () => {
   return (
     <aside className="space-y-8">
       {/* Trending */}
-      <div className="bg-gray-900 rounded-lg p-6">
-        <h3 className="text-white font-bold text-xl mb-4 flex items-center">
+      <div className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700">
+        <h3 className="text-gray-900 dark:text-white font-bold text-xl mb-4 flex items-center">
           <TrendingUp className="mr-2 text-red-500" size={24} />
           Em alta
         </h3>
         <ul className="space-y-3">
           {trendingNews.map((news, index) => (
-            <li key={index} className="border-b border-gray-800 pb-3 last:border-b-0">
-              <a href="#" className="text-gray-300 hover:text-red-400 transition-colors">
+            <li key={index} className="border-b border-gray-200 dark:border-gray-800 pb-3 last:border-b-0">
+              <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">
                 {news}
               </a>
             </li>
@@ -38,16 +38,16 @@ const Sidebar = () => {
       </div>
 
       {/* Upcoming Games */}
-      <div className="bg-gray-900 rounded-lg p-6">
-        <h3 className="text-white font-bold text-xl mb-4 flex items-center">
+      <div className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700">
+        <h3 className="text-gray-900 dark:text-white font-bold text-xl mb-4 flex items-center">
           <Calendar className="mr-2 text-red-500" size={24} />
           Próximos lançamentos
         </h3>
         <ul className="space-y-3">
           {upcomingGames.map((game, index) => (
-            <li key={index} className="flex justify-between items-center border-b border-gray-800 pb-3 last:border-b-0">
-              <span className="text-gray-300">{game.name}</span>
-              <span className="text-red-400 text-sm">{game.date}</span>
+            <li key={index} className="flex justify-between items-center border-b border-gray-200 dark:border-gray-800 pb-3 last:border-b-0">
+              <span className="text-gray-700 dark:text-gray-300">{game.name}</span>
+              <span className="text-red-600 dark:text-red-400 text-sm">{game.date}</span>
             </li>
           ))}
         </ul>

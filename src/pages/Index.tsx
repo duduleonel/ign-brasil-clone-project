@@ -77,7 +77,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-950 dark:bg-gray-950 light:bg-gray-50">
+    <div className="min-h-screen bg-white dark:bg-gray-950">
       <Header />
       
       {/* Hero Section */}
@@ -111,7 +111,7 @@ const Index = () => {
           <div className="lg:col-span-3">
             {/* Featured articles */}
             <section className="mb-12">
-              <h2 className="text-3xl font-bold text-white dark:text-white light:text-gray-900 mb-8 flex items-center">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 flex items-center">
                 <Flame className="mr-3 text-red-500" size={32} />
                 Destaques
               </h2>
@@ -124,7 +124,7 @@ const Index = () => {
 
             {/* Latest Reviews */}
             <section className="mb-12">
-              <h2 className="text-3xl font-bold text-white dark:text-white light:text-gray-900 mb-8 flex items-center">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 flex items-center">
                 <Star className="mr-3 text-yellow-500" size={32} />
                 Últimos Reviews
               </h2>
@@ -137,12 +137,12 @@ const Index = () => {
 
             {/* Video section */}
             <section className="mb-12">
-              <h2 className="text-3xl font-bold text-white dark:text-white light:text-gray-900 mb-8 flex items-center">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 flex items-center">
                 <Play className="mr-3 text-red-500" size={32} />
                 Vídeos em destaque
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="relative bg-gray-900 rounded-lg overflow-hidden cursor-pointer hover:transform hover:scale-105 transition-all duration-300">
+                <div className="relative bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden cursor-pointer hover:transform hover:scale-105 transition-all duration-300">
                   <img 
                     src="https://images.unsplash.com/photo-1560253023-3ec5d502959f"
                     alt="Vídeo"
@@ -163,7 +163,7 @@ const Index = () => {
                   </div>
                 </div>
                 
-                <div className="relative bg-gray-900 rounded-lg overflow-hidden cursor-pointer hover:transform hover:scale-105 transition-all duration-300">
+                <div className="relative bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden cursor-pointer hover:transform hover:scale-105 transition-all duration-300">
                   <img 
                     src="https://images.unsplash.com/photo-1511512578047-dfb367046420"
                     alt="Vídeo"

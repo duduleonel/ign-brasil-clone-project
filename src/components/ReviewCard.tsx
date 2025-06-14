@@ -18,7 +18,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ title, score, platform, imageUr
   };
 
   return (
-    <div className="bg-gray-900 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 cursor-pointer">
+    <div className="bg-white dark:bg-gray-900 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 cursor-pointer shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700">
       <div className="relative">
         <img 
           src={`https://images.unsplash.com/${imageUrl}`}
@@ -33,8 +33,8 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ title, score, platform, imageUr
       </div>
       
       <div className="p-4">
-        <h4 className="text-white font-bold text-lg mb-2 line-clamp-2">{title}</h4>
-        <div className="flex items-center justify-between text-sm text-gray-400">
+        <h4 className="text-gray-900 dark:text-white font-bold text-lg mb-2 line-clamp-2">{title}</h4>
+        <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
           <span>{platform}</span>
           <span>Por {reviewer}</span>
         </div>
@@ -44,7 +44,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ title, score, platform, imageUr
             <Star 
               key={i} 
               size={16} 
-              className={`${i < Math.floor(score/2) ? 'text-yellow-400 fill-current' : 'text-gray-600'}`}
+              className={`${i < Math.floor(score/2) ? 'text-yellow-400 fill-current' : 'text-gray-400 dark:text-gray-600'}`}
             />
           ))}
         </div>
