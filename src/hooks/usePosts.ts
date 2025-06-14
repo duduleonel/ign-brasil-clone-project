@@ -23,7 +23,8 @@ export const usePosts = (limit?: number, categorySlug?: string, gameId?: string)
       }
 
       if (categorySlug) {
-        query = query.eq('categories.slug', categorySlug);
+        // Fix: Use inner join to filter by category slug
+        query = query.eq('category.slug', categorySlug);
       }
 
       if (gameId) {
@@ -37,7 +38,12 @@ export const usePosts = (limit?: number, categorySlug?: string, gameId?: string)
         throw error;
       }
 
-      const formattedData = data.map(post => ({
+      // Filter out posts without categories when categorySlug is specified
+      const filteredData = categorySlug 
+        ? data?.filter(post => post.category?.slug === categorySlug) || []
+        : data || [];
+
+      const formattedData = filteredData.map(post => ({
         ...post,
         tags: post.tags ? post.tags.map((t: any) => t.tag) : []
       }));
