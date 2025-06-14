@@ -3,9 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import type { Post } from '@/types/database';
 
-export const usePosts = (limit?: number, categorySlug?: string) => {
+export const usePosts = (limit?: number, categorySlug?: string, gameId?: string) => {
   return useQuery({
-    queryKey: ['posts', limit, categorySlug],
+    queryKey: ['posts', limit, categorySlug, gameId],
     queryFn: async () => {
       let query = supabase
         .from('posts')
@@ -24,6 +24,10 @@ export const usePosts = (limit?: number, categorySlug?: string) => {
 
       if (categorySlug) {
         query = query.eq('categories.slug', categorySlug);
+      }
+
+      if (gameId) {
+        query = query.eq('game_id', gameId);
       }
 
       const { data, error } = await query;

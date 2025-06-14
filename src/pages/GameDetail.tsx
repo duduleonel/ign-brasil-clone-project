@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Calendar, ArrowLeft, ExternalLink } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import RelatedPosts from '@/components/RelatedPosts';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGame } from '@/hooks/useGames';
 
@@ -65,7 +66,7 @@ const GameDetail = () => {
           Voltar para jogos
         </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
           {/* Coluna principal */}
           <div className="lg:col-span-2">
             {/* Imagem principal */}
@@ -181,6 +182,9 @@ const GameDetail = () => {
             )}
           </div>
         </div>
+
+        {/* Posts relacionados */}
+        <RelatedPosts gameId={game.id} gameTitle={game.title} />
       </main>
 
       <Footer />

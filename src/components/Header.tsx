@@ -30,7 +30,11 @@ const Header = () => {
               className="flex items-center space-x-3 cursor-pointer"
               onClick={() => navigate('/')}
             >
-              <div className="text-4xl">🦀</div>
+              <img 
+                src="/lovable-uploads/ddac5907-a0a4-4669-8787-e10cddaadfb8.png" 
+                alt="The Crab Games Logo" 
+                className="w-12 h-12"
+              />
               <h1 className="text-3xl font-bold text-orange-500">THE CRAB GAMES</h1>
             </div>
           </div>
