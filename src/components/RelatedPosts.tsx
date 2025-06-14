@@ -10,10 +10,7 @@ interface RelatedPostsProps {
 }
 
 const RelatedPosts: React.FC<RelatedPostsProps> = ({ gameId, gameTitle }) => {
-  const { data: allPosts, isLoading } = usePosts();
-  
-  // Filtrar posts relacionados ao jogo
-  const relatedPosts = allPosts?.filter(post => post.game_id === gameId) || [];
+  const { data: relatedPosts, isLoading } = usePosts(undefined, undefined, gameId);
 
   if (isLoading) {
     return (
@@ -34,7 +31,7 @@ const RelatedPosts: React.FC<RelatedPostsProps> = ({ gameId, gameTitle }) => {
     );
   }
 
-  if (relatedPosts.length === 0) {
+  if (!relatedPosts || relatedPosts.length === 0) {
     return (
       <div className="text-center py-8">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
