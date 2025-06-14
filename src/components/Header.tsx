@@ -1,12 +1,13 @@
 
 import React, { useState } from 'react';
 import { Search, Menu, X, User } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="bg-black text-white sticky top-0 z-50">
+    <header className="bg-black dark:bg-black text-white sticky top-0 z-50">
       {/* Top bar */}
       <div className="bg-red-600 text-center py-1 text-sm">
         <span>🎮 Últimas notícias do mundo dos games</span>
@@ -26,9 +27,9 @@ const Header = () => {
             <h1 className="text-3xl font-bold text-red-500">IGN BRASIL</h1>
           </div>
 
-          {/* Search and user */}
+          {/* Search, theme toggle and user */}
           <div className="flex items-center space-x-4">
-            <div className="hidden md:flex items-center bg-gray-800 rounded-lg px-3 py-2">
+            <div className="hidden md:flex items-center bg-gray-800 dark:bg-gray-800 rounded-lg px-3 py-2">
               <Search size={20} className="text-gray-400 mr-2" />
               <input 
                 type="text" 
@@ -36,6 +37,7 @@ const Header = () => {
                 className="bg-transparent text-white placeholder-gray-400 outline-none"
               />
             </div>
+            <ThemeToggle />
             <button className="flex items-center space-x-2 bg-red-600 px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
               <User size={18} />
               <span className="hidden sm:inline">Login</span>

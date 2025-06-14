@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Header from '../components/Header';
 import ArticleCard from '../components/ArticleCard';
@@ -76,7 +77,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-gray-950 dark:bg-gray-950 light:bg-gray-50">
       <Header />
       
       {/* Hero Section */}
@@ -110,7 +111,7 @@ const Index = () => {
           <div className="lg:col-span-3">
             {/* Featured articles */}
             <section className="mb-12">
-              <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
+              <h2 className="text-3xl font-bold text-white dark:text-white light:text-gray-900 mb-8 flex items-center">
                 <Flame className="mr-3 text-red-500" size={32} />
                 Destaques
               </h2>
@@ -123,7 +124,7 @@ const Index = () => {
 
             {/* Latest Reviews */}
             <section className="mb-12">
-              <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
+              <h2 className="text-3xl font-bold text-white dark:text-white light:text-gray-900 mb-8 flex items-center">
                 <Star className="mr-3 text-yellow-500" size={32} />
                 Últimos Reviews
               </h2>
@@ -136,7 +137,7 @@ const Index = () => {
 
             {/* Video section */}
             <section className="mb-12">
-              <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
+              <h2 className="text-3xl font-bold text-white dark:text-white light:text-gray-900 mb-8 flex items-center">
                 <Play className="mr-3 text-red-500" size={32} />
                 Vídeos em destaque
               </h2>
