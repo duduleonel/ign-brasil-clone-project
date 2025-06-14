@@ -1,21 +1,28 @@
 
 import React from 'react';
-import { TrendingUp, Calendar, MessageCircle } from 'lucide-react';
+import { TrendingUp, Calendar, MessageCircle, Download, Gamepad2 } from 'lucide-react';
 
 const Sidebar = () => {
   const trendingNews = [
-    "Spider-Man 2 ganha novo trailer épico",
-    "Final Fantasy XVI chega ao PC em 2024",
-    "God of War Ragnarök: análise completa",
-    "Cyberpunk 2077: nova expansão revelada",
-    "GTA 6: vazamentos mostram gameplay"
+    "Novo char de Ryu com sprites HD",
+    "Ikemen GO atualização 0.98.2",
+    "Tutorial: Criando lifebars customizadas",
+    "OpenBOR: Streets of Rage Remake",
+    "Coleção completa de stages KOF"
   ];
 
-  const upcomingGames = [
-    { name: "Starfield", date: "Set 2024" },
-    { name: "Assassin's Creed Mirage", date: "Out 2024" },
-    { name: "Marvel's Spider-Man 2", date: "Out 2024" },
-    { name: "Call of Duty MW3", date: "Nov 2024" }
+  const upcomingReleases = [
+    { name: "Street Fighter Alpha Collection", engine: "Mugen", date: "Jan 2025" },
+    { name: "KOF Ultimate Edition", engine: "Ikemen GO", date: "Fev 2025" },
+    { name: "Final Fight Remake", engine: "OpenBOR", date: "Mar 2025" },
+    { name: "Tekken 3D Collection", engine: "Mugen", date: "Abr 2025" }
+  ];
+
+  const featuredDownloads = [
+    { name: "Goku Ultra Instinct", type: "Char", downloads: "15.2k" },
+    { name: "Tournament Stage Pack", type: "Stage", downloads: "8.7k" },
+    { name: "Anime Lifebar HD", type: "Lifebar", downloads: "12.1k" },
+    { name: "Dragon Ball Screenpack", type: "Screenpack", downloads: "9.3k" }
   ];
 
   return (
@@ -23,13 +30,13 @@ const Sidebar = () => {
       {/* Trending */}
       <div className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700">
         <h3 className="text-gray-900 dark:text-white font-bold text-xl mb-4 flex items-center">
-          <TrendingUp className="mr-2 text-red-500" size={24} />
+          <TrendingUp className="mr-2 text-orange-500" size={24} />
           Em alta
         </h3>
         <ul className="space-y-3">
           {trendingNews.map((news, index) => (
             <li key={index} className="border-b border-gray-200 dark:border-gray-800 pb-3 last:border-b-0">
-              <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">
+              <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
                 {news}
               </a>
             </li>
@@ -37,30 +44,56 @@ const Sidebar = () => {
         </ul>
       </div>
 
-      {/* Upcoming Games */}
+      {/* Upcoming Releases */}
       <div className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700">
         <h3 className="text-gray-900 dark:text-white font-bold text-xl mb-4 flex items-center">
-          <Calendar className="mr-2 text-red-500" size={24} />
+          <Calendar className="mr-2 text-orange-500" size={24} />
           Próximos lançamentos
         </h3>
         <ul className="space-y-3">
-          {upcomingGames.map((game, index) => (
-            <li key={index} className="flex justify-between items-center border-b border-gray-200 dark:border-gray-800 pb-3 last:border-b-0">
-              <span className="text-gray-700 dark:text-gray-300">{game.name}</span>
-              <span className="text-red-600 dark:text-red-400 text-sm">{game.date}</span>
+          {upcomingReleases.map((release, index) => (
+            <li key={index} className="border-b border-gray-200 dark:border-gray-800 pb-3 last:border-b-0">
+              <div className="flex justify-between items-start">
+                <div>
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">{release.name}</span>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">{release.engine}</div>
+                </div>
+                <span className="text-orange-600 dark:text-orange-400 text-sm">{release.date}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Featured Downloads */}
+      <div className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700">
+        <h3 className="text-gray-900 dark:text-white font-bold text-xl mb-4 flex items-center">
+          <Download className="mr-2 text-orange-500" size={24} />
+          Downloads em destaque
+        </h3>
+        <ul className="space-y-3">
+          {featuredDownloads.map((item, index) => (
+            <li key={index} className="border-b border-gray-200 dark:border-gray-800 pb-3 last:border-b-0">
+              <div className="flex justify-between items-start">
+                <div>
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">{item.name}</span>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">{item.type}</div>
+                </div>
+                <span className="text-orange-600 dark:text-orange-400 text-sm">{item.downloads}</span>
+              </div>
             </li>
           ))}
         </ul>
       </div>
 
       {/* Newsletter */}
-      <div className="bg-gradient-to-br from-red-600 to-red-800 rounded-lg p-6">
+      <div className="bg-gradient-to-br from-orange-600 to-orange-800 rounded-lg p-6">
         <h3 className="text-white font-bold text-xl mb-4 flex items-center">
           <MessageCircle className="mr-2" size={24} />
           Newsletter
         </h3>
         <p className="text-white/90 mb-4">
-          Receba as últimas notícias e reviews direto no seu email.
+          Receba as últimas notícias sobre Mugen, Ikemen GO e OpenBOR direto no seu email.
         </p>
         <div className="space-y-3">
           <input 
@@ -68,7 +101,7 @@ const Sidebar = () => {
             placeholder="Seu email" 
             className="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/70 border border-white/30 focus:outline-none focus:border-white"
           />
-          <button className="w-full bg-white text-red-600 font-bold py-2 rounded-lg hover:bg-gray-100 transition-colors">
+          <button className="w-full bg-white text-orange-600 font-bold py-2 rounded-lg hover:bg-gray-100 transition-colors">
             Inscrever-se
           </button>
         </div>

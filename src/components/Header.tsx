@@ -9,8 +9,8 @@ const Header = () => {
   return (
     <header className="bg-white dark:bg-black text-gray-900 dark:text-white sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800">
       {/* Top bar */}
-      <div className="bg-red-600 text-center py-1 text-sm text-white">
-        <span>🎮 Últimas notícias do mundo dos games</span>
+      <div className="bg-orange-600 text-center py-1 text-sm text-white">
+        <span>🦀 Portal dedicado ao universo Mugen, Ikemen GO e OpenBOR</span>
       </div>
       
       {/* Main header */}
@@ -24,7 +24,10 @@ const Header = () => {
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-            <h1 className="text-3xl font-bold text-red-500">IGN BRASIL</h1>
+            <div className="flex items-center space-x-3">
+              <div className="text-4xl">🦀</div>
+              <h1 className="text-3xl font-bold text-orange-500">THE CRAB GAMES</h1>
+            </div>
           </div>
 
           {/* Search, theme toggle and user */}
@@ -38,7 +41,7 @@ const Header = () => {
               />
             </div>
             <ThemeToggle />
-            <button className="flex items-center space-x-2 bg-red-600 px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-white">
+            <button className="flex items-center space-x-2 bg-orange-600 px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors text-white">
               <User size={18} />
               <span className="hidden sm:inline">Login</span>
             </button>
@@ -48,16 +51,16 @@ const Header = () => {
         {/* Navigation */}
         <nav className={`${isMenuOpen ? 'block' : 'hidden'} lg:block border-t border-gray-200 dark:border-gray-800 pt-4 pb-2`}>
           <ul className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-8">
-            <li><a href="#" className="block py-2 text-red-600 hover:text-red-500 font-semibold">HOME</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">REVIEWS</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">NOTÍCIAS</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">JOGOS</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">REPORTAGENS</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">ENTREVISTAS</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">TUTORIAIS</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">MUGEN</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">IKEMEN GO</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors">OPENBOR</a></li>
+            <li><a href="#" className="block py-2 text-orange-600 hover:text-orange-500 font-semibold">HOME</a></li>
+            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">NOTÍCIAS</a></li>
+            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">REPORTAGENS</a></li>
+            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">ENTREVISTAS</a></li>
+            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">REVIEWS</a></li>
+            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">TUTORIAIS</a></li>
+            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">DOWNLOADS</a></li>
+            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">MUGEN</a></li>
+            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">IKEMEN GO</a></li>
+            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">OPENBOR</a></li>
           </ul>
         </nav>
       </div>
