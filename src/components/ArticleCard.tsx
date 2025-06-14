@@ -1,6 +1,8 @@
+
 import React from 'react';
-import { Clock, Eye } from 'lucide-react';
+import { Clock, Eye, Gamepad2 } from 'lucide-react';
 import type { Post, Tag } from '@/types/database';
+import { useNavigate } from 'react-router-dom';
 
 interface ArticleCardProps {
   post: Post;
@@ -8,6 +10,8 @@ interface ArticleCardProps {
 }
 
 const ArticleCard: React.FC<ArticleCardProps> = ({ post, isLarge = false }) => {
+  const navigate = useNavigate();
+  
   const categoryColors: { [key: string]: string } = {
     'noticias': 'bg-blue-600',
     'reportagens': 'bg-purple-600',
@@ -24,6 +28,22 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ post, isLarge = false }) => {
 
   return (
     <article className={`bg-white dark:bg-gray-900 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 cursor-pointer group shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700 ${isLarge ? 'lg:col-span-2 lg:row-span-2' : ''}`}>
+      {/* Jogo relacionado - exibido no topo se existir */}
+      {post.game && (
+        <div className="bg-gradient-to-r from-orange-600 to-orange-700 p-3">
+          <div 
+            className="flex items-center text-white hover:bg-white/10 rounded-lg p-2 transition-colors cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/jogos/${post.game?.slug}`);
+            }}
+          >
+            <Gamepad2 size={16} className="mr-2" />
+            <span className="text-sm font-medium">Relacionado: {post.game.title}</span>
+          </div>
+        </div>
+      )}
+
       <div className="relative">
         <img 
           src={post.featured_image ? `https://images.unsplash.com/${post.featured_image}` : 'https://images.unsplash.com/photo-1542751371-adc38448a05e'}

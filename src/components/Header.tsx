@@ -1,10 +1,12 @@
 
 import React, { useState } from 'react';
 import { Search, Menu, X, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <header className="bg-white dark:bg-black text-gray-900 dark:text-white sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800">
@@ -24,7 +26,10 @@ const Header = () => {
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-            <div className="flex items-center space-x-3">
+            <div 
+              className="flex items-center space-x-3 cursor-pointer"
+              onClick={() => navigate('/')}
+            >
               <div className="text-4xl">🦀</div>
               <h1 className="text-3xl font-bold text-orange-500">THE CRAB GAMES</h1>
             </div>
@@ -51,7 +56,30 @@ const Header = () => {
         {/* Navigation */}
         <nav className={`${isMenuOpen ? 'block' : 'hidden'} lg:block border-t border-gray-200 dark:border-gray-800 pt-4 pb-2`}>
           <ul className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-8">
-            <li><a href="#" className="block py-2 text-orange-600 hover:text-orange-500 font-semibold">HOME</a></li>
+            <li>
+              <button 
+                onClick={() => navigate('/')}
+                className="block py-2 text-orange-600 hover:text-orange-500 font-semibold"
+              >
+                HOME
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => navigate('/jogos')}
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+              >
+                JOGOS
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => navigate('/comunidades')}
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+              >
+                COMUNIDADES
+              </button>
+            </li>
             <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">NOTÍCIAS</a></li>
             <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">REPORTAGENS</a></li>
             <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">ENTREVISTAS</a></li>

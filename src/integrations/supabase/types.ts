@@ -33,6 +33,287 @@ export type Database = {
         }
         Relationships: []
       }
+      communities: {
+        Row: {
+          created_at: string
+          discord_url: string | null
+          facebook_url: string | null
+          id: string
+          instagram_url: string | null
+          logo_url: string
+          name: string
+          slug: string
+          summary: string | null
+          twitter_url: string | null
+          updated_at: string
+          website_url: string | null
+          youtube_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          discord_url?: string | null
+          facebook_url?: string | null
+          id?: string
+          instagram_url?: string | null
+          logo_url: string
+          name: string
+          slug: string
+          summary?: string | null
+          twitter_url?: string | null
+          updated_at?: string
+          website_url?: string | null
+          youtube_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          discord_url?: string | null
+          facebook_url?: string | null
+          id?: string
+          instagram_url?: string | null
+          logo_url?: string
+          name?: string
+          slug?: string
+          summary?: string | null
+          twitter_url?: string | null
+          updated_at?: string
+          website_url?: string | null
+          youtube_url?: string | null
+        }
+        Relationships: []
+      }
+      community_images: {
+        Row: {
+          alt_text: string | null
+          community_id: string
+          created_at: string
+          id: string
+          image_url: string
+        }
+        Insert: {
+          alt_text?: string | null
+          community_id: string
+          created_at?: string
+          id?: string
+          image_url: string
+        }
+        Update: {
+          alt_text?: string | null
+          community_id?: string
+          created_at?: string
+          id?: string
+          image_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "community_images_community_id_fkey"
+            columns: ["community_id"]
+            isOneToOne: false
+            referencedRelation: "communities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      companies: {
+        Row: {
+          created_at: string
+          id: string
+          logo_url: string | null
+          name: string
+          slug: string
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          logo_url?: string | null
+          name: string
+          slug: string
+          type: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          logo_url?: string | null
+          name?: string
+          slug?: string
+          type?: string
+        }
+        Relationships: []
+      }
+      game_companies: {
+        Row: {
+          company_id: string
+          game_id: string
+          role: string
+        }
+        Insert: {
+          company_id: string
+          game_id: string
+          role: string
+        }
+        Update: {
+          company_id?: string
+          game_id?: string
+          role?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_companies_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_companies_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      game_genres: {
+        Row: {
+          game_id: string
+          genre_id: string
+        }
+        Insert: {
+          game_id: string
+          genre_id: string
+        }
+        Update: {
+          game_id?: string
+          genre_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_genres_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_genres_genre_id_fkey"
+            columns: ["genre_id"]
+            isOneToOne: false
+            referencedRelation: "genres"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      game_platforms: {
+        Row: {
+          game_id: string
+          platform_id: string
+        }
+        Insert: {
+          game_id: string
+          platform_id: string
+        }
+        Update: {
+          game_id?: string
+          platform_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_platforms_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_platforms_platform_id_fkey"
+            columns: ["platform_id"]
+            isOneToOne: false
+            referencedRelation: "platforms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      games: {
+        Row: {
+          cartridge_image: string | null
+          created_at: string
+          featured_image: string | null
+          id: string
+          release_date: string | null
+          slug: string
+          summary: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          cartridge_image?: string | null
+          created_at?: string
+          featured_image?: string | null
+          id?: string
+          release_date?: string | null
+          slug: string
+          summary?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          cartridge_image?: string | null
+          created_at?: string
+          featured_image?: string | null
+          id?: string
+          release_date?: string | null
+          slug?: string
+          summary?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      genres: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      platforms: {
+        Row: {
+          created_at: string
+          id: string
+          logo_url: string | null
+          name: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          logo_url?: string | null
+          name: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          logo_url?: string | null
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
       post_tags: {
         Row: {
           post_id: string
@@ -71,6 +352,7 @@ export type Database = {
           created_at: string
           excerpt: string | null
           featured_image: string | null
+          game_id: string | null
           id: string
           read_time: number
           slug: string
@@ -86,6 +368,7 @@ export type Database = {
           created_at?: string
           excerpt?: string | null
           featured_image?: string | null
+          game_id?: string | null
           id?: string
           read_time?: number
           slug: string
@@ -101,6 +384,7 @@ export type Database = {
           created_at?: string
           excerpt?: string | null
           featured_image?: string | null
+          game_id?: string | null
           id?: string
           read_time?: number
           slug?: string
@@ -115,6 +399,13 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "posts_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
             referencedColumns: ["id"]
           },
         ]

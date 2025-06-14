@@ -12,6 +12,7 @@ export const usePosts = (limit?: number, categorySlug?: string) => {
         .select(`
           *,
           category:categories(id, name, slug, description, created_at),
+          game:games(id, title, slug, summary, featured_image, cartridge_image, release_date, created_at, updated_at),
           tags:post_tags(tag:tags(id, name, slug, description, created_at))
         `)
         .eq('status', 'published')
@@ -51,6 +52,7 @@ export const usePost = (slug: string) => {
         .select(`
           *,
           category:categories(id, name, slug, description, created_at),
+          game:games(id, title, slug, summary, featured_image, cartridge_image, release_date, created_at, updated_at),
           tags:post_tags(tag:tags(id, name, slug, description, created_at))
         `)
         .eq('slug', slug)

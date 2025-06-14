@@ -15,6 +15,71 @@ export interface Tag {
   created_at: string;
 }
 
+export interface Platform {
+  id: string;
+  name: string;
+  slug: string;
+  logo_url?: string;
+  created_at: string;
+}
+
+export interface Genre {
+  id: string;
+  name: string;
+  slug: string;
+  created_at: string;
+}
+
+export interface Company {
+  id: string;
+  name: string;
+  slug: string;
+  type: 'publisher' | 'developer';
+  logo_url?: string;
+  created_at: string;
+}
+
+export interface Game {
+  id: string;
+  title: string;
+  slug: string;
+  summary?: string;
+  featured_image?: string;
+  cartridge_image?: string;
+  release_date?: string;
+  created_at: string;
+  updated_at: string;
+  platforms?: Platform[];
+  genres?: Genre[];
+  publishers?: Company[];
+  developers?: Company[];
+}
+
+export interface Community {
+  id: string;
+  name: string;
+  slug: string;
+  logo_url: string;
+  summary?: string;
+  website_url?: string;
+  facebook_url?: string;
+  twitter_url?: string;
+  youtube_url?: string;
+  discord_url?: string;
+  instagram_url?: string;
+  created_at: string;
+  updated_at: string;
+  images?: CommunityImage[];
+}
+
+export interface CommunityImage {
+  id: string;
+  community_id: string;
+  image_url: string;
+  alt_text?: string;
+  created_at: string;
+}
+
 export interface Post {
   id: string;
   title: string;
@@ -23,6 +88,7 @@ export interface Post {
   content?: string;
   featured_image?: string;
   category_id?: string;
+  game_id?: string;
   author: string;
   status: 'draft' | 'published' | 'archived';
   view_count: number;
@@ -30,6 +96,7 @@ export interface Post {
   created_at: string;
   updated_at: string;
   category?: Category;
+  game?: Game;
   tags?: Tag[];
 }
 

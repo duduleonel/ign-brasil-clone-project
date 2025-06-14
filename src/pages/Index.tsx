@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import ArticleCard from '@/components/ArticleCard';
 import ReviewCard from '@/components/ReviewCard';
 import Sidebar from '@/components/Sidebar';
+import CommunityShowcase from '@/components/CommunityShowcase';
 import { Skeleton } from '@/components/ui/skeleton';
 import { usePosts } from '@/hooks/usePosts';
 
@@ -19,6 +20,9 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <Header />
+      
+      {/* Barra de comunidades */}
+      <CommunityShowcase />
       
       <main className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
