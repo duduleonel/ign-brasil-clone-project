@@ -11,8 +11,8 @@ export const usePosts = (limit?: number, categorySlug?: string) => {
         .from('posts')
         .select(`
           *,
-          category:categories(name, slug),
-          tags:post_tags(tag:tags(name, slug))
+          category:categories(id, name, slug, description, created_at),
+          tags:post_tags(tag:tags(id, name, slug, description, created_at))
         `)
         .eq('status', 'published')
         .order('created_at', { ascending: false });
@@ -45,8 +45,8 @@ export const usePost = (slug: string) => {
         .from('posts')
         .select(`
           *,
-          category:categories(name, slug),
-          tags:post_tags(tag:tags(name, slug))
+          category:categories(id, name, slug, description, created_at),
+          tags:post_tags(tag:tags(id, name, slug, description, created_at))
         `)
         .eq('slug', slug)
         .eq('status', 'published')
