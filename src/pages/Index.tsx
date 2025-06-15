@@ -2,8 +2,7 @@
 import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import ArticleCard from '@/components/ArticleCard';
-import ReviewCard from '@/components/ReviewCard';
+import PostCardFactory from '@/components/posts/PostCardFactory';
 import Sidebar from '@/components/Sidebar';
 import CommunityShowcase from '@/components/CommunityShowcase';
 import LoadingSpinner from '@/components/LoadingSpinner';
@@ -42,7 +41,7 @@ const Index = () => {
               ) : posts && posts.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                   {posts.slice(0, 6).map((post, index) => (
-                    <ArticleCard
+                    <PostCardFactory
                       key={post.id}
                       post={post}
                       isLarge={index === 0 && window.innerWidth >= 768}
@@ -64,7 +63,7 @@ const Index = () => {
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
                   Reviews em Destaque
                 </h2>
-                <a href="#" className="text-green-600 dark:text-green-400 hover:text-green-500 transition-colors">
+                <a href="/categoria/reviews" className="text-green-600 dark:text-green-400 hover:text-green-500 transition-colors">
                   Ver todos →
                 </a>
               </div>
@@ -72,7 +71,7 @@ const Index = () => {
               {reviewPosts && reviewPosts.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {reviewPosts.map((post) => (
-                    <ReviewCard key={post.id} post={post} />
+                    <PostCardFactory key={post.id} post={post} />
                   ))}
                 </div>
               ) : (
@@ -100,7 +99,7 @@ const Index = () => {
               {posts && posts.length > 6 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                   {posts.slice(6).map((post) => (
-                    <ArticleCard key={post.id} post={post} />
+                    <PostCardFactory key={post.id} post={post} />
                   ))}
                 </div>
               ) : null}

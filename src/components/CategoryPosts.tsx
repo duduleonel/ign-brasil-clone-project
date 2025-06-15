@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { usePosts } from '@/hooks/usePosts';
-import ArticleCard from './ArticleCard';
+import PostCardFactory from './posts/PostCardFactory';
 import { Skeleton } from './ui/skeleton';
 
 interface CategoryPostsProps {
@@ -12,8 +12,6 @@ interface CategoryPostsProps {
 
 const CategoryPosts: React.FC<CategoryPostsProps> = ({ categorySlug, categoryName, limit = 20 }) => {
   const { data: posts, isLoading, error } = usePosts(limit, categorySlug);
-
-  console.log(`Posts for category ${categorySlug}:`, posts);
 
   if (isLoading) {
     return (
@@ -72,7 +70,7 @@ const CategoryPosts: React.FC<CategoryPostsProps> = ({ categorySlug, categoryNam
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((post) => (
-          <ArticleCard key={post.id} post={post} />
+          <PostCardFactory key={post.id} post={post} />
         ))}
       </div>
 
