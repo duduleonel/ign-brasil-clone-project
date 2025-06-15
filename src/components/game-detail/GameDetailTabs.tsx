@@ -2,7 +2,7 @@
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import ArticleCard from '@/components/ArticleCard';
+import PostCardFactory from '@/components/posts/PostCardFactory';
 import GameReviews from '@/components/GameReviews';
 import GameGallery from '@/components/GameGallery';
 import GameVideos from '@/components/GameVideos';
@@ -32,7 +32,7 @@ const GameDetailTabs: React.FC<GameDetailTabsProps> = ({ game, relatedPosts }) =
             {relatedPosts && relatedPosts.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {relatedPosts.map((post) => (
-                  <ArticleCard key={post.id} post={post} />
+                  <PostCardFactory key={post.id} post={post} />
                 ))}
               </div>
             ) : (
