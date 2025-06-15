@@ -1,6 +1,9 @@
 
 import React from 'react';
-import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import { ThemeProvider as NextThemesProvider, useTheme as useNextTheme } from 'next-themes';
+
+// Export the actual hook
+export const useTheme = useNextTheme;
 
 interface ThemeProviderProps {
   children: React.ReactNode;
