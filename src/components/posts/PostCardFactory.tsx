@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import type { Post } from '@/types/database';
 import ReviewPostCard from './ReviewPostCard';
 import TutorialPostCard from './TutorialPostCard';
@@ -17,28 +18,36 @@ interface PostCardFactoryProps {
 const PostCardFactory: React.FC<PostCardFactoryProps> = ({ post, isLarge = false }) => {
   const categorySlug = post.category?.slug;
 
-  switch (categorySlug) {
-    case 'reviews':
-      return <ReviewPostCard post={post} isLarge={isLarge} />;
-    
-    case 'tutoriais':
-      return <TutorialPostCard post={post} isLarge={isLarge} />;
-    
-    case 'downloads':
-      return <DownloadPostCard post={post} isLarge={isLarge} />;
-    
-    case 'noticias':
-      return <NewsPostCard post={post} isLarge={isLarge} />;
-    
-    case 'entrevistas':
-      return <InterviewPostCard post={post} isLarge={isLarge} />;
-    
-    case 'reportagens':
-      return <ReportagePostCard post={post} isLarge={isLarge} />;
-    
-    default:
-      return <ArticleCard post={post} isLarge={isLarge} />;
-  }
+  const renderCard = () => {
+    switch (categorySlug) {
+      case 'reviews':
+        return <ReviewPostCard post={post} isLarge={isLarge} />;
+      
+      case 'tutoriais':
+        return <TutorialPostCard post={post} isLarge={isLarge} />;
+      
+      case 'downloads':
+        return <DownloadPostCard post={post} isLarge={isLarge} />;
+      
+      case 'noticias':
+        return <NewsPostCard post={post} isLarge={isLarge} />;
+      
+      case 'entrevistas':
+        return <InterviewPostCard post={post} isLarge={isLarge} />;
+      
+      case 'reportagens':
+        return <ReportagePostCard post={post} isLarge={isLarge} />;
+      
+      default:
+        return <ArticleCard post={post} isLarge={isLarge} />;
+    }
+  };
+
+  return (
+    <Link to={`/post/${post.slug}`}>
+      {renderCard()}
+    </Link>
+  );
 };
 
 export default PostCardFactory;
