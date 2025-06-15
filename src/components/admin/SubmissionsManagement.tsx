@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Check, X, Eye } from 'lucide-react';
@@ -60,6 +61,57 @@ const SubmissionsManagement = () => {
         description: "O status do envio foi atualizado com sucesso.",
       });
     },
+    onError: () => {
+      toast({
+        title: "Erro ao atualizar",
+        description: "Houve um erro ao atualizar o status.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const approveSubmissionMutation = useMutation({
+    mutationFn: async (submission: VisitorSubmission) => {
+      // Primeiro, cria o post aprovado
+      const { error: postError } = await supabase
+        .from('posts')
+        .insert({
+          title: submission.title,
+          content: submission.content,
+          excerpt: submission.excerpt,
+          author: submission.author_name,
+          slug: submission.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+          status: 'published',
+          category_id: submission.category_id,
+          game_id: submission.game_id,
+          featured_image: submission.featured_image
+        });
+
+      if (postError) throw postError;
+
+      // Depois atualiza o status da submissão
+      const { error: updateError } = await supabase
+        .from('visitor_submissions')
+        .update({ status: 'approved' })
+        .eq('id', submission.id);
+
+      if (updateError) throw updateError;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['visitor-submissions'] });
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      toast({
+        title: "Envio aprovado",
+        description: "O envio foi aprovado e transformado em post.",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Erro ao aprovar",
+        description: "Houve um erro ao aprovar o envio.",
+        variant: "destructive",
+      });
+    },
   });
 
   const getStatusBadge = (status: string) => {
@@ -75,12 +127,16 @@ const SubmissionsManagement = () => {
     }
   };
 
-  const handleApprove = (id: string) => {
-    updateSubmissionMutation.mutate({ id, status: 'approved' });
+  const handleApprove = (submission: VisitorSubmission) => {
+    if (window.confirm('Aprovar este envio e transformá-lo em post?')) {
+      approveSubmissionMutation.mutate(submission);
+    }
   };
 
   const handleReject = (id: string, admin_notes?: string) => {
-    updateSubmissionMutation.mutate({ id, status: 'rejected', admin_notes });
+    if (window.confirm('Rejeitar este envio?')) {
+      updateSubmissionMutation.mutate({ id, status: 'rejected', admin_notes });
+    }
   };
 
   if (isLoading) {
@@ -135,31 +191,50 @@ const SubmissionsManagement = () => {
                   </div>
                 )}
 
-                {submission.status === 'pending' && (
-                  <div className="flex items-center gap-2">
-                    <Button 
-                      size="sm" 
-                      onClick={() => handleApprove(submission.id)}
-                      disabled={updateSubmissionMutation.isPending}
-                    >
-                      <Check size={16} className="mr-1" />
-                      Aprovar
-                    </Button>
-                    <Button 
-                      variant="destructive" 
-                      size="sm"
-                      onClick={() => handleReject(submission.id)}
-                      disabled={updateSubmissionMutation.isPending}
-                    >
-                      <X size={16} className="mr-1" />
-                      Rejeitar
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      <Eye size={16} className="mr-1" />
-                      Ver Completo
-                    </Button>
-                  </div>
-                )}
+                <div className="flex items-center gap-2">
+                  {submission.status === 'pending' && (
+                    <>
+                      <Button 
+                        size="sm" 
+                        onClick={() => handleApprove(submission)}
+                        disabled={approveSubmissionMutation.isPending || updateSubmissionMutation.isPending}
+                      >
+                        <Check size={16} className="mr-1" />
+                        Aprovar
+                      </Button>
+                      <Button 
+                        variant="destructive" 
+                        size="sm"
+                        onClick={() => handleReject(submission.id)}
+                        disabled={updateSubmissionMutation.isPending || approveSubmissionMutation.isPending}
+                      >
+                        <X size={16} className="mr-1" />
+                        Rejeitar
+                      </Button>
+                    </>
+                  )}
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" size="sm">
+                        <Eye size={16} className="mr-1" />
+                        Ver Completo
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+                      <DialogHeader>
+                        <DialogTitle>{submission.title}</DialogTitle>
+                        <DialogDescription>
+                          Por {submission.author_name} - {new Date(submission.created_at).toLocaleDateString('pt-BR')}
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="mt-4">
+                        <div className="prose max-w-none dark:prose-invert">
+                          <div dangerouslySetInnerHTML={{ __html: submission.content }} />
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
               </div>
             ))}
 
