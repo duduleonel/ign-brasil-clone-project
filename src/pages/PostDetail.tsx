@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Clock, Eye, User, Calendar } from 'lucide-react';
+import { ArrowLeft, Clock, Eye, User, Calendar, Gamepad2 } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { usePost } from '@/hooks/usePosts';
@@ -84,7 +84,45 @@ const PostDetail = () => {
             Voltar
           </button>
 
-          <article className="bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+          {/* Jogo Relacionado - Seção Superior */}
+          {post.game && (
+            <div className="bg-gradient-to-r from-orange-600 to-orange-700 rounded-t-lg p-4 mb-0">
+              <div 
+                className="flex items-center justify-between bg-white/10 hover:bg-white/20 rounded-lg p-4 transition-colors cursor-pointer group"
+                onClick={() => navigate(`/jogos/${post.game?.slug}`)}
+              >
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center justify-center w-12 h-12 bg-white/20 rounded-lg">
+                    <Gamepad2 size={24} className="text-white" />
+                  </div>
+                  <div>
+                    <p className="text-white/80 text-sm font-medium uppercase tracking-wide">
+                      Jogo Relacionado
+                    </p>
+                    <h2 className="text-white text-xl font-bold group-hover:text-orange-100 transition-colors">
+                      {post.game.title}
+                    </h2>
+                    {post.game.summary && (
+                      <p className="text-white/90 text-sm mt-1 line-clamp-1">
+                        {post.game.summary}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                {post.game.featured_image && (
+                  <div className="hidden md:block">
+                    <img 
+                      src={post.game.featured_image}
+                      alt={post.game.title}
+                      className="w-20 h-20 object-cover rounded-lg border-2 border-white/20"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          <article className={`bg-white dark:bg-gray-900 overflow-hidden shadow-lg ${post.game ? 'rounded-b-lg' : 'rounded-lg'}`}>
             {post.featured_image && (
               <div className="relative">
                 <img 
