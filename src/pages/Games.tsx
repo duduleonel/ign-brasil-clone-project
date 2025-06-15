@@ -8,7 +8,7 @@ import GameFilters from '@/components/games/GameFilters';
 import GameViewControls from '@/components/games/GameViewControls';
 import GameResults from '@/components/games/GameResults';
 import { useGames } from '@/hooks/useGames';
-import { useCompanies } from '@/hooks/useCompanies';
+import { usePublishers, useDevelopers, usePlatforms } from '@/hooks/useCompanies';
 import { useGameFilters } from '@/hooks/useGameFilters';
 
 const Games = () => {
@@ -16,18 +16,22 @@ const Games = () => {
   const [showComparator, setShowComparator] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPublisher, setSelectedPublisher] = useState<string>('');
+  const [selectedDeveloper, setSelectedDeveloper] = useState<string>('');
+  const [selectedPlatform, setSelectedPlatform] = useState<string>('');
   const [selectedYear, setSelectedYear] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('newest');
 
   const { data: games, isLoading, error } = useGames();
-  const { data: companies } = useCompanies();
-
-  const publishers = companies?.filter(c => c.type === 'publisher') || [];
+  const { data: publishers } = usePublishers();
+  const { data: developers } = useDevelopers();
+  const { data: platforms } = usePlatforms();
 
   const filteredAndSortedGames = useGameFilters({
     games,
     searchQuery,
     selectedPublisher,
+    selectedDeveloper,
+    selectedPlatform,
     selectedYear,
     sortBy
   });
@@ -37,6 +41,8 @@ const Games = () => {
   const handleClearFilters = () => {
     setSearchQuery('');
     setSelectedPublisher('');
+    setSelectedDeveloper('');
+    setSelectedPlatform('');
     setSelectedYear('');
     setSortBy('newest');
   };
@@ -81,11 +87,17 @@ const Games = () => {
           setSearchQuery={setSearchQuery}
           selectedPublisher={selectedPublisher}
           setSelectedPublisher={setSelectedPublisher}
+          selectedDeveloper={selectedDeveloper}
+          setSelectedDeveloper={setSelectedDeveloper}
+          selectedPlatform={selectedPlatform}
+          setSelectedPlatform={setSelectedPlatform}
           selectedYear={selectedYear}
           setSelectedYear={setSelectedYear}
           sortBy={sortBy}
           setSortBy={setSortBy}
-          publishers={publishers}
+          publishers={publishers || []}
+          developers={developers || []}
+          platforms={platforms || []}
         />
 
         <div className="mb-6">

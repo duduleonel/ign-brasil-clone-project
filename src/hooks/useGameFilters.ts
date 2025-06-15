@@ -6,6 +6,8 @@ interface UseGameFiltersProps {
   games: Game[] | undefined;
   searchQuery: string;
   selectedPublisher: string;
+  selectedDeveloper: string;
+  selectedPlatform: string;
   selectedYear: string;
   sortBy: string;
 }
@@ -14,6 +16,8 @@ export const useGameFilters = ({
   games,
   searchQuery,
   selectedPublisher,
+  selectedDeveloper,
+  selectedPlatform,
   selectedYear,
   sortBy
 }: UseGameFiltersProps) => {
@@ -28,10 +32,16 @@ export const useGameFilters = ({
       const matchesPublisher = !selectedPublisher || 
         game.publishers?.some(p => p.id === selectedPublisher);
       
+      const matchesDeveloper = !selectedDeveloper || 
+        game.developers?.some(d => d.id === selectedDeveloper);
+      
+      const matchesPlatform = !selectedPlatform || 
+        game.platforms?.some(p => p.id === selectedPlatform);
+      
       const matchesYear = !selectedYear || 
         (game.release_date && new Date(game.release_date).getFullYear().toString() === selectedYear);
 
-      return matchesSearch && matchesPublisher && matchesYear;
+      return matchesSearch && matchesPublisher && matchesDeveloper && matchesPlatform && matchesYear;
     });
 
     // Sort games
@@ -51,5 +61,5 @@ export const useGameFilters = ({
       default:
         return filtered;
     }
-  }, [games, searchQuery, selectedPublisher, selectedYear, sortBy]);
+  }, [games, searchQuery, selectedPublisher, selectedDeveloper, selectedPlatform, selectedYear, sortBy]);
 };

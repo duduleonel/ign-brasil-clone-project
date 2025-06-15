@@ -28,6 +28,14 @@ export const useCompanies = (type?: 'publisher' | 'developer') => {
   });
 };
 
+export const usePublishers = () => {
+  return useCompanies('publisher');
+};
+
+export const useDevelopers = () => {
+  return useCompanies('developer');
+};
+
 export const useGenres = () => {
   return useQuery({
     queryKey: ['genres'],
