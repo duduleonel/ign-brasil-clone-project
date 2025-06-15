@@ -4,11 +4,22 @@ import { ThemeProvider as NextThemesProvider } from 'next-themes';
 
 interface ThemeProviderProps {
   children: React.ReactNode;
+  defaultTheme?: string;
+  storageKey?: string;
 }
 
-const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+const ThemeProvider: React.FC<ThemeProviderProps> = ({ 
+  children, 
+  defaultTheme = "system", 
+  storageKey = "vite-ui-theme" 
+}) => {
   return (
-    <NextThemesProvider attribute="class" defaultTheme="dark" enableSystem>
+    <NextThemesProvider 
+      attribute="class" 
+      defaultTheme={defaultTheme} 
+      storageKey={storageKey}
+      enableSystem
+    >
       {children}
     </NextThemesProvider>
   );
