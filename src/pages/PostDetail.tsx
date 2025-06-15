@@ -21,6 +21,8 @@ import SocialLogin from '@/components/posts/shared/SocialLogin';
 const PostDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  // LOG para depuração do slug recebido
+  console.log('[PostDetail] Slug recebido:', slug);
   const { data: post, isLoading, error } = usePost(slug || '');
 
   if (isLoading) {
@@ -54,6 +56,9 @@ const PostDetail = () => {
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
               Post não encontrado
             </h1>
+            <p className="text-gray-600 text-sm mb-4 break-words">
+              Slug pesquisado: <span className="font-mono">{slug}</span>
+            </p>
             <button 
               onClick={() => window.history.back()}
               className="text-green-600 dark:text-green-400 hover:text-green-500 transition-colors"

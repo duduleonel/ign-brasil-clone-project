@@ -1,4 +1,3 @@
-
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import type { Post } from '@/types/database';
@@ -64,17 +63,16 @@ export const usePost = (slug: string) => {
         `)
         .eq('slug', slug)
         .eq('status', 'published')
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error('Error fetching post:', error);
         throw error;
       }
-
       if (!data) {
+        console.warn('[usePost] Nenhum post encontrado para o slug:', slug);
         return null;
       }
-      
       const formattedData = {
         ...data,
         tags: data.tags ? data.tags.map((t: any) => t.tag) : []
