@@ -1,8 +1,17 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Clock, Eye, User, Calendar, MapPin, Camera, Share2, BookOpen } from 'lucide-react';
+import { ArrowLeft, Camera, MapPin, Clock, Share2 } from 'lucide-react';
 import type { Post } from '@/types/database';
+import PostHeader from '../shared/PostHeader';
+import TableOfContents from '../shared/TableOfContents';
+import DropCap from '../shared/DropCap';
+import SocialShare from '../shared/SocialShare';
+import ImageGallery from '../shared/ImageGallery';
+import { Message, Spoiler, ButtonShortcode, TabsShortcode, TableShortcode, AccordionShortcode } from '../shared/Shortcodes';
+import RelatedPosts from '../shared/RelatedPosts';
+import PostSource from '../shared/PostSource';
+import SocialLogin from '../shared/SocialLogin';
 
 interface ReportagePostTemplateProps {
   post: Post;
@@ -11,8 +20,45 @@ interface ReportagePostTemplateProps {
 const ReportagePostTemplate: React.FC<ReportagePostTemplateProps> = ({ post }) => {
   const navigate = useNavigate();
 
+  // Sample gallery images (would come from post data)
+  const galleryImages = [
+    {
+      src: post.featured_image || 'https://images.unsplash.com/photo-1586339949916-3e9457bef6d3',
+      alt: 'Imagem da reportagem',
+      caption: 'Local onde a reportagem foi realizada'
+    },
+    // Add more images as needed
+  ];
+
+  // Sample shortcode examples
+  const tabsData = [
+    {
+      label: 'Contexto',
+      content: <div>Informações sobre o contexto da reportagem...</div>
+    },
+    {
+      label: 'Evidências',
+      content: <div>Documentos e evidências coletadas...</div>
+    },
+    {
+      label: 'Cronologia',
+      content: <div>Linha do tempo dos eventos...</div>
+    }
+  ];
+
+  const accordionData = [
+    {
+      title: 'Metodologia da Investigação',
+      content: <div>Detalhes sobre como a investigação foi conduzida...</div>
+    },
+    {
+      title: 'Fontes Consultadas',
+      content: <div>Lista de especialistas e fontes consultadas...</div>
+    }
+  ];
+
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-6xl mx-auto">
       <button 
         onClick={() => navigate(-1)}
         className="flex items-center text-purple-600 dark:text-purple-400 hover:text-purple-500 transition-colors mb-6"
@@ -21,118 +67,98 @@ const ReportagePostTemplate: React.FC<ReportagePostTemplateProps> = ({ post }) =
         Voltar
       </button>
 
-      {/* Jogo Relacionado - se existir */}
-      {post.game && (
-        <div className="bg-gradient-to-r from-purple-600 to-purple-700 rounded-t-lg p-4 mb-0">
-          <div 
-            className="flex items-center justify-between bg-white/10 hover:bg-white/20 rounded-lg p-4 transition-colors cursor-pointer group"
-            onClick={() => navigate(`/jogos/${post.game?.slug}`)}
-          >
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center justify-center w-12 h-12 bg-white/20 rounded-lg">
-                <Camera size={24} className="text-white" />
-              </div>
-              <div>
-                <p className="text-white/80 text-sm font-medium uppercase tracking-wide">
-                  Reportagem sobre
-                </p>
-                <h2 className="text-white text-xl font-bold group-hover:text-purple-100 transition-colors">
-                  {post.game.title}
-                </h2>
-                {post.game.summary && (
-                  <p className="text-white/90 text-sm mt-1 line-clamp-1">
-                    {post.game.summary}
-                  </p>
-                )}
-              </div>
-            </div>
-            {post.game.featured_image && (
-              <div className="hidden md:block">
-                <img 
-                  src={post.game.featured_image}
-                  alt={post.game.title}
-                  className="w-20 h-20 object-cover rounded-lg border-2 border-white/20"
-                />
-              </div>
-            )}
+      {/* Post Header with different layout options */}
+      <PostHeader 
+        post={post} 
+        layout="overlay" 
+        showLiveUpdate={true}
+      />
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        {/* Sidebar with Table of Contents */}
+        <div className="lg:col-span-1 order-2 lg:order-1">
+          <TableOfContents content={post.content || ''} />
+          
+          {/* Social Share */}
+          <div className="mt-6">
+            <SocialShare 
+              title={post.title}
+              text={post.excerpt}
+            />
           </div>
         </div>
-      )}
 
-      <article className={`bg-white dark:bg-gray-900 overflow-hidden shadow-lg ${post.game ? 'rounded-b-lg' : 'rounded-lg'}`}>
-        {post.featured_image && (
-          <div className="relative">
-            <img 
-              src={post.featured_image}
-              alt={post.title}
-              className="w-full h-64 md:h-80 object-cover"
-            />
-            <div className="absolute top-4 left-4 flex gap-2">
-              <span className="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center">
-                <Camera size={14} className="mr-1" />
-                Reportagem
-              </span>
-            </div>
-            <div className="absolute bottom-4 left-4 bg-black/80 text-white rounded-lg px-3 py-2 flex items-center">
-              <MapPin size={14} className="mr-1" />
-              <span>Local da reportagem</span>
-            </div>
-          </div>
-        )}
+        {/* Main Content */}
+        <div className="lg:col-span-3 order-1 lg:order-2">
+          <article className="prose prose-lg dark:prose-invert max-w-none">
+            {/* Drop Cap Paragraph */}
+            {post.content && (
+              <DropCap>
+                {post.content.split('\n')[0] || post.excerpt || ''}
+              </DropCap>
+            )}
 
-        <div className="p-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            {post.title}
-          </h1>
+            {/* Message Shortcode Examples */}
+            <Message type="info">
+              Esta reportagem foi produzida com base em entrevistas exclusivas e documentos obtidos através da Lei de Acesso à Informação.
+            </Message>
 
-          <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600 dark:text-gray-400 mb-6 border-b border-gray-200 dark:border-gray-700 pb-6">
-            <div className="flex items-center">
-              <User size={16} className="mr-2" />
-              <span className="font-medium">{post.author}</span>
-            </div>
-            <div className="flex items-center">
-              <Calendar size={16} className="mr-2" />
-              {new Date(post.created_at).toLocaleDateString('pt-BR')}
-            </div>
-            <div className="flex items-center">
-              <Clock size={16} className="mr-2" />
-              {post.read_time} min de leitura
-            </div>
-            <div className="flex items-center">
-              <Eye size={16} className="mr-2" />
-              {post.view_count} visualizações
-            </div>
-            <button className="flex items-center text-purple-600 dark:text-purple-400 hover:text-purple-500 transition-colors">
-              <Share2 size={16} className="mr-2" />
-              Compartilhar
-            </button>
-          </div>
+            {/* Image Gallery */}
+            {galleryImages.length > 0 && (
+              <div className="my-8">
+                <h3>Galeria de Imagens</h3>
+                <ImageGallery images={galleryImages} layout="grid" />
+              </div>
+            )}
 
-          {post.excerpt && (
-            <div className="text-xl text-gray-600 dark:text-gray-400 mb-8 italic border-l-4 border-purple-600 pl-6 bg-purple-50 dark:bg-purple-900/20 py-4 rounded-r-lg">
-              <BookOpen size={20} className="inline mr-2 text-purple-600" />
-              {post.excerpt}
-            </div>
-          )}
+            {/* Tabs Shortcode */}
+            <TabsShortcode tabs={tabsData} />
 
-          {/* Conteúdo da reportagem */}
-          <div className="prose prose-lg dark:prose-invert max-w-none">
-            <div className="whitespace-pre-wrap text-gray-900 dark:text-white leading-relaxed">
+            {/* Main Content */}
+            <div className="whitespace-pre-wrap leading-relaxed">
               {post.content}
             </div>
-          </div>
 
-          {/* Seção de fontes/créditos */}
-          <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-              <Camera size={20} className="mr-2" />
-              Sobre esta reportagem
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm">
-              Esta reportagem foi produzida com base em entrevistas exclusivas e pesquisa detalhada sobre o tema. 
-              Todas as informações foram verificadas e checadas antes da publicação.
-            </p>
-          </div>
+            {/* Spoiler Example */}
+            <Spoiler title="Revelação Final da Investigação">
+              <p>Conteúdo sensível ou spoilers da investigação...</p>
+            </Spoiler>
+
+            {/* Table Example */}
+            <TableShortcode 
+              headers={['Data', 'Evento', 'Fonte']}
+              rows={[
+                ['15/06/2025', 'Início da investigação', 'Redação'],
+                ['16/06/2025', 'Primeira entrevista', 'Testemunha A'],
+                ['17/06/2025', 'Análise de documentos', 'Arquivo público']
+              ]}
+            />
+
+            {/* Accordion for additional information */}
+            <AccordionShortcode items={accordionData} />
+
+            {/* Action Buttons */}
+            <div className="flex gap-4 my-8">
+              <ButtonShortcode variant="default" href="#contato">
+                Entrar em Contato
+              </ButtonShortcode>
+              <ButtonShortcode variant="outline">
+                Compartilhar Informações
+              </ButtonShortcode>
+            </div>
+
+            {/* Warning Message */}
+            <Message type="warning">
+              Se você tem informações adicionais sobre este caso, entre em contato conosco através dos canais seguros.
+            </Message>
+          </article>
+
+          {/* Post Source Information */}
+          <PostSource 
+            source="Investigação Própria"
+            author={post.author}
+            publishedAt={post.created_at}
+          />
 
           {/* Tags */}
           {post.tags && post.tags.length > 0 && (
@@ -142,7 +168,7 @@ const ReportagePostTemplate: React.FC<ReportagePostTemplateProps> = ({ post }) =
                 {post.tags.map((tag) => (
                   <span 
                     key={tag.slug}
-                    className="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 text-sm rounded-full hover:bg-purple-200 dark:hover:bg-purple-800 transition-colors"
+                    className="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 text-sm rounded-full hover:bg-purple-200 dark:hover:bg-purple-800 transition-colors cursor-pointer"
                   >
                     {tag.name}
                   </span>
@@ -150,8 +176,14 @@ const ReportagePostTemplate: React.FC<ReportagePostTemplateProps> = ({ post }) =
               </div>
             </div>
           )}
+
+          {/* Social Login for Comments */}
+          <SocialLogin />
+
+          {/* Related Posts */}
+          <RelatedPosts currentPost={post} />
         </div>
-      </article>
+      </div>
     </div>
   );
 };
