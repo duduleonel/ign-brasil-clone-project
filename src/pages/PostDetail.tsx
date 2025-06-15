@@ -6,6 +6,7 @@ import { usePost } from '@/hooks/usePosts';
 import { Skeleton } from '@/components/ui/skeleton';
 import ReviewPostTemplate from '@/components/posts/templates/ReviewPostTemplate';
 import TutorialPostTemplate from '@/components/posts/templates/TutorialPostTemplate';
+import ReportagePostTemplate from '@/components/posts/templates/ReportagePostTemplate';
 import { ArrowLeft, Clock, Eye, User, Calendar, Gamepad2 } from 'lucide-react';
 
 const PostDetail = () => {
@@ -65,6 +66,8 @@ const PostDetail = () => {
         return <ReviewPostTemplate post={post} />;
       case 'tutoriais':
         return <TutorialPostTemplate post={post} />;
+      case 'reportagens':
+        return <ReportagePostTemplate post={post} />;
       default:
         const categoryColors: { [key: string]: string } = {
           'noticias': 'bg-blue-600',

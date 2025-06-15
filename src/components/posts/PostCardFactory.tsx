@@ -6,6 +6,7 @@ import TutorialPostCard from './TutorialPostCard';
 import DownloadPostCard from './DownloadPostCard';
 import NewsPostCard from './NewsPostCard';
 import InterviewPostCard from './InterviewPostCard';
+import ReportagePostCard from './ReportagePostCard';
 import ArticleCard from '../ArticleCard';
 
 interface PostCardFactoryProps {
@@ -31,6 +32,9 @@ const PostCardFactory: React.FC<PostCardFactoryProps> = ({ post, isLarge = false
     
     case 'entrevistas':
       return <InterviewPostCard post={post} isLarge={isLarge} />;
+    
+    case 'reportagens':
+      return <ReportagePostCard post={post} isLarge={isLarge} />;
     
     default:
       return <ArticleCard post={post} isLarge={isLarge} />;
