@@ -10,11 +10,9 @@ import GameCard from '@/components/GameCard';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { usePosts } from '@/hooks/usePosts';
 import { useGames } from '@/hooks/useGames';
-import { useNavigate } from 'react-router-dom';
 
 const SearchResults = () => {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
   const query = searchParams.get('q') || '';
   
   const [activeTab, setActiveTab] = useState<'all' | 'posts' | 'games'>('all');
@@ -149,7 +147,6 @@ const SearchResults = () => {
                     <GameCard 
                       key={game.id} 
                       game={game} 
-                      onClick={() => navigate(`/jogos/${game.slug}`)}
                     />
                   ))}
                 </div>

@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import GameCard from '@/components/GameCard';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -19,8 +18,6 @@ const GameResults: React.FC<GameResultsProps> = ({
   viewMode,
   onClearFilters
 }) => {
-  const navigate = useNavigate();
-
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -57,7 +54,6 @@ const GameResults: React.FC<GameResultsProps> = ({
         <GameCard 
           key={game.id} 
           game={game} 
-          onClick={() => navigate(`/jogos/${game.slug}`)}
         />
       ))}
     </div>
