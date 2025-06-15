@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -48,7 +49,10 @@ const VisitorSubmissionForm: React.FC = () => {
   const onSubmit = async (data: SubmissionFormData) => {
     try {
       const submissionData = {
-        ...data,
+        title: data.title,
+        content: data.content,
+        author_name: data.author_name,
+        author_email: data.author_email,
         status: 'pending' as const,
         excerpt: data.excerpt || undefined,
         category_id: data.category_id || undefined,
