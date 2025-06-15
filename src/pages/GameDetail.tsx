@@ -1,53 +1,68 @@
 
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Calendar, ArrowLeft, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Calendar, Monitor, Building2, Users, ExternalLink } from 'lucide-react';
+import { useGame } from '@/hooks/useGames';
+import { usePosts } from '@/hooks/usePosts';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import RelatedPosts from '@/components/RelatedPosts';
+import ArticleCard from '@/components/ArticleCard';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useGame } from '@/hooks/useGames';
 
 const GameDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const { data: game, isLoading, error } = useGame(slug || '');
+  
+  if (!slug) {
+    navigate('/jogos');
+    return null;
+  }
 
-  if (isLoading) {
+  const { data: game, isLoading: gameLoading, error: gameError } = useGame(slug);
+  const { data: relatedPosts, isLoading: postsLoading } = usePosts(6, undefined, game?.id);
+
+  if (gameLoading) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
         <Header />
         <main className="container mx-auto px-4 py-8">
           <div className="space-y-6">
             <Skeleton className="h-8 w-48" />
-            <Skeleton className="h-64 w-full" />
-            <Skeleton className="h-4 w-3/4" />
-            <Skeleton className="h-4 w-1/2" />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="lg:col-span-2">
+                <Skeleton className="h-96 w-full" />
+              </div>
+              <div className="space-y-4">
+                <Skeleton className="h-64 w-full" />
+              </div>
+            </div>
           </div>
         </main>
-        <Footer />
       </div>
     );
   }
 
-  if (error || !game) {
+  if (gameError || !game) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
         <Header />
         <main className="container mx-auto px-4 py-8">
           <div className="text-center py-12">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Jogo não encontrado
-            </h1>
-            <button
-              onClick={() => navigate('/jogos')}
-              className="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
-            >
-              Voltar para jogos
-            </button>
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-8">
+              <h3 className="text-lg font-semibold text-red-800 dark:text-red-400 mb-2">
+                Jogo não encontrado
+              </h3>
+              <p className="text-red-600 dark:text-red-300 mb-4">
+                O jogo que você está procurando não foi encontrado.
+              </p>
+              <Button onClick={() => navigate('/jogos')}>
+                Voltar para Jogos
+              </Button>
+            </div>
           </div>
         </main>
-        <Footer />
       </div>
     );
   }
@@ -57,134 +72,154 @@ const GameDetail = () => {
       <Header />
       
       <main className="container mx-auto px-4 py-8">
-        {/* Breadcrumb */}
-        <button
+        {/* Back Button */}
+        <Button 
+          variant="ghost" 
           onClick={() => navigate('/jogos')}
-          className="flex items-center text-orange-600 dark:text-orange-400 hover:text-orange-500 mb-6"
+          className="mb-6"
         >
-          <ArrowLeft size={20} className="mr-2" />
-          Voltar para jogos
-        </button>
+          <ArrowLeft size={16} className="mr-2" />
+          Voltar para Jogos
+        </Button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-          {/* Coluna principal */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content */}
           <div className="lg:col-span-2">
-            {/* Imagem principal */}
-            <div className="relative mb-6">
+            {/* Game Header */}
+            <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden mb-8">
               <img 
                 src={game.featured_image || 'https://images.unsplash.com/photo-1542751371-adc38448a05e'}
                 alt={game.title}
-                className="w-full h-64 lg:h-96 object-cover rounded-lg"
+                className="w-full h-96 object-cover"
               />
+              
+              <div className="p-6">
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                  {game.title}
+                </h1>
+                
+                {/* Platforms */}
+                {game.platforms && game.platforms.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {game.platforms.map((platform) => (
+                      <Badge key={platform.slug} variant="outline" className="flex items-center gap-1">
+                        <Monitor size={14} />
+                        {platform.name}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+
+                {/* Genres */}
+                {game.genres && game.genres.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {game.genres.map((genre) => (
+                      <Badge key={genre.slug} className="bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400">
+                        {genre.name}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+
+                {/* Summary */}
+                {game.summary && (
+                  <div className="prose dark:prose-invert max-w-none">
+                    <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
+                      {game.summary}
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Título e sumário */}
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              {game.title}
-            </h1>
-
-            {game.summary && (
-              <div className="bg-white dark:bg-gray-900 rounded-lg p-6 mb-6 shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Sumário</h2>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  {game.summary}
-                </p>
+            {/* Related Posts */}
+            {relatedPosts && relatedPosts.length > 0 && (
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                  Posts Relacionados
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {relatedPosts.map((post) => (
+                    <ArticleCard key={post.id} post={post} />
+                  ))}
+                </div>
               </div>
             )}
           </div>
 
-          {/* Sidebar com informações */}
+          {/* Sidebar */}
           <div className="space-y-6">
-            {/* Imagem do cartucho */}
+            {/* Cartridge Image */}
             {game.cartridge_image && (
-              <div className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Cartucho</h3>
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  Cartucho
+                </h3>
                 <img 
                   src={game.cartridge_image}
-                  alt={`Cartucho ${game.title}`}
-                  className="w-full max-w-48 mx-auto object-cover rounded-lg"
+                  alt={`Cartucho de ${game.title}`}
+                  className="w-full h-48 object-cover rounded-lg"
                 />
               </div>
             )}
 
-            {/* Informações gerais */}
-            <div className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Informações</h3>
+            {/* Game Info */}
+            <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                Informações do Jogo
+              </h3>
               
-              {game.release_date && (
-                <div className="mb-4">
-                  <span className="text-sm text-gray-500 dark:text-gray-400 block">Data de lançamento</span>
-                  <span className="text-gray-900 dark:text-white font-medium flex items-center">
-                    <Calendar size={16} className="mr-2" />
-                    {new Date(game.release_date).toLocaleDateString('pt-BR')}
-                  </span>
-                </div>
-              )}
-
-              {game.publishers && game.publishers.length > 0 && (
-                <div className="mb-4">
-                  <span className="text-sm text-gray-500 dark:text-gray-400 block">Produtora</span>
-                  <div className="flex flex-wrap gap-2">
-                    {game.publishers.map((publisher) => (
-                      <span key={publisher.slug} className="text-gray-900 dark:text-white">
-                        {publisher.name}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {game.developers && game.developers.length > 0 && (
-                <div className="mb-4">
-                  <span className="text-sm text-gray-500 dark:text-gray-400 block">Desenvolvedora</span>
-                  <div className="flex flex-wrap gap-2">
-                    {game.developers.map((developer) => (
-                      <span key={developer.slug} className="text-gray-900 dark:text-white">
-                        {developer.name}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Gêneros */}
-            {game.genres && game.genres.length > 0 && (
-              <div className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Gêneros</h3>
-                <div className="flex flex-wrap gap-2">
-                  {game.genres.map((genre) => (
-                    <span 
-                      key={genre.slug}
-                      className="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 rounded-full text-sm"
-                    >
-                      {genre.name}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Plataformas */}
-            {game.platforms && game.platforms.length > 0 && (
-              <div className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Plataformas</h3>
-                <div className="grid grid-cols-2 gap-2">
-                  {game.platforms.map((platform) => (
-                    <div key={platform.slug} className="flex items-center p-2 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                      <span className="text-sm text-gray-900 dark:text-white">
-                        {platform.name}
-                      </span>
+              <div className="space-y-4">
+                {/* Release Date */}
+                {game.release_date && (
+                  <div className="flex items-center">
+                    <Calendar size={16} className="mr-3 text-gray-500" />
+                    <div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Data de Lançamento</p>
+                      <p className="font-medium text-gray-900 dark:text-white">
+                        {new Date(game.release_date).toLocaleDateString('pt-BR')}
+                      </p>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                )}
+
+                {/* Publishers */}
+                {game.publishers && game.publishers.length > 0 && (
+                  <div className="flex items-start">
+                    <Building2 size={16} className="mr-3 text-gray-500 mt-1" />
+                    <div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Produtora</p>
+                      <div className="space-y-1">
+                        {game.publishers.map((publisher) => (
+                          <p key={publisher.slug} className="font-medium text-gray-900 dark:text-white">
+                            {publisher.name}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Developers */}
+                {game.developers && game.developers.length > 0 && (
+                  <div className="flex items-start">
+                    <Users size={16} className="mr-3 text-gray-500 mt-1" />
+                    <div>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Desenvolvedora</p>
+                      <div className="space-y-1">
+                        {game.developers.map((developer) => (
+                          <p key={developer.slug} className="font-medium text-gray-900 dark:text-white">
+                            {developer.name}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         </div>
-
-        {/* Posts relacionados */}
-        <RelatedPosts gameId={game.id} gameTitle={game.title} />
       </main>
 
       <Footer />

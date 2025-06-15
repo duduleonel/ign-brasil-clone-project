@@ -29,14 +29,15 @@ export const useGames = (limit?: number, genreSlug?: string, platformSlug?: stri
         throw error;
       }
 
-      const formattedData = data.map(game => ({
+      const formattedData = data?.map(game => ({
         ...game,
         platforms: game.platforms ? game.platforms.map((p: any) => p.platform) : [],
         genres: game.genres ? game.genres.map((g: any) => g.genre) : [],
         publishers: game.publishers ? game.publishers.filter((c: any) => c.company.type === 'publisher').map((c: any) => c.company) : [],
         developers: game.developers ? game.developers.filter((c: any) => c.company.type === 'developer').map((c: any) => c.company) : []
-      }));
+      })) || [];
 
+      console.log('Games data:', formattedData);
       return formattedData as Game[];
     },
   });
@@ -76,44 +77,6 @@ export const useGame = (slug: string) => {
       };
 
       return formattedData as Game;
-    },
-  });
-};
-
-export const useGenres = () => {
-  return useQuery({
-    queryKey: ['genres'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('genres')
-        .select('*')
-        .order('name');
-
-      if (error) {
-        console.error('Error fetching genres:', error);
-        throw error;
-      }
-
-      return data;
-    },
-  });
-};
-
-export const usePlatforms = () => {
-  return useQuery({
-    queryKey: ['platforms'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('platforms')
-        .select('*')
-        .order('name');
-
-      if (error) {
-        console.error('Error fetching platforms:', error);
-        throw error;
-      }
-
-      return data;
     },
   });
 };

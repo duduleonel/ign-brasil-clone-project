@@ -49,10 +49,6 @@ export const useCommunity = (slug: string) => {
         throw error;
       }
 
-      if (!data) {
-        return null;
-      }
-
       return data as Community;
     },
   });

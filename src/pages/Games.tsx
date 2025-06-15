@@ -1,104 +1,124 @@
 
 import React, { useState } from 'react';
-import { Search, Filter } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Search, Filter, Calendar, Monitor } from 'lucide-react';
+import { useGames } from '@/hooks/useGames';
+import GameCard from '@/components/GameCard';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import GameCard from '@/components/GameCard';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useGames, useGenres, usePlatforms } from '@/hooks/useGames';
-import { useNavigate } from 'react-router-dom';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 const Games = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedGenre, setSelectedGenre] = useState('');
-  const [selectedPlatform, setSelectedPlatform] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState<string>('');
+  const [selectedPlatform, setSelectedPlatform] = useState<string>('');
+  
+  const { data: games, isLoading, error } = useGames();
 
-  const { data: games, isLoading } = useGames();
-  const { data: genres } = useGenres();
-  const { data: platforms } = usePlatforms();
+  const genres = ['Ação', 'Aventura', 'RPG', 'Estratégia', 'Simulação', 'Esportes', 'Corrida', 'Puzzle', 'Terror', 'Luta'];
+  const platforms = ['PC', 'PlayStation 5', 'Xbox Series X/S', 'Nintendo Switch', 'Neo Geo'];
 
   const filteredGames = games?.filter(game => {
     const matchesSearch = game.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesGenre = !selectedGenre || game.genres?.some(g => g.slug === selectedGenre);
-    const matchesPlatform = !selectedPlatform || game.platforms?.some(p => p.slug === selectedPlatform);
+    const matchesGenre = !selectedGenre || game.genres?.some(genre => genre.name === selectedGenre);
+    const matchesPlatform = !selectedPlatform || game.platforms?.some(platform => platform.name === selectedPlatform);
     
     return matchesSearch && matchesGenre && matchesPlatform;
-  });
+  }) || [];
+
+  const handleGameClick = (slug: string) => {
+    navigate(`/jogos/${slug}`);
+  };
+
+  const clearFilters = () => {
+    setSearchTerm('');
+    setSelectedGenre('');
+    setSelectedPlatform('');
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <Header />
       
       <main className="container mx-auto px-4 py-8">
-        {/* Header da página */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
             Central de Jogos
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400">
-            Descubra os melhores jogos de todas as plataformas
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Descubra os melhores jogos com informações detalhadas, screenshots e análises completas.
           </p>
         </div>
 
-        {/* Filtros e busca */}
-        <div className="bg-white dark:bg-gray-900 rounded-lg p-6 mb-8 shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {/* Busca */}
+        {/* Search and Filters */}
+        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
             <div className="relative">
-              <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Input
                 placeholder="Buscar jogos..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                className="pl-10"
               />
             </div>
-
-            {/* Filtro por gênero */}
+            
             <select
               value={selectedGenre}
               onChange={(e) => setSelectedGenre(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
             >
               <option value="">Todos os gêneros</option>
-              {genres?.map((genre) => (
-                <option key={genre.slug} value={genre.slug}>
-                  {genre.name}
-                </option>
+              {genres.map(genre => (
+                <option key={genre} value={genre}>{genre}</option>
               ))}
             </select>
 
-            {/* Filtro por plataforma */}
             <select
               value={selectedPlatform}
               onChange={(e) => setSelectedPlatform(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
             >
               <option value="">Todas as plataformas</option>
-              {platforms?.map((platform) => (
-                <option key={platform.slug} value={platform.slug}>
-                  {platform.name}
-                </option>
+              {platforms.map(platform => (
+                <option key={platform} value={platform}>{platform}</option>
               ))}
             </select>
 
-            {/* Botão limpar filtros */}
-            <button
-              onClick={() => {
-                setSearchTerm('');
-                setSelectedGenre('');
-                setSelectedPlatform('');
-              }}
-              className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
-            >
-              Limpar filtros
-            </button>
+            <Button onClick={clearFilters} variant="outline">
+              <Filter size={16} className="mr-2" />
+              Limpar Filtros
+            </Button>
           </div>
+
+          {/* Active Filters */}
+          {(selectedGenre || selectedPlatform || searchTerm) && (
+            <div className="flex flex-wrap gap-2">
+              {searchTerm && (
+                <Badge variant="secondary">
+                  Busca: {searchTerm}
+                </Badge>
+              )}
+              {selectedGenre && (
+                <Badge variant="secondary">
+                  Gênero: {selectedGenre}
+                </Badge>
+              )}
+              {selectedPlatform && (
+                <Badge variant="secondary">
+                  Plataforma: {selectedPlatform}
+                </Badge>
+              )}
+            </div>
+          )}
         </div>
 
-        {/* Grade de jogos */}
+        {/* Games Grid */}
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[...Array(12)].map((_, i) => (
@@ -109,22 +129,46 @@ const Games = () => {
               </div>
             ))}
           </div>
-        ) : filteredGames && filteredGames.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredGames.map((game) => (
-              <GameCard
-                key={game.id}
-                game={game}
-                onClick={() => navigate(`/jogos/${game.slug}`)}
-              />
-            ))}
+        ) : error ? (
+          <div className="text-center py-12">
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-8">
+              <h3 className="text-lg font-semibold text-red-800 dark:text-red-400 mb-2">
+                Erro ao carregar jogos
+              </h3>
+              <p className="text-red-600 dark:text-red-300">
+                Não foi possível carregar a lista de jogos. Tente novamente mais tarde.
+              </p>
+            </div>
+          </div>
+        ) : filteredGames.length === 0 ? (
+          <div className="text-center py-12">
+            <div className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                Nenhum jogo encontrado
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                Tente ajustar os filtros ou buscar por outros termos.
+              </p>
+            </div>
           </div>
         ) : (
-          <div className="text-center py-12">
-            <p className="text-gray-600 dark:text-gray-400 text-lg">
-              Nenhum jogo encontrado com os filtros selecionados.
-            </p>
-          </div>
+          <>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                {filteredGames.length} {filteredGames.length === 1 ? 'jogo encontrado' : 'jogos encontrados'}
+              </h2>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredGames.map((game) => (
+                <GameCard 
+                  key={game.id} 
+                  game={game} 
+                  onClick={() => handleGameClick(game.slug)}
+                />
+              ))}
+            </div>
+          </>
         )}
       </main>
 
