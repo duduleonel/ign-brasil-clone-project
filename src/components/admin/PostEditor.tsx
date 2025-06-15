@@ -338,6 +338,7 @@ const PostEditor: React.FC<PostEditorProps> = ({ postId, onBack }) => {
                   <SelectValue placeholder="Selecione uma categoria" />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="none">Nenhuma categoria</SelectItem>
                   {categories?.map((category) => (
                     <SelectItem key={category.id} value={category.id}>
                       {category.name}
@@ -349,12 +350,12 @@ const PostEditor: React.FC<PostEditorProps> = ({ postId, onBack }) => {
 
             <div className="space-y-2">
               <Label htmlFor="game">Jogo Relacionado</Label>
-              <Select value={formData.game_id} onValueChange={(value) => handleInputChange('game_id', value)}>
+              <Select value={formData.game_id} onValueChange={(value) => handleInputChange('game_id', value === 'none' ? '' : value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Selecione um jogo (opcional)" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Nenhum jogo</SelectItem>
+                  <SelectItem value="none">Nenhum jogo</SelectItem>
                   {games?.map((game) => (
                     <SelectItem key={game.id} value={game.id}>
                       {game.title}
@@ -366,23 +367,25 @@ const PostEditor: React.FC<PostEditorProps> = ({ postId, onBack }) => {
           </div>
 
           {/* Tags Selection */}
-          <div className="space-y-2">
-            <Label>Tags</Label>
-            <div className="grid grid-cols-3 gap-2 max-h-40 overflow-y-auto border rounded p-3">
-              {tags?.map((tag) => (
-                <div key={tag.id} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={tag.id}
-                    checked={selectedTags.includes(tag.id)}
-                    onCheckedChange={() => handleTagToggle(tag.id)}
-                  />
-                  <Label htmlFor={tag.id} className="text-sm cursor-pointer">
-                    {tag.name}
-                  </Label>
-                </div>
-              ))}
+          {tags && tags.length > 0 && (
+            <div className="space-y-2">
+              <Label>Tags</Label>
+              <div className="grid grid-cols-3 gap-2 max-h-40 overflow-y-auto border rounded p-3">
+                {tags.map((tag) => (
+                  <div key={tag.id} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={tag.id}
+                      checked={selectedTags.includes(tag.id)}
+                      onCheckedChange={() => handleTagToggle(tag.id)}
+                    />
+                    <Label htmlFor={tag.id} className="text-sm cursor-pointer">
+                      {tag.name}
+                    </Label>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">

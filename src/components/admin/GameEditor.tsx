@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import React, { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -35,6 +35,44 @@ const GameEditor: React.FC<GameEditorProps> = ({ gameId, onBack }) => {
     is_featured: false
   });
 
+  // Fetch existing game data if editing
+  const { data: existingGame } = useQuery({
+    queryKey: ['game', gameId],
+    queryFn: async () => {
+      if (!gameId) return null;
+      const { data, error } = await supabase
+        .from('games')
+        .select('*')
+        .eq('id', gameId)
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!gameId,
+  });
+
+  // Load existing game data
+  useEffect(() => {
+    if (existingGame) {
+      setFormData({
+        title: existingGame.title || '',
+        slug: existingGame.slug || '',
+        summary: existingGame.summary || '',
+        featured_image: existingGame.featured_image || '',
+        cover_image: existingGame.cover_image || '',
+        cartridge_image: existingGame.cartridge_image || '',
+        trailer_url: existingGame.trailer_url || '',
+        release_date: existingGame.release_date || '',
+        price: existingGame.price?.toString() || '',
+        rating: existingGame.rating?.toString() || '',
+        metacritic_score: existingGame.metacritic_score?.toString() || '',
+        esrb_rating: existingGame.esrb_rating || '',
+        is_featured: existingGame.is_featured || false
+      });
+    }
+  }, [existingGame]);
+
   const createGameMutation = useMutation({
     mutationFn: async (data: any) => {
       const gameData = {
@@ -45,24 +83,35 @@ const GameEditor: React.FC<GameEditorProps> = ({ gameId, onBack }) => {
         release_date: data.release_date || null
       };
 
-      const { error } = await supabase
-        .from('games')
-        .insert(gameData);
-      
-      if (error) throw error;
+      if (gameId) {
+        // Update existing game
+        const { error } = await supabase
+          .from('games')
+          .update(gameData)
+          .eq('id', gameId);
+        
+        if (error) throw error;
+      } else {
+        // Create new game
+        const { error } = await supabase
+          .from('games')
+          .insert(gameData);
+        
+        if (error) throw error;
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['games'] });
       toast({
-        title: "Jogo criado",
-        description: "O jogo foi criado com sucesso.",
+        title: gameId ? "Jogo atualizado" : "Jogo criado",
+        description: gameId ? "O jogo foi atualizado com sucesso." : "O jogo foi criado com sucesso.",
       });
       onBack();
     },
     onError: () => {
       toast({
-        title: "Erro ao criar jogo",
-        description: "Houve um erro ao criar o jogo.",
+        title: "Erro ao salvar jogo",
+        description: "Houve um erro ao salvar o jogo.",
         variant: "destructive",
       });
     },
@@ -77,7 +126,7 @@ const GameEditor: React.FC<GameEditorProps> = ({ gameId, onBack }) => {
     setFormData(prev => ({
       ...prev,
       [field]: value,
-      ...(field === 'title' && typeof value === 'string' && { 
+      ...(field === 'title' && typeof value === 'string' && !gameId && { 
         slug: value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') 
       })
     }));
@@ -244,7 +293,7 @@ const GameEditor: React.FC<GameEditorProps> = ({ gameId, onBack }) => {
 
           <div className="flex gap-2">
             <Button type="submit" disabled={createGameMutation.isPending}>
-              {createGameMutation.isPending ? 'Salvando...' : 'Salvar Jogo'}
+              {createGameMutation.isPending ? 'Salvando...' : (gameId ? 'Atualizar Jogo' : 'Salvar Jogo')}
             </Button>
             <Button type="button" variant="outline" onClick={onBack}>
               Cancelar
