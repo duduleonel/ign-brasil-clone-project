@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, Menu, X, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +5,16 @@ import ThemeToggle from './ThemeToggle';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/busca?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery('');
+    }
+  };
 
   return (
     <header className="bg-white dark:bg-black text-gray-900 dark:text-white sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800">
@@ -41,20 +49,36 @@ const Header = () => {
 
           {/* Search, theme toggle and user */}
           <div className="flex items-center space-x-4">
-            <div className="hidden md:flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg px-3 py-2">
+            <form onSubmit={handleSearch} className="hidden md:flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg px-3 py-2">
               <Search size={20} className="text-gray-500 dark:text-gray-400 mr-2" />
               <input 
                 type="text" 
                 placeholder="Buscar..." 
-                className="bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 outline-none"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 outline-none w-40"
               />
-            </div>
+            </form>
             <ThemeToggle />
             <button className="flex items-center space-x-2 bg-green-600 px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-white">
               <User size={18} />
               <span className="hidden sm:inline">Login</span>
             </button>
           </div>
+        </div>
+
+        {/* Mobile Search */}
+        <div className="md:hidden pb-4">
+          <form onSubmit={handleSearch} className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg px-3 py-2">
+            <Search size={20} className="text-gray-500 dark:text-gray-400 mr-2" />
+            <input 
+              type="text" 
+              placeholder="Buscar posts, jogos..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 outline-none flex-1"
+            />
+          </form>
         </div>
 
         {/* Navigation */}

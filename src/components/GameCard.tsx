@@ -1,6 +1,6 @@
-
 import React from 'react';
 import { Calendar, Monitor, Star } from 'lucide-react';
+import FavoriteButton from './FavoriteButton';
 import type { Game } from '@/types/database';
 
 interface GameCardProps {
@@ -37,9 +37,20 @@ const GameCard: React.FC<GameCardProps> = ({ game, onClick }) => {
           </div>
         )}
 
+        {/* Favorite Button */}
+        <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <FavoriteButton 
+            itemId={game.id} 
+            itemType="game"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          />
+        </div>
+
         {/* Metacritic Score */}
         {game.metacritic_score && (
-          <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute bottom-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity">
             <div className={`px-2 py-1 rounded text-white text-xs font-bold ${
               game.metacritic_score >= 75 ? 'bg-green-600' :
               game.metacritic_score >= 50 ? 'bg-yellow-500' : 'bg-red-500'

@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { TrendingUp, Calendar, MessageCircle, Download, Gamepad2 } from 'lucide-react';
+import { TrendingUp, Calendar, Download, Gamepad2 } from 'lucide-react';
+import NewsletterSignup from './NewsletterSignup';
 
 const Sidebar = () => {
   const trendingNews = [
@@ -30,13 +31,13 @@ const Sidebar = () => {
       {/* Trending */}
       <div className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700">
         <h3 className="text-gray-900 dark:text-white font-bold text-xl mb-4 flex items-center">
-          <TrendingUp className="mr-2 text-orange-500" size={24} />
+          <TrendingUp className="mr-2 text-green-600" size={24} />
           Em alta
         </h3>
         <ul className="space-y-3">
           {trendingNews.map((news, index) => (
             <li key={index} className="border-b border-gray-200 dark:border-gray-800 pb-3 last:border-b-0">
-              <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">
+              <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors text-sm">
                 {news}
               </a>
             </li>
@@ -47,7 +48,7 @@ const Sidebar = () => {
       {/* Upcoming Releases */}
       <div className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700">
         <h3 className="text-gray-900 dark:text-white font-bold text-xl mb-4 flex items-center">
-          <Calendar className="mr-2 text-orange-500" size={24} />
+          <Calendar className="mr-2 text-green-600" size={24} />
           Próximos lançamentos
         </h3>
         <ul className="space-y-3">
@@ -55,10 +56,10 @@ const Sidebar = () => {
             <li key={index} className="border-b border-gray-200 dark:border-gray-800 pb-3 last:border-b-0">
               <div className="flex justify-between items-start">
                 <div>
-                  <span className="text-gray-700 dark:text-gray-300 font-medium">{release.name}</span>
+                  <span className="text-gray-700 dark:text-gray-300 font-medium text-sm">{release.name}</span>
                   <div className="text-xs text-gray-500 dark:text-gray-400">{release.engine}</div>
                 </div>
-                <span className="text-orange-600 dark:text-orange-400 text-sm">{release.date}</span>
+                <span className="text-green-600 dark:text-green-400 text-sm">{release.date}</span>
               </div>
             </li>
           ))}
@@ -68,7 +69,7 @@ const Sidebar = () => {
       {/* Featured Downloads */}
       <div className="bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700">
         <h3 className="text-gray-900 dark:text-white font-bold text-xl mb-4 flex items-center">
-          <Download className="mr-2 text-orange-500" size={24} />
+          <Download className="mr-2 text-green-600" size={24} />
           Downloads em destaque
         </h3>
         <ul className="space-y-3">
@@ -76,10 +77,10 @@ const Sidebar = () => {
             <li key={index} className="border-b border-gray-200 dark:border-gray-800 pb-3 last:border-b-0">
               <div className="flex justify-between items-start">
                 <div>
-                  <span className="text-gray-700 dark:text-gray-300 font-medium">{item.name}</span>
+                  <span className="text-gray-700 dark:text-gray-300 font-medium text-sm">{item.name}</span>
                   <div className="text-xs text-gray-500 dark:text-gray-400">{item.type}</div>
                 </div>
-                <span className="text-orange-600 dark:text-orange-400 text-sm">{item.downloads}</span>
+                <span className="text-green-600 dark:text-green-400 text-sm">{item.downloads}</span>
               </div>
             </li>
           ))}
@@ -87,25 +88,7 @@ const Sidebar = () => {
       </div>
 
       {/* Newsletter */}
-      <div className="bg-gradient-to-br from-orange-600 to-orange-800 rounded-lg p-6">
-        <h3 className="text-white font-bold text-xl mb-4 flex items-center">
-          <MessageCircle className="mr-2" size={24} />
-          Newsletter
-        </h3>
-        <p className="text-white/90 mb-4">
-          Receba as últimas notícias sobre Mugen, Ikemen GO e OpenBOR direto no seu email.
-        </p>
-        <div className="space-y-3">
-          <input 
-            type="email" 
-            placeholder="Seu email" 
-            className="w-full px-4 py-2 rounded-lg bg-white/20 text-white placeholder-white/70 border border-white/30 focus:outline-none focus:border-white"
-          />
-          <button className="w-full bg-white text-orange-600 font-bold py-2 rounded-lg hover:bg-gray-100 transition-colors">
-            Inscrever-se
-          </button>
-        </div>
-      </div>
+      <NewsletterSignup />
     </aside>
   );
 };

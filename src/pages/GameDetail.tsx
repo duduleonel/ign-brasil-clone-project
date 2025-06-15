@@ -6,6 +6,7 @@ import { useGame } from '@/hooks/useGames';
 import { usePosts } from '@/hooks/usePosts';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Breadcrumb from '@/components/Breadcrumb';
 import ArticleCard from '@/components/ArticleCard';
 import GameReviews from '@/components/GameReviews';
 import GameHeader from '@/components/GameHeader';
@@ -26,6 +27,11 @@ const GameDetail = () => {
 
   const { data: game, isLoading: gameLoading, error: gameError } = useGame(slug);
   const { data: relatedPosts, isLoading: postsLoading } = usePosts(6, undefined, game?.id);
+
+  const breadcrumbItems = [
+    { label: 'Jogos', href: '/jogos' },
+    { label: game?.title || 'Carregando...' }
+  ];
 
   if (gameLoading) {
     return (
@@ -53,6 +59,7 @@ const GameDetail = () => {
       <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
         <Header />
         <main className="container mx-auto px-4 py-8">
+          <Breadcrumb items={[{ label: 'Jogos', href: '/jogos' }, { label: 'Jogo não encontrado' }]} />
           <div className="text-center py-12">
             <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-8">
               <h3 className="text-lg font-semibold text-red-800 dark:text-red-400 mb-2">
@@ -76,6 +83,8 @@ const GameDetail = () => {
       <Header />
       
       <main className="container mx-auto px-4 py-8">
+        <Breadcrumb items={breadcrumbItems} />
+        
         {/* Back Button */}
         <Button 
           variant="ghost" 
