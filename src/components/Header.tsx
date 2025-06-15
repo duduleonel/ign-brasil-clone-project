@@ -1,187 +1,145 @@
+
 import React, { useState } from 'react';
-import { Search, Menu, X, User } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Menu, X, Search, User, Settings, Send } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
+import SearchBar from './SearchBar';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/busca?q=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery('');
+  const navigationItems = [
+    { name: 'Início', href: '/' },
+    { name: 'Notícias', href: '/categoria/noticias' },
+    { name: 'Reviews', href: '/categoria/reviews' },
+    { name: 'Tutoriais', href: '/categoria/tutoriais' },
+    { name: 'Downloads', href: '/categoria/downloads' },
+    { name: 'Jogos', href: '/jogos' },
+    { name: 'Comunidades', href: '/comunidades' },
+  ];
+
+  const isActivePath = (path: string) => {
+    if (path === '/') {
+      return location.pathname === '/';
     }
+    return location.pathname.startsWith(path);
   };
 
   return (
-    <header className="bg-white dark:bg-black text-gray-900 dark:text-white sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800">
-      {/* Top bar */}
-      <div className="bg-green-600 text-center py-1 text-sm text-white">
-        <span>🦀 Portal dedicado ao universo Mugen, Ikemen GO e OpenBOR</span>
-      </div>
-      
-      {/* Main header */}
+    <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between py-4">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">RG</span>
+            </div>
+            <span className="text-xl font-bold text-gray-900 dark:text-white">
+              Retro Games Brasil
+            </span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center space-x-8">
+            {navigationItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.href}
+                className={`text-sm font-medium transition-colors hover:text-green-600 ${
+                  isActivePath(item.href)
+                    ? 'text-green-600 dark:text-green-400'
+                    : 'text-gray-700 dark:text-gray-300'
+                }`}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Right side actions */}
           <div className="flex items-center space-x-4">
-            <button 
-              className="lg:hidden"
+            {/* Search Bar - Desktop */}
+            <div className="hidden md:block">
+              <SearchBar />
+            </div>
+
+            {/* Submit Post Button */}
+            <Link
+              to="/enviar-post"
+              className="hidden md:flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
+            >
+              <Send size={16} />
+              <span>Enviar Post</span>
+            </Link>
+
+            {/* Admin Button */}
+            <Link
+              to="/admin"
+              className="hidden md:flex items-center space-x-2 bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
+            >
+              <Settings size={16} />
+              <span>Admin</span>
+            </Link>
+
+            <ThemeToggle />
+
+            {/* Mobile menu button */}
+            <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="lg:hidden p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-green-600"
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-            <div 
-              className="flex items-center space-x-3 cursor-pointer"
-              onClick={() => navigate('/')}
-            >
-              <img 
-                src="/lovable-uploads/ddac5907-a0a4-4669-8787-e10cddaadfb8.png" 
-                alt="The Crab Games Logo" 
-                className="w-12 h-12"
-              />
-              <h1 className="text-3xl font-bold text-green-600">THE CRAB GAMES</h1>
+          </div>
+        </div>
+
+        {/* Mobile Navigation */}
+        {isMenuOpen && (
+          <div className="lg:hidden py-4 border-t border-gray-200 dark:border-gray-700">
+            {/* Mobile Search */}
+            <div className="mb-4 md:hidden">
+              <SearchBar />
             </div>
+
+            <nav className="space-y-2">
+              {navigationItems.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`block py-2 text-sm font-medium transition-colors hover:text-green-600 ${
+                    isActivePath(item.href)
+                      ? 'text-green-600 dark:text-green-400'
+                      : 'text-gray-700 dark:text-gray-300'
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              ))}
+              
+              {/* Mobile Submit Post */}
+              <Link
+                to="/enviar-post"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center space-x-2 py-2 text-sm font-medium text-green-600 dark:text-green-400"
+              >
+                <Send size={16} />
+                <span>Enviar Post</span>
+              </Link>
+
+              {/* Mobile Admin */}
+              <Link
+                to="/admin"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center space-x-2 py-2 text-sm font-medium text-gray-600 dark:text-gray-400"
+              >
+                <Settings size={16} />
+                <span>Admin</span>
+              </Link>
+            </nav>
           </div>
-
-          {/* Search, theme toggle and user */}
-          <div className="flex items-center space-x-4">
-            <form onSubmit={handleSearch} className="hidden md:flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg px-3 py-2">
-              <Search size={20} className="text-gray-500 dark:text-gray-400 mr-2" />
-              <input 
-                type="text" 
-                placeholder="Buscar..." 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 outline-none w-40"
-              />
-            </form>
-            <ThemeToggle />
-            <button className="flex items-center space-x-2 bg-green-600 px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-white">
-              <User size={18} />
-              <span className="hidden sm:inline">Login</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Search */}
-        <div className="md:hidden pb-4">
-          <form onSubmit={handleSearch} className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg px-3 py-2">
-            <Search size={20} className="text-gray-500 dark:text-gray-400 mr-2" />
-            <input 
-              type="text" 
-              placeholder="Buscar posts, jogos..." 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 outline-none flex-1"
-            />
-          </form>
-        </div>
-
-        {/* Navigation */}
-        <nav className={`${isMenuOpen ? 'block' : 'hidden'} lg:block border-t border-gray-200 dark:border-gray-800 pt-4 pb-2`}>
-          <ul className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-8">
-            <li>
-              <button 
-                onClick={() => navigate('/')}
-                className="block py-2 text-green-600 hover:text-green-500 font-semibold"
-              >
-                HOME
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => navigate('/jogos')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
-              >
-                JOGOS
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => navigate('/comunidades')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
-              >
-                COMUNIDADES
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => navigate('/categoria/noticias')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
-              >
-                NOTÍCIAS
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => navigate('/categoria/reportagens')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
-              >
-                REPORTAGENS
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => navigate('/categoria/entrevistas')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
-              >
-                ENTREVISTAS
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => navigate('/categoria/reviews')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
-              >
-                REVIEWS
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => navigate('/categoria/tutoriais')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
-              >
-                TUTORIAIS
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => navigate('/categoria/downloads')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
-              >
-                DOWNLOADS
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => navigate('/categoria/mugen')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
-              >
-                MUGEN
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => navigate('/categoria/ikemen-go')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
-              >
-                IKEMEN GO
-              </button>
-            </li>
-            <li>
-              <button 
-                onClick={() => navigate('/categoria/openbor')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
-              >
-                OPENBOR
-              </button>
-            </li>
-          </ul>
-        </nav>
+        )}
       </div>
     </header>
   );
