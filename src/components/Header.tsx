@@ -84,15 +84,78 @@ const Header = () => {
                 COMUNIDADES
               </button>
             </li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">NOTÍCIAS</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">REPORTAGENS</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">ENTREVISTAS</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">REVIEWS</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">TUTORIAIS</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">DOWNLOADS</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">MUGEN</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">IKEMEN GO</a></li>
-            <li><a href="#" className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">OPENBOR</a></li>
+            <li>
+              <button 
+                onClick={() => navigate('/categoria/noticias')}
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+              >
+                NOTÍCIAS
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => navigate('/categoria/reportagens')}
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+              >
+                REPORTAGENS
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => navigate('/categoria/entrevistas')}
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+              >
+                ENTREVISTAS
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => navigate('/categoria/reviews')}
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+              >
+                REVIEWS
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => navigate('/categoria/tutoriais')}
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+              >
+                TUTORIAIS
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => navigate('/categoria/downloads')}
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+              >
+                DOWNLOADS
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => navigate('/categoria/mugen')}
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+              >
+                MUGEN
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => navigate('/categoria/ikemen-go')}
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+              >
+                IKEMEN GO
+              </button>
+            </li>
+            <li>
+              <button 
+                onClick={() => navigate('/categoria/openbor')}
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+              >
+                OPENBOR
+              </button>
+            </li>
           </ul>
         </nav>
       </div>

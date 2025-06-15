@@ -9,6 +9,7 @@ import Games from "./pages/Games";
 import GameDetail from "./pages/GameDetail";
 import Communities from "./pages/Communities";
 import CommunityDetail from "./pages/CommunityDetail";
+import Category from "./pages/Category";
 import NotFound from "./pages/NotFound";
 import ThemeProvider from "./components/ThemeProvider";
 
@@ -27,6 +28,7 @@ const App = () => (
             <Route path="/jogos/:slug" element={<GameDetail />} />
             <Route path="/comunidades" element={<Communities />} />
             <Route path="/comunidades/:slug" element={<CommunityDetail />} />
+            <Route path="/categoria/:slug" element={<Category />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
