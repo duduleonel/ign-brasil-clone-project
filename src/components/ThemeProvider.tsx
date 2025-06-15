@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ThemeProvider as NextThemesProvider, useTheme } from 'next-themes';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
 
 interface ThemeProviderProps {
   children: React.ReactNode;
@@ -25,4 +25,4 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({
   );
 };
 
-export { ThemeProvider, useTheme };
+export default ThemeProvider;
