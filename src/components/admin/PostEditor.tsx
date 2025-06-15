@@ -3,14 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { ArrowLeft, Video, Image } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
+import PostBasicInfo from './post-editor/PostBasicInfo';
+import MediaSelector from './post-editor/MediaSelector';
+import CategoryGameSelector from './post-editor/CategoryGameSelector';
+import TagSelector from './post-editor/TagSelector';
+import PostMetadata from './post-editor/PostMetadata';
 
 interface PostEditorProps {
   postId?: string;
@@ -224,13 +224,6 @@ const PostEditor: React.FC<PostEditorProps> = ({ postId, onBack }) => {
     );
   };
 
-  const getMediaPlaceholder = () => {
-    if (mediaType === 'video') {
-      return 'URL do vídeo (YouTube, Vimeo, etc.)';
-    }
-    return 'URL da imagem';
-  };
-
   return (
     <Card>
       <CardHeader>
@@ -248,170 +241,37 @@ const PostEditor: React.FC<PostEditorProps> = ({ postId, onBack }) => {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="title">Título</Label>
-              <Input
-                id="title"
-                value={formData.title}
-                onChange={(e) => handleInputChange('title', e.target.value)}
-                placeholder="Digite o título do post"
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="slug">Slug</Label>
-              <Input
-                id="slug"
-                value={formData.slug}
-                onChange={(e) => handleInputChange('slug', e.target.value)}
-                placeholder="slug-do-post"
-                required
-              />
-            </div>
-          </div>
+          <PostBasicInfo 
+            formData={formData}
+            onInputChange={handleInputChange}
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="excerpt">Resumo</Label>
-            <Textarea
-              id="excerpt"
-              value={formData.excerpt}
-              onChange={(e) => handleInputChange('excerpt', e.target.value)}
-              placeholder="Breve descrição do post"
-              rows={3}
-            />
-          </div>
+          <MediaSelector
+            mediaType={mediaType}
+            setMediaType={setMediaType}
+            featuredImage={formData.featured_image}
+            onInputChange={handleInputChange}
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="content">Conteúdo</Label>
-            <Textarea
-              id="content"
-              value={formData.content}
-              onChange={(e) => handleInputChange('content', e.target.value)}
-              placeholder="Conteúdo completo do post"
-              rows={10}
-            />
-          </div>
+          <CategoryGameSelector
+            categories={categories}
+            games={games}
+            categoryId={formData.category_id}
+            gameId={formData.game_id}
+            onInputChange={handleInputChange}
+          />
 
-          {/* Media Type Selection */}
-          <div className="space-y-2">
-            <Label>Tipo de Mídia Destacada</Label>
-            <div className="flex gap-4">
-              <Button
-                type="button"
-                variant={mediaType === 'image' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setMediaType('image')}
-              >
-                <Image size={16} className="mr-2" />
-                Imagem
-              </Button>
-              <Button
-                type="button"
-                variant={mediaType === 'video' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setMediaType('video')}
-              >
-                <Video size={16} className="mr-2" />
-                Vídeo
-              </Button>
-            </div>
-          </div>
+          <TagSelector
+            tags={tags}
+            selectedTags={selectedTags}
+            onTagToggle={handleTagToggle}
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="featured_image">
-              {mediaType === 'video' ? 'Vídeo Destacado' : 'Imagem Destacada'}
-            </Label>
-            <Input
-              id="featured_image"
-              value={formData.featured_image}
-              onChange={(e) => handleInputChange('featured_image', e.target.value)}
-              placeholder={getMediaPlaceholder()}
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="category">Categoria</Label>
-              <Select value={formData.category_id} onValueChange={(value) => handleInputChange('category_id', value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Selecione uma categoria" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="none">Nenhuma categoria</SelectItem>
-                  {categories?.map((category) => (
-                    <SelectItem key={category.id} value={category.id}>
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="game">Jogo Relacionado</Label>
-              <Select value={formData.game_id} onValueChange={(value) => handleInputChange('game_id', value === 'none' ? '' : value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Selecione um jogo (opcional)" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="none">Nenhum jogo</SelectItem>
-                  {games?.map((game) => (
-                    <SelectItem key={game.id} value={game.id}>
-                      {game.title}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {/* Tags Selection */}
-          {tags && tags.length > 0 && (
-            <div className="space-y-2">
-              <Label>Tags</Label>
-              <div className="grid grid-cols-3 gap-2 max-h-40 overflow-y-auto border rounded p-3">
-                {tags.map((tag) => (
-                  <div key={tag.id} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={tag.id}
-                      checked={selectedTags.includes(tag.id)}
-                      onCheckedChange={() => handleTagToggle(tag.id)}
-                    />
-                    <Label htmlFor={tag.id} className="text-sm cursor-pointer">
-                      {tag.name}
-                    </Label>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="author">Autor</Label>
-              <Input
-                id="author"
-                value={formData.author}
-                onChange={(e) => handleInputChange('author', e.target.value)}
-                placeholder="Nome do autor"
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="status">Status</Label>
-              <Select value={formData.status} onValueChange={(value) => handleInputChange('status', value)}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="draft">Rascunho</SelectItem>
-                  <SelectItem value="published">Publicado</SelectItem>
-                  <SelectItem value="archived">Arquivado</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
+          <PostMetadata
+            author={formData.author}
+            status={formData.status}
+            onInputChange={handleInputChange}
+          />
 
           <div className="flex gap-2">
             <Button type="submit" disabled={createPostMutation.isPending}>
