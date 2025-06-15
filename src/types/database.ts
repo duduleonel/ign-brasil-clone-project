@@ -130,3 +130,30 @@ export interface PostTag {
   post_id: string;
   tag_id: string;
 }
+
+export interface VisitorSubmission {
+  id: string;
+  title: string;
+  content: string;
+  excerpt?: string;
+  author_name: string;
+  author_email: string;
+  category_id?: string;
+  game_id?: string;
+  featured_image?: string;
+  status: 'pending' | 'approved' | 'rejected';
+  admin_notes?: string;
+  created_at: string;
+  updated_at: string;
+  category?: Category;
+  game?: Game;
+}
+
+export interface SiteSetting {
+  id: string;
+  key: string;
+  value: string;
+  description?: string;
+  created_at: string;
+  updated_at: string;
+}
