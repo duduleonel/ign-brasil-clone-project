@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CategoryPosts from '@/components/CategoryPosts';
+import EngineInfo from '@/components/EngineInfo';
 
 const Category = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -22,6 +23,10 @@ const Category = () => {
     };
     
     return categoryMap[slug || ''] || 'Categoria';
+  };
+
+  const isEngineCategory = (slug: string | undefined): boolean => {
+    return ['mugen', 'ikemen-go', 'openbor'].includes(slug || '');
   };
 
   if (!slug) {
@@ -53,6 +58,9 @@ const Category = () => {
             Explore o melhor conteúdo de {getCategoryName(slug).toLowerCase()}
           </p>
         </div>
+
+        {/* Engine Information for specific categories */}
+        {isEngineCategory(slug) && <EngineInfo engineSlug={slug} />}
 
         <CategoryPosts 
           categorySlug={slug} 
