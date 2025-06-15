@@ -10,6 +10,7 @@ import GameDetail from "./pages/GameDetail";
 import Communities from "./pages/Communities";
 import CommunityDetail from "./pages/CommunityDetail";
 import Category from "./pages/Category";
+import PostDetail from "./pages/PostDetail";
 import NotFound from "./pages/NotFound";
 import ThemeProvider from "./components/ThemeProvider";
 
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/comunidades" element={<Communities />} />
             <Route path="/comunidades/:slug" element={<CommunityDetail />} />
             <Route path="/categoria/:slug" element={<Category />} />
+            <Route path="/post/:slug" element={<PostDetail />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

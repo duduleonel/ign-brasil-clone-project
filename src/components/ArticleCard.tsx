@@ -26,8 +26,15 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ post, isLarge = false }) => {
 
   const categoryColor = post.category?.slug ? categoryColors[post.category.slug] || 'bg-gray-600' : 'bg-gray-600';
 
+  const handleClick = () => {
+    navigate(`/post/${post.slug}`);
+  };
+
   return (
-    <article className={`bg-white dark:bg-gray-900 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 cursor-pointer group shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700 ${isLarge ? 'lg:col-span-2 lg:row-span-2' : ''}`}>
+    <article 
+      onClick={handleClick}
+      className={`bg-white dark:bg-gray-900 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 cursor-pointer group shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700 ${isLarge ? 'lg:col-span-2 lg:row-span-2' : ''}`}
+    >
       {/* Jogo relacionado - exibido no topo se existir */}
       {post.game && (
         <div className="bg-gradient-to-r from-orange-600 to-orange-700 p-3">
@@ -46,7 +53,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ post, isLarge = false }) => {
 
       <div className="relative">
         <img 
-          src={post.featured_image ? `https://images.unsplash.com/${post.featured_image}` : 'https://images.unsplash.com/photo-1542751371-adc38448a05e'}
+          src={post.featured_image || 'https://images.unsplash.com/photo-1542751371-adc38448a05e'}
           alt={post.title}
           className={`w-full object-cover ${isLarge ? 'h-64 lg:h-80' : 'h-48'}`}
         />
