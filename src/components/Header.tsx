@@ -1,13 +1,14 @@
 
 import React, { useState } from 'react';
 import { Menu, X, Search, User, Settings, Send } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
 import SearchBar from './SearchBar';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navigationItems = [
     { name: 'Início', href: '/' },
@@ -24,6 +25,12 @@ const Header = () => {
       return location.pathname === '/';
     }
     return location.pathname.startsWith(path);
+  };
+
+  const handleSearch = (query: string, filters: any) => {
+    if (query.trim()) {
+      navigate(`/busca?q=${encodeURIComponent(query)}`);
+    }
   };
 
   return (
@@ -61,7 +68,7 @@ const Header = () => {
           <div className="flex items-center space-x-4">
             {/* Search Bar - Desktop */}
             <div className="hidden md:block">
-              <SearchBar />
+              <SearchBar onSearch={handleSearch} />
             </div>
 
             {/* Submit Post Button */}
@@ -99,7 +106,7 @@ const Header = () => {
           <div className="lg:hidden py-4 border-t border-gray-200 dark:border-gray-700">
             {/* Mobile Search */}
             <div className="mb-4 md:hidden">
-              <SearchBar />
+              <SearchBar onSearch={handleSearch} />
             </div>
 
             <nav className="space-y-2">
