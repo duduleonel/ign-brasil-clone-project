@@ -24,7 +24,7 @@ const GameCard: React.FC<GameCardProps> = ({ game, onClick }) => {
       </div>
       
       <div className="p-4">
-        <h3 className="text-gray-900 dark:text-white font-bold text-lg mb-2 line-clamp-2 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+        <h3 className="text-gray-900 dark:text-white font-bold text-lg mb-2 line-clamp-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
           {game.title}
         </h3>
         
@@ -57,7 +57,7 @@ const GameCard: React.FC<GameCardProps> = ({ game, onClick }) => {
             {game.genres.slice(0, 3).map((genre) => (
               <span 
                 key={genre.slug}
-                className="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 text-xs rounded-full"
+                className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs rounded-full"
               >
                 {genre.name}
               </span>
@@ -72,7 +72,7 @@ const GameCard: React.FC<GameCardProps> = ({ game, onClick }) => {
               {new Date(game.release_date).getFullYear()}
             </span>
           )}
-          <span className="text-orange-600 dark:text-orange-400">Ver detalhes →</span>
+          <span className="text-green-600 dark:text-green-400">Ver detalhes →</span>
         </div>
       </div>
     </div>

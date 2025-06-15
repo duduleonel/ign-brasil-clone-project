@@ -70,7 +70,7 @@ const Index = () => {
             <section className="mb-12">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Reviews em Destaque</h2>
-                <a href="#" className="text-orange-600 dark:text-orange-400 hover:text-orange-500 transition-colors">
+                <a href="#" className="text-green-600 dark:text-green-400 hover:text-green-500 transition-colors">
                   Ver todos →
                 </a>
               </div>
@@ -94,7 +94,7 @@ const Index = () => {
             <section>
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Últimas Publicações</h2>
-                <a href="#" className="text-orange-600 dark:text-orange-400 hover:text-orange-500 transition-colors">
+                <a href="#" className="text-green-600 dark:text-green-400 hover:text-green-500 transition-colors">
                   Ver todas →
                 </a>
               </div>

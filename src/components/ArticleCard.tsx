@@ -16,7 +16,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ post, isLarge = false }) => {
     'noticias': 'bg-blue-600',
     'reportagens': 'bg-purple-600',
     'entrevistas': 'bg-green-600',
-    'reviews': 'bg-orange-600',
+    'reviews': 'bg-green-600',
     'tutoriais': 'bg-yellow-600',
     'downloads': 'bg-red-600',
     'mugen': 'bg-indigo-600',
@@ -37,7 +37,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ post, isLarge = false }) => {
     >
       {/* Jogo relacionado - exibido no topo se existir */}
       {post.game && (
-        <div className="bg-gradient-to-r from-orange-600 to-orange-700 p-3">
+        <div className="bg-gradient-to-r from-green-600 to-green-700 p-3">
           <div 
             className="flex items-center text-white hover:bg-white/10 rounded-lg p-2 transition-colors cursor-pointer"
             onClick={(e) => {
@@ -66,7 +66,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ post, isLarge = false }) => {
       </div>
       
       <div className="p-6">
-        <h3 className={`text-gray-900 dark:text-white font-bold mb-3 line-clamp-2 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors ${isLarge ? 'text-2xl' : 'text-lg'}`}>
+        <h3 className={`text-gray-900 dark:text-white font-bold mb-3 line-clamp-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors ${isLarge ? 'text-2xl' : 'text-lg'}`}>
           {post.title}
         </h3>
         
@@ -86,7 +86,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ post, isLarge = false }) => {
             </span>
             <span>Por {post.author}</span>
           </div>
-          <span className="text-orange-600 dark:text-orange-400">Ler mais →</span>
+          <span className="text-green-600 dark:text-green-400">Ler mais →</span>
         </div>
         
         {post.tags && post.tags.length > 0 && (

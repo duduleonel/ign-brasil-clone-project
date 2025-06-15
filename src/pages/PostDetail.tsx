@@ -45,7 +45,7 @@ const PostDetail = () => {
             </h1>
             <button 
               onClick={() => navigate('/')}
-              className="text-orange-600 dark:text-orange-400 hover:text-orange-500 transition-colors"
+              className="text-green-600 dark:text-green-400 hover:text-green-500 transition-colors"
             >
               Voltar ao início
             </button>
@@ -60,7 +60,7 @@ const PostDetail = () => {
     'noticias': 'bg-blue-600',
     'reportagens': 'bg-purple-600',
     'entrevistas': 'bg-green-600',
-    'reviews': 'bg-orange-600',
+    'reviews': 'bg-green-600',
     'tutoriais': 'bg-yellow-600',
     'downloads': 'bg-red-600',
     'mugen': 'bg-indigo-600',
@@ -78,7 +78,7 @@ const PostDetail = () => {
         <div className="max-w-4xl mx-auto">
           <button 
             onClick={() => navigate(-1)}
-            className="flex items-center text-orange-600 dark:text-orange-400 hover:text-orange-500 transition-colors mb-6"
+            className="flex items-center text-green-600 dark:text-green-400 hover:text-green-500 transition-colors mb-6"
           >
             <ArrowLeft size={20} className="mr-2" />
             Voltar
@@ -86,7 +86,7 @@ const PostDetail = () => {
 
           {/* Jogo Relacionado - Seção Superior */}
           {post.game && (
-            <div className="bg-gradient-to-r from-orange-600 to-orange-700 rounded-t-lg p-4 mb-0">
+            <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-t-lg p-4 mb-0">
               <div 
                 className="flex items-center justify-between bg-white/10 hover:bg-white/20 rounded-lg p-4 transition-colors cursor-pointer group"
                 onClick={() => navigate(`/jogos/${post.game?.slug}`)}
@@ -99,7 +99,7 @@ const PostDetail = () => {
                     <p className="text-white/80 text-sm font-medium uppercase tracking-wide">
                       Jogo Relacionado
                     </p>
-                    <h2 className="text-white text-xl font-bold group-hover:text-orange-100 transition-colors">
+                    <h2 className="text-white text-xl font-bold group-hover:text-green-100 transition-colors">
                       {post.game.title}
                     </h2>
                     {post.game.summary && (
@@ -163,7 +163,7 @@ const PostDetail = () => {
               </div>
 
               {post.excerpt && (
-                <div className="text-xl text-gray-600 dark:text-gray-400 mb-8 italic border-l-4 border-orange-600 pl-6">
+                <div className="text-xl text-gray-600 dark:text-gray-400 mb-8 italic border-l-4 border-green-600 pl-6">
                   {post.excerpt}
                 </div>
               )}

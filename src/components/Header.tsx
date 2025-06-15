@@ -11,7 +11,7 @@ const Header = () => {
   return (
     <header className="bg-white dark:bg-black text-gray-900 dark:text-white sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800">
       {/* Top bar */}
-      <div className="bg-orange-600 text-center py-1 text-sm text-white">
+      <div className="bg-green-600 text-center py-1 text-sm text-white">
         <span>🦀 Portal dedicado ao universo Mugen, Ikemen GO e OpenBOR</span>
       </div>
       
@@ -35,7 +35,7 @@ const Header = () => {
                 alt="The Crab Games Logo" 
                 className="w-12 h-12"
               />
-              <h1 className="text-3xl font-bold text-orange-500">THE CRAB GAMES</h1>
+              <h1 className="text-3xl font-bold text-green-600">THE CRAB GAMES</h1>
             </div>
           </div>
 
@@ -50,7 +50,7 @@ const Header = () => {
               />
             </div>
             <ThemeToggle />
-            <button className="flex items-center space-x-2 bg-orange-600 px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors text-white">
+            <button className="flex items-center space-x-2 bg-green-600 px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-white">
               <User size={18} />
               <span className="hidden sm:inline">Login</span>
             </button>
@@ -63,7 +63,7 @@ const Header = () => {
             <li>
               <button 
                 onClick={() => navigate('/')}
-                className="block py-2 text-orange-600 hover:text-orange-500 font-semibold"
+                className="block py-2 text-green-600 hover:text-green-500 font-semibold"
               >
                 HOME
               </button>
@@ -71,7 +71,7 @@ const Header = () => {
             <li>
               <button 
                 onClick={() => navigate('/jogos')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
               >
                 JOGOS
               </button>
@@ -79,7 +79,7 @@ const Header = () => {
             <li>
               <button 
                 onClick={() => navigate('/comunidades')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
               >
                 COMUNIDADES
               </button>
@@ -87,7 +87,7 @@ const Header = () => {
             <li>
               <button 
                 onClick={() => navigate('/categoria/noticias')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
               >
                 NOTÍCIAS
               </button>
@@ -95,7 +95,7 @@ const Header = () => {
             <li>
               <button 
                 onClick={() => navigate('/categoria/reportagens')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
               >
                 REPORTAGENS
               </button>
@@ -103,7 +103,7 @@ const Header = () => {
             <li>
               <button 
                 onClick={() => navigate('/categoria/entrevistas')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
               >
                 ENTREVISTAS
               </button>
@@ -111,7 +111,7 @@ const Header = () => {
             <li>
               <button 
                 onClick={() => navigate('/categoria/reviews')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
               >
                 REVIEWS
               </button>
@@ -119,7 +119,7 @@ const Header = () => {
             <li>
               <button 
                 onClick={() => navigate('/categoria/tutoriais')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
               >
                 TUTORIAIS
               </button>
@@ -127,7 +127,7 @@ const Header = () => {
             <li>
               <button 
                 onClick={() => navigate('/categoria/downloads')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
               >
                 DOWNLOADS
               </button>
@@ -135,7 +135,7 @@ const Header = () => {
             <li>
               <button 
                 onClick={() => navigate('/categoria/mugen')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
               >
                 MUGEN
               </button>
@@ -143,7 +143,7 @@ const Header = () => {
             <li>
               <button 
                 onClick={() => navigate('/categoria/ikemen-go')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
               >
                 IKEMEN GO
               </button>
@@ -151,7 +151,7 @@ const Header = () => {
             <li>
               <button 
                 onClick={() => navigate('/categoria/openbor')}
-                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+                className="block py-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
               >
                 OPENBOR
               </button>
