@@ -17,6 +17,7 @@ import SocialShare from '@/components/posts/shared/SocialShare';
 import RelatedPosts from '@/components/posts/shared/RelatedPosts';
 import PostSource from '@/components/posts/shared/PostSource';
 import SocialLogin from '@/components/posts/shared/SocialLogin';
+import RelatedGameBanner from '@/components/posts/shared/RelatedGameBanner';
 
 const PostDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -90,6 +91,11 @@ const PostDetail = () => {
         // Generic template for other categories
         return (
           <div className="max-w-6xl mx-auto">
+            {/* Related Game Banner */}
+            {post.game && (
+              <RelatedGameBanner game={post.game} />
+            )}
+
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
               <div className="lg:col-span-1 order-2 lg:order-1">
                 <TableOfContents content={post.content || ''} />

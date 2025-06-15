@@ -10,6 +10,7 @@ import TableOfContents from '../shared/TableOfContents';
 import DropCap from '../shared/DropCap';
 import SocialShare from '../shared/SocialShare';
 import ImageGallery from '../shared/ImageGallery';
+import RelatedGameBanner from '../shared/RelatedGameBanner';
 import { Message, TabsShortcode, TableShortcode } from '../shared/Shortcodes';
 import RelatedPosts from '../shared/RelatedPosts';
 import PostSource from '../shared/PostSource';
@@ -104,6 +105,11 @@ const ReviewPostTemplate: React.FC<ReviewPostTemplateProps> = ({ post }) => {
         <ArrowLeft size={20} className="mr-2" />
         Voltar
       </button>
+
+      {/* Related Game Banner */}
+      {post.game && (
+        <RelatedGameBanner game={post.game} />
+      )}
 
       {/* Post Header */}
       <PostHeader 

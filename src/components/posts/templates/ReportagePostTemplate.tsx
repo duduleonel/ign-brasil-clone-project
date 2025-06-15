@@ -8,6 +8,7 @@ import TableOfContents from '../shared/TableOfContents';
 import DropCap from '../shared/DropCap';
 import SocialShare from '../shared/SocialShare';
 import ImageGallery from '../shared/ImageGallery';
+import RelatedGameBanner from '../shared/RelatedGameBanner';
 import { Message, Spoiler, ButtonShortcode, TabsShortcode, TableShortcode, AccordionShortcode } from '../shared/Shortcodes';
 import RelatedPosts from '../shared/RelatedPosts';
 import PostSource from '../shared/PostSource';
@@ -66,6 +67,11 @@ const ReportagePostTemplate: React.FC<ReportagePostTemplateProps> = ({ post }) =
         <ArrowLeft size={20} className="mr-2" />
         Voltar
       </button>
+
+      {/* Related Game Banner */}
+      {post.game && (
+        <RelatedGameBanner game={post.game} />
+      )}
 
       {/* Post Header with different layout options */}
       <PostHeader 
