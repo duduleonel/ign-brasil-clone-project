@@ -49,8 +49,12 @@ const VisitorSubmissionForm: React.FC = () => {
   const onSubmit = async (data: SubmissionFormData) => {
     try {
       const submissionData = {
-        ...data,
+        title: data.title,
+        content: data.content,
+        author_name: data.author_name,
+        author_email: data.author_email,
         status: 'pending' as const,
+        excerpt: data.excerpt || undefined,
         category_id: data.category_id || undefined,
         game_id: data.game_id || undefined,
         featured_image: data.featured_image || undefined,
