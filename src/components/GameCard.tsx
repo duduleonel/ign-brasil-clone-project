@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Calendar, Monitor, Star } from 'lucide-react';
 import FavoriteButton from './FavoriteButton';
@@ -38,13 +39,13 @@ const GameCard: React.FC<GameCardProps> = ({ game, onClick }) => {
         )}
 
         {/* Favorite Button */}
-        <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div 
+          className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+          onClick={(e) => e.stopPropagation()}
+        >
           <FavoriteButton 
             itemId={game.id} 
             itemType="game"
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
           />
         </div>
 
