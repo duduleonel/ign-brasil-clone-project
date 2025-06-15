@@ -45,7 +45,15 @@ export interface Game {
   slug: string;
   summary?: string;
   featured_image?: string;
+  cover_image?: string;
   cartridge_image?: string;
+  screenshots?: string[];
+  trailer_url?: string;
+  rating?: number;
+  metacritic_score?: number;
+  esrb_rating?: string;
+  price?: number;
+  is_featured?: boolean;
   release_date?: string;
   created_at: string;
   updated_at: string;
@@ -53,6 +61,24 @@ export interface Game {
   genres?: Genre[];
   publishers?: Company[];
   developers?: Company[];
+}
+
+export interface GameReview {
+  id: string;
+  game_id: string;
+  user_name: string;
+  rating: number;
+  review_text?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AdminUser {
+  id: string;
+  username: string;
+  email: string;
+  password_hash: string;
+  created_at: string;
 }
 
 export interface Community {

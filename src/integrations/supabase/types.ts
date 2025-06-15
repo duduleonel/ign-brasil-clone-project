@@ -9,6 +9,30 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      admin_users: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          password_hash: string
+          username: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          password_hash: string
+          username: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          password_hash?: string
+          username?: string
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string
@@ -233,38 +257,100 @@ export type Database = {
           },
         ]
       }
+      game_reviews: {
+        Row: {
+          created_at: string
+          game_id: string
+          id: string
+          rating: number
+          review_text: string | null
+          updated_at: string
+          user_name: string
+        }
+        Insert: {
+          created_at?: string
+          game_id: string
+          id?: string
+          rating: number
+          review_text?: string | null
+          updated_at?: string
+          user_name: string
+        }
+        Update: {
+          created_at?: string
+          game_id?: string
+          id?: string
+          rating?: number
+          review_text?: string | null
+          updated_at?: string
+          user_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_reviews_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       games: {
         Row: {
           cartridge_image: string | null
+          cover_image: string | null
           created_at: string
+          esrb_rating: string | null
           featured_image: string | null
           id: string
+          is_featured: boolean | null
+          metacritic_score: number | null
+          price: number | null
+          rating: number | null
           release_date: string | null
+          screenshots: string[] | null
           slug: string
           summary: string | null
           title: string
+          trailer_url: string | null
           updated_at: string
         }
         Insert: {
           cartridge_image?: string | null
+          cover_image?: string | null
           created_at?: string
+          esrb_rating?: string | null
           featured_image?: string | null
           id?: string
+          is_featured?: boolean | null
+          metacritic_score?: number | null
+          price?: number | null
+          rating?: number | null
           release_date?: string | null
+          screenshots?: string[] | null
           slug: string
           summary?: string | null
           title: string
+          trailer_url?: string | null
           updated_at?: string
         }
         Update: {
           cartridge_image?: string | null
+          cover_image?: string | null
           created_at?: string
+          esrb_rating?: string | null
           featured_image?: string | null
           id?: string
+          is_featured?: boolean | null
+          metacritic_score?: number | null
+          price?: number | null
+          rating?: number | null
           release_date?: string | null
+          screenshots?: string[] | null
           slug?: string
           summary?: string | null
           title?: string
+          trailer_url?: string | null
           updated_at?: string
         }
         Relationships: []

@@ -8,10 +8,13 @@ interface ReviewCardProps {
   score?: number;
 }
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ post, score = 8 }) => {
+const ReviewCard: React.FC<ReviewCardProps> = ({ post, score }) => {
+  // Use the game's rating if available, otherwise use the provided score or default to 8
+  const gameRating = post.game?.rating || score || 8;
+
   const getScoreColor = (score: number) => {
-    if (score >= 8) return 'text-green-400';
-    if (score >= 6) return 'text-yellow-400';
+    if (score >= 4) return 'text-green-400';
+    if (score >= 3) return 'text-yellow-400';
     return 'text-red-400';
   };
 
@@ -24,8 +27,8 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ post, score = 8 }) => {
           className="w-full h-48 object-cover"
         />
         <div className="absolute top-4 right-4">
-          <div className={`bg-black/80 rounded-lg px-3 py-2 text-2xl font-bold ${getScoreColor(score)}`}>
-            {score}/10
+          <div className={`bg-black/80 rounded-lg px-3 py-2 text-xl font-bold ${getScoreColor(gameRating)}`}>
+            {gameRating.toFixed(1)}/5
           </div>
         </div>
       </div>
@@ -46,7 +49,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ post, score = 8 }) => {
             <Star 
               key={i} 
               size={16} 
-              className={`${i < Math.floor(score/2) ? 'text-yellow-400 fill-current' : 'text-gray-400 dark:text-gray-600'}`}
+              className={`${i < Math.floor(gameRating) ? 'text-yellow-400 fill-current' : 'text-gray-400 dark:text-gray-600'}`}
             />
           ))}
         </div>
