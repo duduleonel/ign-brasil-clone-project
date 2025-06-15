@@ -43,8 +43,15 @@ const GameFilters: React.FC<GameFiltersProps> = ({
   const currentYear = new Date().getFullYear();
   const yearOptions = Array.from({ length: 20 }, (_, i) => currentYear - i);
 
+  // Lidando com o valor dos filtros (transformar 'all' em '')
+  const publisherVal = selectedPublisher === '' ? 'all' : selectedPublisher;
+  const developerVal = selectedDeveloper === '' ? 'all' : selectedDeveloper;
+  const platformVal = selectedPlatform === '' ? 'all' : selectedPlatform;
+  const yearVal = selectedYear === '' ? 'all' : selectedYear;
+  const sortByVal = sortBy === '' ? 'newest' : sortBy;
+
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6 mb-8">
+    <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6 mb-8 border border-gray-200 dark:border-gray-800">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
         <div className="lg:col-span-2">
           <div className="relative">
@@ -59,12 +66,12 @@ const GameFilters: React.FC<GameFiltersProps> = ({
           </div>
         </div>
         
-        <Select value={selectedPublisher} onValueChange={setSelectedPublisher}>
+        <Select value={publisherVal} onValueChange={(val) => setSelectedPublisher(val === 'all' ? '' : val)}>
           <SelectTrigger>
             <SelectValue placeholder="Produtora" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Todas as produtoras</SelectItem>
+            <SelectItem value="all">Todas as produtoras</SelectItem>
             {publishers.map((publisher) => (
               <SelectItem key={publisher.id} value={publisher.id}>
                 {publisher.name}
@@ -73,12 +80,12 @@ const GameFilters: React.FC<GameFiltersProps> = ({
           </SelectContent>
         </Select>
 
-        <Select value={selectedDeveloper} onValueChange={setSelectedDeveloper}>
+        <Select value={developerVal} onValueChange={(val) => setSelectedDeveloper(val === 'all' ? '' : val)}>
           <SelectTrigger>
             <SelectValue placeholder="Editora" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Todas as editoras</SelectItem>
+            <SelectItem value="all">Todas as editoras</SelectItem>
             {developers.map((developer) => (
               <SelectItem key={developer.id} value={developer.id}>
                 {developer.name}
@@ -87,12 +94,12 @@ const GameFilters: React.FC<GameFiltersProps> = ({
           </SelectContent>
         </Select>
 
-        <Select value={selectedPlatform} onValueChange={setSelectedPlatform}>
+        <Select value={platformVal} onValueChange={(val) => setSelectedPlatform(val === 'all' ? '' : val)}>
           <SelectTrigger>
             <SelectValue placeholder="Plataforma" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Todas as plataformas</SelectItem>
+            <SelectItem value="all">Todas as plataformas</SelectItem>
             {platforms.map((platform) => (
               <SelectItem key={platform.id} value={platform.id}>
                 {platform.name}
@@ -101,12 +108,12 @@ const GameFilters: React.FC<GameFiltersProps> = ({
           </SelectContent>
         </Select>
 
-        <Select value={selectedYear} onValueChange={setSelectedYear}>
+        <Select value={yearVal} onValueChange={(val) => setSelectedYear(val === 'all' ? '' : val)}>
           <SelectTrigger>
             <SelectValue placeholder="Ano" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Todos os anos</SelectItem>
+            <SelectItem value="all">Todos os anos</SelectItem>
             {yearOptions.map((year) => (
               <SelectItem key={year} value={year.toString()}>
                 {year}
@@ -115,7 +122,7 @@ const GameFilters: React.FC<GameFiltersProps> = ({
           </SelectContent>
         </Select>
 
-        <Select value={sortBy} onValueChange={setSortBy}>
+        <Select value={sortByVal} onValueChange={setSortBy}>
           <SelectTrigger>
             <SelectValue placeholder="Ordenar por" />
           </SelectTrigger>
