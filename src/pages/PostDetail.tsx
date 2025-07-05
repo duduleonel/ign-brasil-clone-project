@@ -18,17 +18,18 @@ import RelatedPosts from '@/components/posts/shared/RelatedPosts';
 import PostSource from '@/components/posts/shared/PostSource';
 import SocialLogin from '@/components/posts/shared/SocialLogin';
 import RelatedGameBanner from '@/components/posts/shared/RelatedGameBanner';
+import PostContent from '@/components/posts/shared/PostContent';
 
 const PostDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  // LOG para depuração do slug recebido
+  
   console.log('[PostDetail] Slug recebido:', slug);
   const { data: post, isLoading, error } = usePost(slug || '');
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-white dark:bg-gray-950">
         <Header />
         <main className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
@@ -50,7 +51,7 @@ const PostDetail = () => {
 
   if (error || !post) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen bg-white dark:bg-gray-950">
         <Header />
         <main className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto text-center py-12">
@@ -88,18 +89,22 @@ const PostDetail = () => {
       case 'entrevistas':
         return <InterviewPostTemplate post={post} />;
       default:
-        // Generic template for other categories
+        // Modern blog-style template inspired by Foxiz
         return (
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-4xl mx-auto">
             {/* Related Game Banner */}
             {post.game && (
               <RelatedGameBanner game={post.game} />
             )}
 
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-              <div className="lg:col-span-1 order-2 lg:order-1">
-                <TableOfContents content={post.content || ''} />
-                <div className="mt-6">
+            {/* Centered Post Header */}
+            <PostHeader post={post} layout="centered" />
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-12">
+              {/* Sidebar - Table of Contents & Social Share */}
+              <div className="lg:col-span-3 order-2 lg:order-1">
+                <div className="sticky top-8 space-y-6">
+                  <TableOfContents content={post.content || ''} />
                   <SocialShare 
                     title={post.title}
                     text={post.excerpt}
@@ -107,44 +112,52 @@ const PostDetail = () => {
                 </div>
               </div>
 
-              <div className="lg:col-span-3 order-1 lg:order-2">
-                <PostHeader post={post} layout="default" />
-
-                <article className="prose prose-lg dark:prose-invert max-w-none">
+              {/* Main Content */}
+              <div className="lg:col-span-9 order-1 lg:order-2">
+                <article className="bg-white dark:bg-gray-900 rounded-2xl p-8 lg:p-12 shadow-lg">
+                  {/* Drop Cap Intro */}
                   {post.excerpt && (
                     <DropCap>
                       {post.excerpt}
                     </DropCap>
                   )}
 
-                  <div className="whitespace-pre-wrap text-gray-900 dark:text-white leading-relaxed">
-                    {post.content}
-                  </div>
+                  {/* Main Content */}
+                  <PostContent content={post.content || ''} />
+
+                  {/* Post Source */}
+                  <PostSource 
+                    author={post.author_name}
+                    publishedAt={post.created_at}
+                  />
+
+                  {/* Tags */}
+                  {post.tags && post.tags.length > 0 && (
+                    <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+                      <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Tags:</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {post.tags.map((tag) => (
+                          <span 
+                            key={tag.slug}
+                            className="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer font-medium"
+                          >
+                            #{tag.name}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </article>
 
-                <PostSource 
-                  author={post.author}
-                  publishedAt={post.created_at}
-                />
+                {/* Comments Section */}
+                <div className="mt-8">
+                  <SocialLogin />
+                </div>
 
-                {post.tags && post.tags.length > 0 && (
-                  <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Tags:</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {post.tags.map((tag) => (
-                        <span 
-                          key={tag.slug}
-                          className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer"
-                        >
-                          {tag.name}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                <SocialLogin />
-                <RelatedPosts currentPost={post} />
+                {/* Related Posts */}
+                <div className="mt-12">
+                  <RelatedPosts currentPost={post} />
+                </div>
               </div>
             </div>
           </div>

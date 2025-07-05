@@ -44,23 +44,18 @@ export interface Game {
   title: string;
   slug: string;
   summary?: string;
+  description?: string;
   featured_image?: string;
-  cover_image?: string;
-  cartridge_image?: string;
-  screenshots?: string[];
-  trailer_url?: string;
   rating?: number;
-  metacritic_score?: number;
-  esrb_rating?: string;
-  price?: number;
-  is_featured?: boolean;
+  genre?: string;
+  developer?: string;
+  publisher?: string;
+  platforms?: string[];
+  download_link?: string;
+  official_site?: string;
   release_date?: string;
   created_at: string;
   updated_at: string;
-  platforms?: Platform[];
-  genres?: Genre[];
-  publishers?: Company[];
-  developers?: Company[];
 }
 
 export interface GameReview {
@@ -85,25 +80,13 @@ export interface Community {
   id: string;
   name: string;
   slug: string;
-  logo_url: string;
-  summary?: string;
+  logo?: string;
+  description?: string;
   website_url?: string;
-  facebook_url?: string;
-  twitter_url?: string;
-  youtube_url?: string;
-  discord_url?: string;
-  instagram_url?: string;
+  social_links?: any;
+  is_featured?: boolean;
   created_at: string;
   updated_at: string;
-  images?: CommunityImage[];
-}
-
-export interface CommunityImage {
-  id: string;
-  community_id: string;
-  image_url: string;
-  alt_text?: string;
-  created_at: string;
 }
 
 export interface Post {
@@ -115,10 +98,16 @@ export interface Post {
   featured_image?: string;
   category_id?: string;
   game_id?: string;
-  author: string;
-  status: 'draft' | 'published' | 'archived';
+  author_name: string;
+  status: 'draft' | 'published' | 'updating' | 'archived';
+  post_type: 'news' | 'review' | 'interview' | 'report' | 'download' | 'tutorial';
   view_count: number;
-  read_time: number;
+  like_count: number;
+  dislike_count: number;
+  is_featured?: boolean;
+  is_sponsored?: boolean;
+  is_updating?: boolean;
+  published_at?: string;
   created_at: string;
   updated_at: string;
   category?: Category;

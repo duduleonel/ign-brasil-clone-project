@@ -7,17 +7,17 @@ interface DropCapProps {
 }
 
 const DropCap: React.FC<DropCapProps> = ({ children, className = '' }) => {
-  if (!children || children.length === 0) return <>{children}</>;
+  if (!children) return null;
 
-  const firstChar = children.charAt(0);
+  const firstLetter = children.charAt(0);
   const restOfText = children.slice(1);
 
   return (
-    <p className={`text-lg leading-relaxed ${className}`}>
-      <span className="float-left text-6xl font-bold leading-none pr-2 pt-1 text-purple-600 dark:text-purple-400">
-        {firstChar}
+    <p className={`text-lg leading-relaxed text-gray-700 dark:text-gray-300 mb-6 ${className}`}>
+      <span className="float-left text-6xl lg:text-7xl font-bold leading-none text-gray-900 dark:text-white mr-3 mt-1 mb-2">
+        {firstLetter}
       </span>
-      {restOfText}
+      <span className="text-justify">{restOfText}</span>
     </p>
   );
 };
