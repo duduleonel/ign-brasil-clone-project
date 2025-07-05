@@ -9,396 +9,220 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      admin_users: {
-        Row: {
-          created_at: string
-          email: string
-          id: string
-          password_hash: string
-          username: string
-        }
-        Insert: {
-          created_at?: string
-          email: string
-          id?: string
-          password_hash: string
-          username: string
-        }
-        Update: {
-          created_at?: string
-          email?: string
-          id?: string
-          password_hash?: string
-          username?: string
-        }
-        Relationships: []
-      }
       categories: {
         Row: {
-          created_at: string
+          color: string | null
+          created_at: string | null
           description: string | null
+          icon: string | null
           id: string
           name: string
           slug: string
+          updated_at: string | null
         }
         Insert: {
-          created_at?: string
+          color?: string | null
+          created_at?: string | null
           description?: string | null
+          icon?: string | null
           id?: string
           name: string
           slug: string
+          updated_at?: string | null
         }
         Update: {
-          created_at?: string
+          color?: string | null
+          created_at?: string | null
           description?: string | null
+          icon?: string | null
           id?: string
           name?: string
           slug?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
       communities: {
         Row: {
-          created_at: string
-          discord_url: string | null
-          facebook_url: string | null
+          created_at: string | null
+          description: string | null
           id: string
-          instagram_url: string | null
-          logo_url: string
+          is_featured: boolean | null
+          logo: string | null
           name: string
           slug: string
-          summary: string | null
-          twitter_url: string | null
-          updated_at: string
+          social_links: Json | null
+          updated_at: string | null
           website_url: string | null
-          youtube_url: string | null
         }
         Insert: {
-          created_at?: string
-          discord_url?: string | null
-          facebook_url?: string | null
+          created_at?: string | null
+          description?: string | null
           id?: string
-          instagram_url?: string | null
-          logo_url: string
+          is_featured?: boolean | null
+          logo?: string | null
           name: string
           slug: string
-          summary?: string | null
-          twitter_url?: string | null
-          updated_at?: string
+          social_links?: Json | null
+          updated_at?: string | null
           website_url?: string | null
-          youtube_url?: string | null
         }
         Update: {
-          created_at?: string
-          discord_url?: string | null
-          facebook_url?: string | null
+          created_at?: string | null
+          description?: string | null
           id?: string
-          instagram_url?: string | null
-          logo_url?: string
+          is_featured?: boolean | null
+          logo?: string | null
           name?: string
           slug?: string
-          summary?: string | null
-          twitter_url?: string | null
-          updated_at?: string
+          social_links?: Json | null
+          updated_at?: string | null
           website_url?: string | null
-          youtube_url?: string | null
         }
         Relationships: []
-      }
-      community_images: {
-        Row: {
-          alt_text: string | null
-          community_id: string
-          created_at: string
-          id: string
-          image_url: string
-        }
-        Insert: {
-          alt_text?: string | null
-          community_id: string
-          created_at?: string
-          id?: string
-          image_url: string
-        }
-        Update: {
-          alt_text?: string | null
-          community_id?: string
-          created_at?: string
-          id?: string
-          image_url?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "community_images_community_id_fkey"
-            columns: ["community_id"]
-            isOneToOne: false
-            referencedRelation: "communities"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      companies: {
-        Row: {
-          created_at: string
-          id: string
-          logo_url: string | null
-          name: string
-          slug: string
-          type: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          logo_url?: string | null
-          name: string
-          slug: string
-          type: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          logo_url?: string | null
-          name?: string
-          slug?: string
-          type?: string
-        }
-        Relationships: []
-      }
-      game_companies: {
-        Row: {
-          company_id: string
-          game_id: string
-          role: string
-        }
-        Insert: {
-          company_id: string
-          game_id: string
-          role: string
-        }
-        Update: {
-          company_id?: string
-          game_id?: string
-          role?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "game_companies_company_id_fkey"
-            columns: ["company_id"]
-            isOneToOne: false
-            referencedRelation: "companies"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "game_companies_game_id_fkey"
-            columns: ["game_id"]
-            isOneToOne: false
-            referencedRelation: "games"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      game_genres: {
-        Row: {
-          game_id: string
-          genre_id: string
-        }
-        Insert: {
-          game_id: string
-          genre_id: string
-        }
-        Update: {
-          game_id?: string
-          genre_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "game_genres_game_id_fkey"
-            columns: ["game_id"]
-            isOneToOne: false
-            referencedRelation: "games"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "game_genres_genre_id_fkey"
-            columns: ["genre_id"]
-            isOneToOne: false
-            referencedRelation: "genres"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      game_platforms: {
-        Row: {
-          game_id: string
-          platform_id: string
-        }
-        Insert: {
-          game_id: string
-          platform_id: string
-        }
-        Update: {
-          game_id?: string
-          platform_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "game_platforms_game_id_fkey"
-            columns: ["game_id"]
-            isOneToOne: false
-            referencedRelation: "games"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "game_platforms_platform_id_fkey"
-            columns: ["platform_id"]
-            isOneToOne: false
-            referencedRelation: "platforms"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      game_reviews: {
-        Row: {
-          created_at: string
-          game_id: string
-          id: string
-          rating: number
-          review_text: string | null
-          updated_at: string
-          user_name: string
-        }
-        Insert: {
-          created_at?: string
-          game_id: string
-          id?: string
-          rating: number
-          review_text?: string | null
-          updated_at?: string
-          user_name: string
-        }
-        Update: {
-          created_at?: string
-          game_id?: string
-          id?: string
-          rating?: number
-          review_text?: string | null
-          updated_at?: string
-          user_name?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "game_reviews_game_id_fkey"
-            columns: ["game_id"]
-            isOneToOne: false
-            referencedRelation: "games"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       games: {
         Row: {
-          cartridge_image: string | null
-          cover_image: string | null
-          created_at: string
-          esrb_rating: string | null
+          created_at: string | null
+          description: string | null
+          developer: string | null
+          download_link: string | null
           featured_image: string | null
+          genre: string | null
           id: string
-          is_featured: boolean | null
-          metacritic_score: number | null
-          price: number | null
+          official_site: string | null
+          platforms: string[] | null
+          publisher: string | null
           rating: number | null
           release_date: string | null
-          screenshots: string[] | null
           slug: string
           summary: string | null
           title: string
-          trailer_url: string | null
-          updated_at: string
+          updated_at: string | null
         }
         Insert: {
-          cartridge_image?: string | null
-          cover_image?: string | null
-          created_at?: string
-          esrb_rating?: string | null
+          created_at?: string | null
+          description?: string | null
+          developer?: string | null
+          download_link?: string | null
           featured_image?: string | null
+          genre?: string | null
           id?: string
-          is_featured?: boolean | null
-          metacritic_score?: number | null
-          price?: number | null
+          official_site?: string | null
+          platforms?: string[] | null
+          publisher?: string | null
           rating?: number | null
           release_date?: string | null
-          screenshots?: string[] | null
           slug: string
           summary?: string | null
           title: string
-          trailer_url?: string | null
-          updated_at?: string
+          updated_at?: string | null
         }
         Update: {
-          cartridge_image?: string | null
-          cover_image?: string | null
-          created_at?: string
-          esrb_rating?: string | null
+          created_at?: string | null
+          description?: string | null
+          developer?: string | null
+          download_link?: string | null
           featured_image?: string | null
+          genre?: string | null
           id?: string
-          is_featured?: boolean | null
-          metacritic_score?: number | null
-          price?: number | null
+          official_site?: string | null
+          platforms?: string[] | null
+          publisher?: string | null
           rating?: number | null
           release_date?: string | null
-          screenshots?: string[] | null
           slug?: string
           summary?: string | null
           title?: string
-          trailer_url?: string | null
-          updated_at?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
-      genres: {
+      pages: {
         Row: {
-          created_at: string
+          content: string | null
+          created_at: string | null
+          featured_image: string | null
           id: string
-          name: string
+          meta_description: string | null
+          meta_title: string | null
           slug: string
+          status: Database["public"]["Enums"]["post_status"] | null
+          title: string
+          updated_at: string | null
         }
         Insert: {
-          created_at?: string
+          content?: string | null
+          created_at?: string | null
+          featured_image?: string | null
           id?: string
-          name: string
+          meta_description?: string | null
+          meta_title?: string | null
           slug: string
+          status?: Database["public"]["Enums"]["post_status"] | null
+          title: string
+          updated_at?: string | null
         }
         Update: {
-          created_at?: string
+          content?: string | null
+          created_at?: string | null
+          featured_image?: string | null
           id?: string
-          name?: string
+          meta_description?: string | null
+          meta_title?: string | null
           slug?: string
+          status?: Database["public"]["Enums"]["post_status"] | null
+          title?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
-      platforms: {
+      post_media: {
         Row: {
-          created_at: string
+          caption: string | null
+          created_at: string | null
+          file_size: number | null
           id: string
-          logo_url: string | null
-          name: string
-          slug: string
+          media_type: string
+          mime_type: string | null
+          order_index: number | null
+          post_id: string | null
+          title: string | null
+          url: string
         }
         Insert: {
-          created_at?: string
+          caption?: string | null
+          created_at?: string | null
+          file_size?: number | null
           id?: string
-          logo_url?: string | null
-          name: string
-          slug: string
+          media_type: string
+          mime_type?: string | null
+          order_index?: number | null
+          post_id?: string | null
+          title?: string | null
+          url: string
         }
         Update: {
-          created_at?: string
+          caption?: string | null
+          created_at?: string | null
+          file_size?: number | null
           id?: string
-          logo_url?: string | null
-          name?: string
-          slug?: string
+          media_type?: string
+          mime_type?: string | null
+          order_index?: number | null
+          post_id?: string | null
+          title?: string | null
+          url?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "post_media_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       post_tags: {
         Row: {
@@ -432,52 +256,82 @@ export type Database = {
       }
       posts: {
         Row: {
-          author: string
+          author_name: string | null
           category_id: string | null
           content: string | null
-          created_at: string
+          created_at: string | null
+          dislike_count: number | null
           excerpt: string | null
           featured_image: string | null
           game_id: string | null
           id: string
-          read_time: number
+          is_featured: boolean | null
+          is_sponsored: boolean | null
+          is_updating: boolean | null
+          like_count: number | null
+          meta_description: string | null
+          meta_title: string | null
+          post_type: Database["public"]["Enums"]["post_type"]
+          published_at: string | null
           slug: string
-          status: string
+          source: string | null
+          status: Database["public"]["Enums"]["post_status"] | null
+          subtitle: string | null
           title: string
-          updated_at: string
-          view_count: number
+          updated_at: string | null
+          view_count: number | null
         }
         Insert: {
-          author: string
+          author_name?: string | null
           category_id?: string | null
           content?: string | null
-          created_at?: string
+          created_at?: string | null
+          dislike_count?: number | null
           excerpt?: string | null
           featured_image?: string | null
           game_id?: string | null
           id?: string
-          read_time?: number
+          is_featured?: boolean | null
+          is_sponsored?: boolean | null
+          is_updating?: boolean | null
+          like_count?: number | null
+          meta_description?: string | null
+          meta_title?: string | null
+          post_type: Database["public"]["Enums"]["post_type"]
+          published_at?: string | null
           slug: string
-          status?: string
+          source?: string | null
+          status?: Database["public"]["Enums"]["post_status"] | null
+          subtitle?: string | null
           title: string
-          updated_at?: string
-          view_count?: number
+          updated_at?: string | null
+          view_count?: number | null
         }
         Update: {
-          author?: string
+          author_name?: string | null
           category_id?: string | null
           content?: string | null
-          created_at?: string
+          created_at?: string | null
+          dislike_count?: number | null
           excerpt?: string | null
           featured_image?: string | null
           game_id?: string | null
           id?: string
-          read_time?: number
+          is_featured?: boolean | null
+          is_sponsored?: boolean | null
+          is_updating?: boolean | null
+          like_count?: number | null
+          meta_description?: string | null
+          meta_title?: string | null
+          post_type?: Database["public"]["Enums"]["post_type"]
+          published_at?: string | null
           slug?: string
-          status?: string
+          source?: string | null
+          status?: Database["public"]["Enums"]["post_status"] | null
+          subtitle?: string | null
           title?: string
-          updated_at?: string
-          view_count?: number
+          updated_at?: string | null
+          view_count?: number | null
         }
         Relationships: [
           {
@@ -496,119 +350,95 @@ export type Database = {
           },
         ]
       }
+      related_games: {
+        Row: {
+          created_at: string | null
+          id: string
+          main_game_id: string
+          related_game_id: string
+          relationship_type: string | null
+          similarity_score: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          main_game_id: string
+          related_game_id: string
+          relationship_type?: string | null
+          similarity_score?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          main_game_id?: string
+          related_game_id?: string
+          relationship_type?: string | null
+          similarity_score?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "related_games_main_game_id_fkey"
+            columns: ["main_game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "related_games_related_game_id_fkey"
+            columns: ["related_game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       site_settings: {
         Row: {
           created_at: string
-          description: string | null
           id: string
-          key: string
+          setting_key: string
+          setting_value: Json
           updated_at: string
-          value: string
         }
         Insert: {
           created_at?: string
-          description?: string | null
           id?: string
-          key: string
+          setting_key: string
+          setting_value: Json
           updated_at?: string
-          value: string
         }
         Update: {
           created_at?: string
-          description?: string | null
           id?: string
-          key?: string
+          setting_key?: string
+          setting_value?: Json
           updated_at?: string
-          value?: string
         }
         Relationships: []
       }
       tags: {
         Row: {
-          created_at: string
+          created_at: string | null
           description: string | null
           id: string
           name: string
           slug: string
         }
         Insert: {
-          created_at?: string
+          created_at?: string | null
           description?: string | null
           id?: string
           name: string
           slug: string
         }
         Update: {
-          created_at?: string
+          created_at?: string | null
           description?: string | null
           id?: string
           name?: string
           slug?: string
         }
         Relationships: []
-      }
-      visitor_submissions: {
-        Row: {
-          admin_notes: string | null
-          author_email: string
-          author_name: string
-          category_id: string | null
-          content: string
-          created_at: string
-          excerpt: string | null
-          featured_image: string | null
-          game_id: string | null
-          id: string
-          status: string
-          title: string
-          updated_at: string
-        }
-        Insert: {
-          admin_notes?: string | null
-          author_email: string
-          author_name: string
-          category_id?: string | null
-          content: string
-          created_at?: string
-          excerpt?: string | null
-          featured_image?: string | null
-          game_id?: string | null
-          id?: string
-          status?: string
-          title: string
-          updated_at?: string
-        }
-        Update: {
-          admin_notes?: string | null
-          author_email?: string
-          author_name?: string
-          category_id?: string | null
-          content?: string
-          created_at?: string
-          excerpt?: string | null
-          featured_image?: string | null
-          game_id?: string | null
-          id?: string
-          status?: string
-          title?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "visitor_submissions_category_id_fkey"
-            columns: ["category_id"]
-            isOneToOne: false
-            referencedRelation: "categories"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "visitor_submissions_game_id_fkey"
-            columns: ["game_id"]
-            isOneToOne: false
-            referencedRelation: "games"
-            referencedColumns: ["id"]
-          },
-        ]
       }
     }
     Views: {
@@ -618,7 +448,15 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      engine_type: "mugen" | "ikemen_go" | "openbor"
+      post_status: "draft" | "published" | "updating" | "archived"
+      post_type:
+        | "news"
+        | "review"
+        | "interview"
+        | "report"
+        | "download"
+        | "tutorial"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -733,6 +571,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      engine_type: ["mugen", "ikemen_go", "openbor"],
+      post_status: ["draft", "published", "updating", "archived"],
+      post_type: [
+        "news",
+        "review",
+        "interview",
+        "report",
+        "download",
+        "tutorial",
+      ],
+    },
   },
 } as const
