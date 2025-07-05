@@ -15,18 +15,18 @@ const GameDownloadLinks: React.FC<GameDownloadLinksProps> = ({ game }) => {
     {
       platform: 'Steam',
       url: '#',
-      price: game.price || 0,
+      price: 0,
       type: 'purchase' as const
     },
     {
       platform: 'Epic Games',
       url: '#',
-      price: game.price || 0,
+      price: 0,
       type: 'purchase' as const
     },
     {
       platform: 'Mugen Archive',
-      url: '#',
+      url: game.download_link || '#',
       price: 0,
       type: 'download' as const
     }

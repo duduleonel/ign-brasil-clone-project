@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -45,8 +44,9 @@ const PostEditor: React.FC<PostEditorProps> = ({ postId, onBack }) => {
     slug: '',
     excerpt: '',
     content: '',
-    author: '',
-    status: 'draft',
+    author_name: '',
+    status: 'draft' as 'draft' | 'published' | 'updating' | 'archived',
+    post_type: 'news' as 'news' | 'review' | 'interview' | 'report' | 'download' | 'tutorial',
     featured_image: '',
     category_id: '',
     game_id: ''
@@ -122,8 +122,9 @@ const PostEditor: React.FC<PostEditorProps> = ({ postId, onBack }) => {
         slug: existingPost.slug || '',
         excerpt: existingPost.excerpt || '',
         content: existingPost.content || '',
-        author: existingPost.author || '',
+        author_name: existingPost.author_name || '',
         status: existingPost.status || 'draft',
+        post_type: existingPost.post_type || 'news',
         featured_image: existingPost.featured_image || '',
         category_id: existingPost.category_id || '',
         game_id: existingPost.game_id || ''
@@ -268,7 +269,7 @@ const PostEditor: React.FC<PostEditorProps> = ({ postId, onBack }) => {
           />
 
           <PostMetadata
-            author={formData.author}
+            author={formData.author_name}
             status={formData.status}
             onInputChange={handleInputChange}
           />

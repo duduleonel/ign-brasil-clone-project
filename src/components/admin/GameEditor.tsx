@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { ArrowLeft } from 'lucide-react';
@@ -23,16 +22,16 @@ const GameEditor: React.FC<GameEditorProps> = ({ gameId, onBack }) => {
     title: '',
     slug: '',
     summary: '',
+    description: '',
     featured_image: '',
-    cover_image: '',
-    cartridge_image: '',
-    trailer_url: '',
     release_date: '',
-    price: '',
     rating: '',
-    metacritic_score: '',
-    esrb_rating: '',
-    is_featured: false
+    genre: '',
+    developer: '',
+    publisher: '',
+    platforms: '',
+    download_link: '',
+    official_site: ''
   });
 
   // Fetch existing game data if editing
@@ -59,16 +58,16 @@ const GameEditor: React.FC<GameEditorProps> = ({ gameId, onBack }) => {
         title: existingGame.title || '',
         slug: existingGame.slug || '',
         summary: existingGame.summary || '',
+        description: existingGame.description || '',
         featured_image: existingGame.featured_image || '',
-        cover_image: existingGame.cover_image || '',
-        cartridge_image: existingGame.cartridge_image || '',
-        trailer_url: existingGame.trailer_url || '',
         release_date: existingGame.release_date || '',
-        price: existingGame.price?.toString() || '',
         rating: existingGame.rating?.toString() || '',
-        metacritic_score: existingGame.metacritic_score?.toString() || '',
-        esrb_rating: existingGame.esrb_rating || '',
-        is_featured: existingGame.is_featured || false
+        genre: existingGame.genre || '',
+        developer: existingGame.developer || '',
+        publisher: existingGame.publisher || '',
+        platforms: existingGame.platforms?.join(', ') || '',
+        download_link: existingGame.download_link || '',
+        official_site: existingGame.official_site || ''
       });
     }
   }, [existingGame]);
@@ -77,10 +76,9 @@ const GameEditor: React.FC<GameEditorProps> = ({ gameId, onBack }) => {
     mutationFn: async (data: any) => {
       const gameData = {
         ...data,
-        price: data.price ? parseFloat(data.price) : null,
         rating: data.rating ? parseFloat(data.rating) : null,
-        metacritic_score: data.metacritic_score ? parseInt(data.metacritic_score) : null,
-        release_date: data.release_date || null
+        release_date: data.release_date || null,
+        platforms: data.platforms ? data.platforms.split(',').map((p: string) => p.trim()) : null
       };
 
       if (gameId) {
@@ -122,11 +120,11 @@ const GameEditor: React.FC<GameEditorProps> = ({ gameId, onBack }) => {
     createGameMutation.mutate(formData);
   };
 
-  const handleInputChange = (field: string, value: string | boolean) => {
+  const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value,
-      ...(field === 'title' && typeof value === 'string' && !gameId && { 
+      ...(field === 'title' && !gameId && { 
         slug: value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') 
       })
     }));
@@ -178,42 +176,33 @@ const GameEditor: React.FC<GameEditorProps> = ({ gameId, onBack }) => {
               id="summary"
               value={formData.summary}
               onChange={(e) => handleInputChange('summary', e.target.value)}
-              placeholder="Descrição do jogo"
+              placeholder="Resumo do jogo"
+              rows={3}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="description">Descrição</Label>
+            <Textarea
+              id="description"
+              value={formData.description}
+              onChange={(e) => handleInputChange('description', e.target.value)}
+              placeholder="Descrição completa do jogo"
               rows={4}
             />
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="featured_image">Imagem Principal</Label>
-              <Input
-                id="featured_image"
-                value={formData.featured_image}
-                onChange={(e) => handleInputChange('featured_image', e.target.value)}
-                placeholder="URL da imagem"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="cover_image">Capa</Label>
-              <Input
-                id="cover_image"
-                value={formData.cover_image}
-                onChange={(e) => handleInputChange('cover_image', e.target.value)}
-                placeholder="URL da capa"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="cartridge_image">Cartucho</Label>
-              <Input
-                id="cartridge_image"
-                value={formData.cartridge_image}
-                onChange={(e) => handleInputChange('cartridge_image', e.target.value)}
-                placeholder="URL do cartucho"
-              />
-            </div>
+          <div className="space-y-2">
+            <Label htmlFor="featured_image">Imagem Principal</Label>
+            <Input
+              id="featured_image"
+              value={formData.featured_image}
+              onChange={(e) => handleInputChange('featured_image', e.target.value)}
+              placeholder="URL da imagem"
+            />
           </div>
 
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <div className="space-y-2">
               <Label htmlFor="release_date">Data de Lançamento</Label>
               <Input
@@ -224,71 +213,79 @@ const GameEditor: React.FC<GameEditorProps> = ({ gameId, onBack }) => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="price">Preço</Label>
-              <Input
-                id="price"
-                type="number"
-                step="0.01"
-                value={formData.price}
-                onChange={(e) => handleInputChange('price', e.target.value)}
-                placeholder="0.00"
-              />
-            </div>
-            <div className="space-y-2">
               <Label htmlFor="rating">Nota</Label>
               <Input
                 id="rating"
                 type="number"
                 step="0.1"
                 min="0"
-                max="10"
+                max="5"
                 value={formData.rating}
                 onChange={(e) => handleInputChange('rating', e.target.value)}
                 placeholder="0.0"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="metacritic_score">Metacritic</Label>
+              <Label htmlFor="genre">Gênero</Label>
               <Input
-                id="metacritic_score"
-                type="number"
-                min="0"
-                max="100"
-                value={formData.metacritic_score}
-                onChange={(e) => handleInputChange('metacritic_score', e.target.value)}
-                placeholder="0"
+                id="genre"
+                value={formData.genre}
+                onChange={(e) => handleInputChange('genre', e.target.value)}
+                placeholder="Ação, RPG, etc."
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="esrb_rating">Classificação ESRB</Label>
+              <Label htmlFor="developer">Desenvolvedor</Label>
               <Input
-                id="esrb_rating"
-                value={formData.esrb_rating}
-                onChange={(e) => handleInputChange('esrb_rating', e.target.value)}
-                placeholder="E, T, M, etc."
+                id="developer"
+                value={formData.developer}
+                onChange={(e) => handleInputChange('developer', e.target.value)}
+                placeholder="Nome do desenvolvedor"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="trailer_url">URL do Trailer</Label>
+              <Label htmlFor="publisher">Produtora</Label>
               <Input
-                id="trailer_url"
-                value={formData.trailer_url}
-                onChange={(e) => handleInputChange('trailer_url', e.target.value)}
-                placeholder="https://youtube.com/..."
+                id="publisher"
+                value={formData.publisher}
+                onChange={(e) => handleInputChange('publisher', e.target.value)}
+                placeholder="Nome da produtora"
               />
             </div>
           </div>
 
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="is_featured"
-              checked={formData.is_featured}
-              onCheckedChange={(checked) => handleInputChange('is_featured', checked)}
+          <div className="space-y-2">
+            <Label htmlFor="platforms">Plataformas</Label>
+            <Input
+              id="platforms"
+              value={formData.platforms}
+              onChange={(e) => handleInputChange('platforms', e.target.value)}
+              placeholder="PC, PlayStation, Xbox (separado por vírgula)"
             />
-            <Label htmlFor="is_featured">Jogo em destaque</Label>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="download_link">Link de Download</Label>
+              <Input
+                id="download_link"
+                value={formData.download_link}
+                onChange={(e) => handleInputChange('download_link', e.target.value)}
+                placeholder="https://..."
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="official_site">Site Oficial</Label>
+              <Input
+                id="official_site"
+                value={formData.official_site}
+                onChange={(e) => handleInputChange('official_site', e.target.value)}
+                placeholder="https://..."
+              />
+            </div>
           </div>
 
           <div className="flex gap-2">

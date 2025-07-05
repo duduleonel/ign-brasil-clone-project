@@ -26,23 +26,19 @@ const GameComparator: React.FC<GameComparatorProps> = ({ availableGames }) => {
 
   const compareItems = [
     { key: 'rating', label: 'Avaliação', icon: Star },
-    { key: 'metacritic_score', label: 'Metacritic', icon: Star },
     { key: 'release_date', label: 'Lançamento', icon: Calendar },
-    { key: 'price', label: 'Preço', icon: null },
-    { key: 'esrb_rating', label: 'Classificação', icon: null },
+    { key: 'developer', label: 'Desenvolvedora', icon: Building2 },
+    { key: 'publisher', label: 'Produtora', icon: Building2 },
   ];
 
   const formatValue = (key: string, value: any) => {
     switch (key) {
       case 'rating':
         return value ? `${value}/5` : 'N/A';
-      case 'metacritic_score':
-        return value ? `${value}/100` : 'N/A';
       case 'release_date':
         return value ? new Date(value).toLocaleDateString('pt-BR') : 'N/A';
-      case 'price':
-        return value ? `R$ ${value.toFixed(2)}` : 'Gratuito';
-      case 'esrb_rating':
+      case 'developer':
+      case 'publisher':
         return value || 'N/A';
       default:
         return value || 'N/A';
@@ -54,14 +50,9 @@ const GameComparator: React.FC<GameComparatorProps> = ({ availableGames }) => {
     
     switch (key) {
       case 'rating':
-      case 'metacritic_score':
         const numValue = parseFloat(value);
         const maxValue = Math.max(...allValues.map(v => parseFloat(v) || 0));
         return numValue === maxValue ? 'text-green-600 font-bold' : 'text-gray-900 dark:text-white';
-      case 'price':
-        const priceValue = parseFloat(value) || 0;
-        const minPrice = Math.min(...allValues.map(v => parseFloat(v) || Infinity));
-        return priceValue === minPrice ? 'text-green-600 font-bold' : 'text-gray-900 dark:text-white';
       default:
         return 'text-gray-900 dark:text-white';
     }
@@ -96,8 +87,8 @@ const GameComparator: React.FC<GameComparatorProps> = ({ availableGames }) => {
                   className="flex items-center space-x-3 p-3 border rounded cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
                   onClick={() => addGame(game)}
                 >
-                  {game.cover_image && (
-                    <img src={game.cover_image} alt={game.title} className="w-12 h-12 object-cover rounded" />
+                  {game.featured_image && (
+                    <img src={game.featured_image} alt={game.title} className="w-12 h-12 object-cover rounded" />
                   )}
                   <div>
                     <h4 className="font-medium text-sm">{game.title}</h4>
@@ -143,9 +134,9 @@ const GameComparator: React.FC<GameComparatorProps> = ({ availableGames }) => {
               {selectedGames.map((game) => (
                 <th key={game.id} className="text-center p-4 min-w-48">
                   <div className="space-y-3">
-                    {game.cover_image && (
+                    {game.featured_image && (
                       <img 
-                        src={game.cover_image} 
+                        src={game.featured_image} 
                         alt={game.title}
                         className="w-20 h-24 object-cover rounded mx-auto"
                       />
@@ -154,9 +145,9 @@ const GameComparator: React.FC<GameComparatorProps> = ({ availableGames }) => {
                       <h3 className="font-bold text-gray-900 dark:text-white text-sm">
                         {game.title}
                       </h3>
-                      {game.genres && game.genres.length > 0 && (
+                      {game.genre && (
                         <Badge variant="outline" className="text-xs mt-1">
-                          {game.genres[0].name}
+                          {game.genre}
                         </Badge>
                       )}
                     </div>
@@ -199,20 +190,16 @@ const GameComparator: React.FC<GameComparatorProps> = ({ availableGames }) => {
               );
             })}
             
-            {/* Genres Row */}
+            {/* Genre Row */}
             <tr className="border-b border-gray-200 dark:border-gray-700">
               <td className="p-4 font-medium text-gray-900 dark:text-white">
-                Gêneros
+                Gênero
               </td>
               {selectedGames.map((game) => (
                 <td key={game.id} className="p-4 text-center">
-                  <div className="flex flex-wrap gap-1 justify-center">
-                    {game.genres?.slice(0, 3).map((genre) => (
-                      <Badge key={genre.id} variant="secondary" className="text-xs">
-                        {genre.name}
-                      </Badge>
-                    ))}
-                  </div>
+                  <Badge variant="secondary" className="text-xs">
+                    {game.genre || 'N/A'}
+                  </Badge>
                 </td>
               ))}
             </tr>
@@ -225,9 +212,9 @@ const GameComparator: React.FC<GameComparatorProps> = ({ availableGames }) => {
               {selectedGames.map((game) => (
                 <td key={game.id} className="p-4 text-center">
                   <div className="flex flex-wrap gap-1 justify-center">
-                    {game.platforms?.slice(0, 3).map((platform) => (
-                      <Badge key={platform.id} variant="outline" className="text-xs">
-                        {platform.name}
+                    {game.platforms?.slice(0, 3).map((platform, index) => (
+                      <Badge key={index} variant="outline" className="text-xs">
+                        {platform}
                       </Badge>
                     ))}
                   </div>
@@ -256,8 +243,8 @@ const GameComparator: React.FC<GameComparatorProps> = ({ availableGames }) => {
                 className="flex items-center space-x-3 p-3 border rounded cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
                 onClick={() => addGame(game)}
               >
-                {game.cover_image && (
-                  <img src={game.cover_image} alt={game.title} className="w-12 h-12 object-cover rounded" />
+                {game.featured_image && (
+                  <img src={game.featured_image} alt={game.title} className="w-12 h-12 object-cover rounded" />
                 )}
                 <div>
                   <h4 className="font-medium text-sm">{game.title}</h4>

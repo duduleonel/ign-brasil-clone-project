@@ -13,14 +13,26 @@ const GameGallery: React.FC<GameGalleryProps> = ({ game }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  if (!game.screenshots || game.screenshots.length === 0) {
-    return null;
-  }
+  // Use featured_image as fallback for screenshots
+  const allImages = game.featured_image ? [game.featured_image] : [];
 
-  const allImages = [
-    game.featured_image,
-    ...(game.screenshots || [])
-  ].filter(Boolean) as string[];
+  if (allImages.length === 0) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <ZoomIn size={20} />
+            Galeria de Imagens
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+            <p>Nenhuma imagem disponível para este jogo.</p>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   const openLightbox = (image: string, index: number) => {
     setSelectedImage(image);

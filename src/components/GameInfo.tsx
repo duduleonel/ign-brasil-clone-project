@@ -11,10 +11,10 @@ interface GameInfoProps {
 const GameInfo: React.FC<GameInfoProps> = ({ game }) => {
   return (
     <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden sticky top-8">
-      {game.cover_image && (
+      {game.featured_image && (
         <div className="aspect-[3/4] relative">
           <img 
-            src={game.cover_image}
+            src={game.featured_image}
             alt={`Capa de ${game.title}`}
             className="w-full h-full object-cover"
           />
@@ -42,41 +42,30 @@ const GameInfo: React.FC<GameInfoProps> = ({ game }) => {
           </div>
         )}
 
-        {/* Metacritic Score */}
-        {game.metacritic_score && (
-          <div className="text-center mb-4">
-            <div className={`inline-block px-3 py-1 rounded text-white font-bold ${
-              game.metacritic_score >= 75 ? 'bg-green-600' :
-              game.metacritic_score >= 50 ? 'bg-yellow-500' : 'bg-red-500'
-            }`}>
-              {game.metacritic_score}
+        {/* Developer and Publisher info */}
+        <div className="space-y-2">
+          {game.developer && (
+            <div className="text-center">
+              <div className="text-sm text-gray-500 dark:text-gray-400">
+                Desenvolvedor
+              </div>
+              <div className="font-medium">
+                {game.developer}
+              </div>
             </div>
-            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-              Metacritic
+          )}
+          
+          {game.publisher && (
+            <div className="text-center">
+              <div className="text-sm text-gray-500 dark:text-gray-400">
+                Produtora
+              </div>
+              <div className="font-medium">
+                {game.publisher}
+              </div>
             </div>
-          </div>
-        )}
-
-        {/* Price */}
-        {game.price && (
-          <div className="text-center mb-4">
-            <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-              R$ {game.price.toFixed(2)}
-            </div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">
-              Preço
-            </div>
-          </div>
-        )}
-
-        {/* ESRB Rating */}
-        {game.esrb_rating && (
-          <div className="text-center">
-            <Badge variant="outline" className="text-xs">
-              {game.esrb_rating}
-            </Badge>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
