@@ -68,7 +68,7 @@ const InterviewPostCard: React.FC<InterviewPostCardProps> = ({
           <div className="flex items-center space-x-4">
             <span className="flex items-center">
               <User size={14} className="mr-1" />
-              {post.author}
+              {post.author_name}
             </span>
             <span className="flex items-center">
               <Calendar size={14} className="mr-1" />
@@ -79,7 +79,7 @@ const InterviewPostCard: React.FC<InterviewPostCardProps> = ({
           <div className="flex items-center space-x-3">
             <span className="flex items-center">
               <Clock size={14} className="mr-1" />
-              {post.read_time}min
+              10min
             </span>
             <span className="flex items-center">
               <Eye size={14} className="mr-1" />

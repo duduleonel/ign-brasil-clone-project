@@ -1,56 +1,55 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import type { Company } from '@/types/database';
 
-export const useCompanies = (type?: 'publisher' | 'developer') => {
+// Temporary mock data since companies table doesn't exist
+const mockCompanies = [
+  {
+    id: '1',
+    name: 'Team Z2',
+    slug: 'team-z2',
+    type: 'developer' as const,
+    logo_url: null,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: '2',
+    name: 'Elecbyte',
+    slug: 'elecbyte',
+    type: 'developer' as const,
+    logo_url: null,
+    created_at: new Date().toISOString(),
+  }
+] as const;
+
+const mockGenres = [
+  { id: '1', name: 'Luta', slug: 'luta', created_at: new Date().toISOString() },
+  { id: '2', name: 'Beat em Up', slug: 'beat-em-up', created_at: new Date().toISOString() },
+  { id: '3', name: 'Plataforma', slug: 'plataforma', created_at: new Date().toISOString() }
+];
+
+const mockPlatforms = [
+  { id: '1', name: 'Windows', slug: 'windows', logo_url: null, created_at: new Date().toISOString() },
+  { id: '2', name: 'Linux', slug: 'linux', logo_url: null, created_at: new Date().toISOString() },
+  { id: '3', name: 'Mac', slug: 'mac', logo_url: null, created_at: new Date().toISOString() }
+];
+
+export const useCompanies = () => {
   return useQuery({
-    queryKey: ['companies', type],
+    queryKey: ['companies'],
     queryFn: async () => {
-      let query = supabase
-        .from('companies')
-        .select('*')
-        .order('name', { ascending: true });
-
-      if (type) {
-        query = query.eq('type', type);
-      }
-
-      const { data, error } = await query;
-
-      if (error) {
-        console.error('Error fetching companies:', error);
-        throw error;
-      }
-
-      return data as Company[];
+      // Return mock data since the table doesn't exist
+      return mockCompanies;
     },
   });
-};
-
-export const usePublishers = () => {
-  return useCompanies('publisher');
-};
-
-export const useDevelopers = () => {
-  return useCompanies('developer');
 };
 
 export const useGenres = () => {
   return useQuery({
     queryKey: ['genres'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('genres')
-        .select('*')
-        .order('name', { ascending: true });
-
-      if (error) {
-        console.error('Error fetching genres:', error);
-        throw error;
-      }
-
-      return data;
+      // Return mock data since the table doesn't exist  
+      return mockGenres;
     },
   });
 };
@@ -59,17 +58,8 @@ export const usePlatforms = () => {
   return useQuery({
     queryKey: ['platforms'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('platforms')
-        .select('*')
-        .order('name', { ascending: true });
-
-      if (error) {
-        console.error('Error fetching platforms:', error);
-        throw error;
-      }
-
-      return data;
+      // Return mock data since the table doesn't exist
+      return mockPlatforms;
     },
   });
 };

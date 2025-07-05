@@ -19,31 +19,17 @@ const GameDetailSidebar: React.FC<GameDetailSidebarProps> = ({ game }) => {
       <GameDownloadLinks game={game} />
 
       {/* Additional Stats */}
-      {(game.metacritic_score || game.price) && (
+      {game.rating && (
         <Card>
           <CardContent className="p-6">
             <h3 className="font-bold mb-4">Estatísticas</h3>
             
-            {game.metacritic_score && (
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-gray-600 dark:text-gray-400">Metacritic</span>
-                <div className={`px-2 py-1 rounded text-white text-sm font-bold ${
-                  game.metacritic_score >= 75 ? 'bg-green-600' :
-                  game.metacritic_score >= 50 ? 'bg-yellow-500' : 'bg-red-500'
-                }`}>
-                  {game.metacritic_score}
-                </div>
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600 dark:text-gray-400">Avaliação</span>
+              <div className="px-2 py-1 rounded text-white text-sm font-bold bg-green-600">
+                {game.rating}/5
               </div>
-            )}
-
-            {game.price && (
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600 dark:text-gray-400">Preço médio</span>
-                <span className="font-bold text-green-600 dark:text-green-400">
-                  R$ {game.price.toFixed(2)}
-                </span>
-              </div>
-            )}
+            </div>
           </CardContent>
         </Card>
       )}

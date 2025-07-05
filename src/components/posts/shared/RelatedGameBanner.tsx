@@ -26,13 +26,11 @@ const RelatedGameBanner: React.FC<RelatedGameBannerProps> = ({ game }) => {
               <h3 className="font-bold text-gray-900 dark:text-white">
                 {game.title}
               </h3>
-              {game.genres && game.genres.length > 0 && (
+              {game.genre && (
                 <div className="flex gap-2 mt-1">
-                  {game.genres.slice(0, 2).map((genre) => (
-                    <Badge key={genre.slug} variant="outline" className="text-xs">
-                      {genre.name}
-                    </Badge>
-                  ))}
+                  <Badge variant="outline" className="text-xs">
+                    {game.genre}
+                  </Badge>
                 </div>
               )}
             </div>

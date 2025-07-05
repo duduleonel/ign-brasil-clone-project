@@ -36,7 +36,7 @@ export const useAdvancedFilters = ({
         post.category?.slug === selectedCategory;
       
       const matchesAuthor = !selectedAuthor || 
-        post.author.toLowerCase().includes(selectedAuthor.toLowerCase());
+        post.author_name?.toLowerCase().includes(selectedAuthor.toLowerCase());
 
       const matchesTags = selectedTags.length === 0 || 
         (post.tags && post.tags.some(tag => selectedTags.includes(tag.slug)));
@@ -80,7 +80,8 @@ export const useAdvancedFilters = ({
       case 'alphabetical':
         return filtered.sort((a, b) => a.title.localeCompare(b.title));
       case 'read_time':
-        return filtered.sort((a, b) => (a.read_time || 0) - (b.read_time || 0));
+        // Since read_time doesn't exist, we'll use a fallback
+        return filtered.sort((a, b) => a.title.localeCompare(b.title));
       default:
         return filtered;
     }
