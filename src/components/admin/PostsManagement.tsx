@@ -125,13 +125,13 @@ const PostsManagement = () => {
                     {post.excerpt}
                   </p>
                   <div className="flex items-center gap-4 text-sm text-gray-500">
-                    <span>Por {post.author}</span>
+                    <span>Por {post.author_name}</span>
                     <span>{new Date(post.created_at).toLocaleDateString('pt-BR')}</span>
                     <span>{post.view_count} visualizações</span>
                     {post.category && (
                       <Badge variant="outline">{post.category.name}</Badge>
                     )}
-                    {getStatusBadge(post.status)}
+                    {getStatusBadge(post.status || 'draft')}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">

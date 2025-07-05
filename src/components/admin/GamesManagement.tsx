@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Plus, Edit, Eye, Trash2, Star } from 'lucide-react';
+import { Plus, Edit, Eye, Trash2 } from 'lucide-react';
 import GameEditor from './GameEditor';
 
 const GamesManagement = () => {
@@ -89,7 +90,7 @@ const GamesManagement = () => {
             <div>
               <CardTitle>Gerenciamento de Jogos</CardTitle>
               <CardDescription>
-                Adicione, edite e gerencie o catálogo de jogos
+                Crie, edite e gerencie todos os jogos do site
               </CardDescription>
             </div>
             <Button onClick={handleNewGame}>
@@ -99,66 +100,58 @@ const GamesManagement = () => {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="space-y-4">
             {games?.map((game) => (
-              <div key={game.id} className="border rounded-lg overflow-hidden">
-                {game.featured_image && (
-                  <img 
-                    src={game.featured_image} 
-                    alt={game.title}
-                    className="w-full h-48 object-cover"
-                  />
-                )}
-                <div className="p-4">
-                  <div className="flex items-start justify-between mb-2">
+              <div key={game.id} className="flex items-center justify-between p-4 border rounded-lg">
+                <div className="flex items-center gap-4 flex-1">
+                  {game.featured_image && (
+                    <img 
+                      src={game.featured_image}
+                      alt={game.title}
+                      className="w-16 h-16 object-cover rounded"
+                    />
+                  )}
+                  <div className="flex-1">
                     <h3 className="font-semibold text-lg">{game.title}</h3>
-                    {game.is_featured && (
-                      <Star className="text-yellow-500" size={16} />
-                    )}
-                  </div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
-                    {game.summary}
-                  </p>
-                  <div className="flex items-center justify-between mb-3">
-                    {game.rating && (
-                      <div className="flex items-center gap-1">
-                        <Star className="text-yellow-500" size={14} />
-                        <span className="text-sm">{game.rating}</span>
-                      </div>
-                    )}
-                    {game.release_date && (
-                      <span className="text-sm text-gray-500">
-                        {new Date(game.release_date).getFullYear()}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm" asChild>
-                        <a href={`/jogo/${game.slug}`} target="_blank" rel="noopener noreferrer">
-                          <Eye size={14} />
-                        </a>
-                      </Button>
-                      <Button variant="outline" size="sm" onClick={() => handleEdit(game.id)}>
-                        <Edit size={14} />
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        onClick={() => handleDelete(game.id)}
-                        disabled={deleteGameMutation.isPending}
-                      >
-                        <Trash2 size={14} />
-                      </Button>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                      {game.summary}
+                    </p>
+                    <div className="flex items-center gap-4 text-sm text-gray-500">
+                      <span>{game.developer}</span>
+                      <span>{game.genre}</span>
+                      {game.release_date && (
+                        <span>{new Date(game.release_date).toLocaleDateString('pt-BR')}</span>
+                      )}
+                      {game.rating && (
+                        <Badge variant="outline">⭐ {game.rating}</Badge>
+                      )}
                     </div>
                   </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" size="sm" asChild>
+                    <a href={`/jogo/${game.slug}`} target="_blank" rel="noopener noreferrer">
+                      <Eye size={16} />
+                    </a>
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => handleEdit(game.id)}>
+                    <Edit size={16} />
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => handleDelete(game.id)}
+                    disabled={deleteGameMutation.isPending}
+                  >
+                    <Trash2 size={16} />
+                  </Button>
                 </div>
               </div>
             ))}
 
             {games?.length === 0 && (
-              <div className="col-span-full text-center py-8 text-gray-500">
-                Nenhum jogo encontrado. Adicione seu primeiro jogo!
+              <div className="text-center py-8 text-gray-500">
+                Nenhum jogo encontrado. Crie seu primeiro jogo!
               </div>
             )}
           </div>

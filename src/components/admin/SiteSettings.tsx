@@ -1,20 +1,20 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 
 const SiteSettings = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [settings, setSettings] = useState<Record<string, any>>({});
 
-  const { data: settings, isLoading } = useQuery({
+  const { data: siteSettings, isLoading } = useQuery({
     queryKey: ['site-settings'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -23,32 +23,35 @@ const SiteSettings = () => {
       
       if (error) throw error;
       
-      // Convert array to object for easier access
-      const settingsObj: { [key: string]: string } = {};
+      const settingsMap: Record<string, any> = {};
       data?.forEach(setting => {
-        settingsObj[setting.key] = setting.value;
+        settingsMap[setting.setting_key] = setting.setting_value;
       });
       
-      return settingsObj;
+      setSettings(settingsMap);
+      return settingsMap;
     },
   });
 
   const updateSettingMutation = useMutation({
-    mutationFn: async ({ key, value }: { key: string; value: string }) => {
+    mutationFn: async ({ key, value }: { key: string, value: any }) => {
       const { error } = await supabase
         .from('site_settings')
-        .upsert({ key, value });
+        .upsert({
+          setting_key: key,
+          setting_value: value
+        });
       
       if (error) throw error;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['site-settings'] });
       toast({
-        title: "Configuração atualizada",
-        description: "As configurações foram salvas com sucesso.",
+        title: "Configurações atualizadas",
+        description: "As configurações do site foram atualizadas com sucesso.",
       });
     },
-    onError: (error) => {
+    onError: () => {
       toast({
         title: "Erro ao salvar",
         description: "Houve um erro ao salvar as configurações.",
@@ -57,19 +60,15 @@ const SiteSettings = () => {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    
-    // Update each setting
-    Object.entries({
-      site_name: formData.get('site_name') as string,
-      site_description: formData.get('site_description') as string,
-      posts_per_page: formData.get('posts_per_page') as string,
-      allow_visitor_submissions: formData.get('allow_visitor_submissions') === 'on' ? 'true' : 'false',
-    }).forEach(([key, value]) => {
-      updateSettingMutation.mutate({ key, value });
-    });
+  const handleSave = (key: string, value: any) => {
+    updateSettingMutation.mutate({ key, value });
+  };
+
+  const handleInputChange = (key: string, value: any) => {
+    setSettings(prev => ({
+      ...prev,
+      [key]: value
+    }));
   };
 
   if (isLoading) {
@@ -77,65 +76,69 @@ const SiteSettings = () => {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Configurações do Site</CardTitle>
-        <CardDescription>
-          Configure as informações básicas do seu site
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="site_name">Nome do Site</Label>
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Configurações do Site</CardTitle>
+          <CardDescription>
+            Gerencie as configurações gerais do site
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div>
+            <Label htmlFor="site_title">Título do Site</Label>
             <Input
-              id="site_name"
-              name="site_name"
-              defaultValue={settings?.site_name || ''}
-              placeholder="Ex: Retro Games Brasil"
+              id="site_title"
+              value={settings.site_title || ''}
+              onChange={(e) => handleInputChange('site_title', e.target.value)}
+              placeholder="The Crab Games"
             />
+            <Button 
+              className="mt-2" 
+              size="sm"
+              onClick={() => handleSave('site_title', settings.site_title)}
+            >
+              Salvar
+            </Button>
           </div>
 
-          <div className="space-y-2">
+          <div>
             <Label htmlFor="site_description">Descrição do Site</Label>
             <Textarea
               id="site_description"
-              name="site_description"
-              defaultValue={settings?.site_description || ''}
-              placeholder="Descreva brevemente o seu site"
-              rows={3}
+              value={settings.site_description || ''}
+              onChange={(e) => handleInputChange('site_description', e.target.value)}
+              placeholder="Seu portal definitivo para o universo Mugen, Ikemen GO e OpenBOR"
             />
+            <Button 
+              className="mt-2" 
+              size="sm"
+              onClick={() => handleSave('site_description', settings.site_description)}
+            >
+              Salvar
+            </Button>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="posts_per_page">Posts por Página</Label>
+          <div>
+            <Label htmlFor="contact_email">Email de Contato</Label>
             <Input
-              id="posts_per_page"
-              name="posts_per_page"
-              type="number"
-              min="1"
-              max="50"
-              defaultValue={settings?.posts_per_page || '10'}
+              id="contact_email"
+              type="email"
+              value={settings.contact_email || ''}
+              onChange={(e) => handleInputChange('contact_email', e.target.value)}
+              placeholder="contato@thecrabgames.com"
             />
+            <Button 
+              className="mt-2" 
+              size="sm"
+              onClick={() => handleSave('contact_email', settings.contact_email)}
+            >
+              Salvar
+            </Button>
           </div>
-
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="allow_visitor_submissions"
-              name="allow_visitor_submissions"
-              defaultChecked={settings?.allow_visitor_submissions === 'true'}
-            />
-            <Label htmlFor="allow_visitor_submissions">
-              Permitir envios de visitantes
-            </Label>
-          </div>
-
-          <Button type="submit" disabled={updateSettingMutation.isPending}>
-            {updateSettingMutation.isPending ? 'Salvando...' : 'Salvar Configurações'}
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
