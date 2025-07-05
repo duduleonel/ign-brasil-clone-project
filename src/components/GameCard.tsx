@@ -17,7 +17,7 @@ const GameCard: React.FC<GameCardProps> = ({ game, isLarge = false }) => {
       <div className={`bg-white dark:bg-gray-900 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 group shadow-md dark:shadow-none border border-gray-200 dark:border-gray-700 cursor-pointer ${isLarge ? 'md:col-span-2' : ''}`}>
         <div className="relative">
           <img 
-            src={game.featured_image || game.cover_image || 'https://images.unsplash.com/photo-1542751371-adc38448a05e'}
+            src={game.featured_image || 'https://images.unsplash.com/photo-1542751371-adc38448a05e'}
             alt={game.title}
             className={`w-full object-cover ${isLarge ? 'h-64' : 'h-48'}`}
           />
@@ -37,15 +37,6 @@ const GameCard: React.FC<GameCardProps> = ({ game, isLarge = false }) => {
             <FavoriteButton itemId={game.id} itemType="game" />
           </div>
 
-          {/* Price Badge */}
-          {game.price && (
-            <div className="absolute bottom-3 right-3">
-              <div className="bg-black/80 text-white px-2 py-1 rounded text-sm font-bold">
-                R$ {game.price.toFixed(2)}
-              </div>
-            </div>
-          )}
-
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
         
@@ -54,14 +45,12 @@ const GameCard: React.FC<GameCardProps> = ({ game, isLarge = false }) => {
             {game.title}
           </h3>
           
-          {/* Genres */}
-          {game.genres && game.genres.length > 0 && (
+          {/* Genre */}
+          {game.genre && (
             <div className="flex flex-wrap gap-1 mb-3">
-              {game.genres.slice(0, 2).map((genre) => (
-                <Badge key={genre.slug} variant="outline" className="text-xs">
-                  {genre.name}
-                </Badge>
-              ))}
+              <Badge variant="outline" className="text-xs">
+                {game.genre}
+              </Badge>
             </div>
           )}
 
@@ -83,7 +72,7 @@ const GameCard: React.FC<GameCardProps> = ({ game, isLarge = false }) => {
               
               {game.platforms && game.platforms.length > 0 && (
                 <span className="text-xs">
-                  {game.platforms[0].name}
+                  {game.platforms[0]}
                 </span>
               )}
             </div>

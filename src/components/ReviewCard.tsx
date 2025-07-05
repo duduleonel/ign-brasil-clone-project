@@ -39,7 +39,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ post, score }) => {
           <h4 className="text-gray-900 dark:text-white font-bold text-lg mb-2 line-clamp-2">{post.title}</h4>
           <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
             <span>{post.category?.name || 'Review'}</span>
-            <span>Por {post.author}</span>
+            <span>Por {post.author_name || 'Autor'}</span>
           </div>
           
           <p className="text-gray-600 dark:text-gray-400 text-sm mb-3 line-clamp-2">

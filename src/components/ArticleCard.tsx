@@ -60,7 +60,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ post, isLarge = false }) => {
             <div className="flex items-center space-x-4">
               <span className="flex items-center">
                 <User size={14} className="mr-1" />
-                {post.author}
+                {post.author_name || 'Autor'}
               </span>
               <span className="flex items-center">
                 <Calendar size={14} className="mr-1" />
@@ -71,7 +71,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ post, isLarge = false }) => {
             <div className="flex items-center space-x-3">
               <span className="flex items-center">
                 <Clock size={14} className="mr-1" />
-                {post.read_time}min
+                5min
               </span>
               <span className="flex items-center">
                 <Eye size={14} className="mr-1" />

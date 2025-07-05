@@ -23,36 +23,28 @@ const GameMetadata: React.FC<GameMetadataProps> = ({ game }) => {
         </div>
       )}
 
-      {/* Publishers */}
-      {game.publishers && game.publishers.length > 0 && (
+      {/* Publisher */}
+      {game.publisher && (
         <div className="flex items-start">
           <Building2 size={20} className="mr-3 text-gray-500 mt-1" />
           <div>
             <p className="text-sm text-gray-500 dark:text-gray-400">Produtora</p>
-            <div className="space-y-1">
-              {game.publishers.map((publisher) => (
-                <p key={publisher.slug} className="font-medium text-gray-900 dark:text-white">
-                  {publisher.name}
-                </p>
-              ))}
-            </div>
+            <p className="font-medium text-gray-900 dark:text-white">
+              {game.publisher}
+            </p>
           </div>
         </div>
       )}
 
-      {/* Developers */}
-      {game.developers && game.developers.length > 0 && (
+      {/* Developer */}
+      {game.developer && (
         <div className="flex items-start">
           <Users size={20} className="mr-3 text-gray-500 mt-1" />
           <div>
             <p className="text-sm text-gray-500 dark:text-gray-400">Desenvolvedora</p>
-            <div className="space-y-1">
-              {game.developers.map((developer) => (
-                <p key={developer.slug} className="font-medium text-gray-900 dark:text-white">
-                  {developer.name}
-                </p>
-              ))}
-            </div>
+            <p className="font-medium text-gray-900 dark:text-white">
+              {game.developer}
+            </p>
           </div>
         </div>
       )}

@@ -31,28 +31,28 @@ const GameSpecs: React.FC<GameSpecsProps> = ({ game }) => {
           </div>
         )}
 
-        {/* Publishers */}
-        {game.publishers && game.publishers.length > 0 && (
+        {/* Publisher */}
+        {game.publisher && (
           <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
             <span className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
               <Building size={16} />
               Produtora
             </span>
             <span className="font-medium">
-              {game.publishers.map(p => p.name).join(', ')}
+              {game.publisher}
             </span>
           </div>
         )}
 
-        {/* Developers */}
-        {game.developers && game.developers.length > 0 && (
+        {/* Developer */}
+        {game.developer && (
           <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
             <span className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
               <Cpu size={16} />
               Desenvolvedora
             </span>
             <span className="font-medium">
-              {game.developers.map(d => d.name).join(', ')}
+              {game.developer}
             </span>
           </div>
         )}
@@ -66,52 +66,26 @@ const GameSpecs: React.FC<GameSpecsProps> = ({ game }) => {
             </span>
             <div className="text-right">
               {game.platforms.map((platform, index) => (
-                <div key={platform.slug} className="font-medium">
-                  {platform.name}
+                <div key={index} className="font-medium">
+                  {platform}
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* Genres */}
-        {game.genres && game.genres.length > 0 && (
+        {/* Genre */}
+        {game.genre && (
           <div className="flex justify-between items-start py-2 border-b border-gray-100 dark:border-gray-800">
             <span className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
               <MemoryStick size={16} />
-              Gêneros
+              Gênero
             </span>
             <div className="text-right">
-              {game.genres.map((genre, index) => (
-                <div key={genre.slug} className="font-medium">
-                  {genre.name}
-                </div>
-              ))}
+              <div className="font-medium">
+                {game.genre}
+              </div>
             </div>
-          </div>
-        )}
-
-        {/* ESRB Rating */}
-        {game.esrb_rating && (
-          <div className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-800">
-            <span className="text-gray-600 dark:text-gray-400">
-              Classificação ESRB
-            </span>
-            <span className="font-medium bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm">
-              {game.esrb_rating}
-            </span>
-          </div>
-        )}
-
-        {/* Price */}
-        {game.price && (
-          <div className="flex justify-between items-center py-2">
-            <span className="text-gray-600 dark:text-gray-400">
-              Preço
-            </span>
-            <span className="font-bold text-green-600 dark:text-green-400 text-lg">
-              R$ {game.price.toFixed(2)}
-            </span>
           </div>
         )}
       </CardContent>

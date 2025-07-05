@@ -20,20 +20,6 @@ const GameHeader: React.FC<GameHeaderProps> = ({ game }) => {
           className="w-full h-96 object-cover"
         />
         
-        {/* Trailer Button */}
-        {game.trailer_url && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Button 
-              size="lg"
-              className="bg-black/50 hover:bg-black/70 text-white border border-white/30"
-              onClick={() => window.open(game.trailer_url, '_blank')}
-            >
-              <Play size={20} className="mr-2" />
-              Assistir Trailer
-            </Button>
-          </div>
-        )}
-        
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
         
         {/* Title Overlay */}
@@ -51,8 +37,8 @@ const GameHeader: React.FC<GameHeaderProps> = ({ game }) => {
               </span>
             )}
             
-            {game.genres && game.genres.length > 0 && (
-              <span>{game.genres[0].name}</span>
+            {game.genre && (
+              <span>{game.genre}</span>
             )}
           </div>
         </div>
@@ -62,22 +48,20 @@ const GameHeader: React.FC<GameHeaderProps> = ({ game }) => {
         {/* Platforms */}
         {game.platforms && game.platforms.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-4">
-            {game.platforms.map((platform) => (
-              <Badge key={platform.slug} variant="outline" className="flex items-center gap-1">
-                <span>{platform.name}</span>
+            {game.platforms.map((platform, index) => (
+              <Badge key={index} variant="outline" className="flex items-center gap-1">
+                <span>{platform}</span>
               </Badge>
             ))}
           </div>
         )}
 
-        {/* Genres */}
-        {game.genres && game.genres.length > 0 && (
+        {/* Genre */}
+        {game.genre && (
           <div className="flex flex-wrap gap-2 mb-6">
-            {game.genres.map((genre) => (
-              <Badge key={genre.slug} className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
-                {genre.name}
-              </Badge>
-            ))}
+            <Badge className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
+              {game.genre}
+            </Badge>
           </div>
         )}
 

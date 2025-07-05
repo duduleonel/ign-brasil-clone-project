@@ -27,7 +27,7 @@ const CommunityShowcase = () => {
               title={community.name}
             >
               <img
-                src={community.logo_url}
+                src={community.logo || 'https://images.unsplash.com/photo-1542751371-adc38448a05e'}
                 alt={community.name}
                 className="h-12 w-auto object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-300"
               />
